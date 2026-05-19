@@ -1,1 +1,35 @@
+name: VNStock to MotherDuck ETL Pipeline
 
+on:
+  push:
+    branches:
+      - main  # Chạy tự động mỗi khi bạn push code lên nhánh main
+  schedule:
+    - cron: '30 9 * * 1-5'  # Chạy tự động vào 16:30 chiều (Giờ VN) từ Thứ 2 đến Thứ 6 hàng tuần
+  workflow_dispatch:        # Thêm nút bấm chạy thủ công trên giao diện GitHub web
+
+jobs:
+  run-etl:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+        cache: 'pip' # Tự động cache các thư viện để lần sau chạy nhanh hơn
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pandas duckdb vnstock
+
+    - name: Run ETL Script
+      env:
+        # Khai báo biến môi trường bằng cách lấy từ GitHub Secrets bảo mật
+        VNSTOCK_API_KEY: ${{ secrets.VNSTOCK_API_KEY }}
+        MOTHERDUCK_TOKEN: ${{ secrets.MOTHERDUCK_TOKEN }}
+      run: python main.py
