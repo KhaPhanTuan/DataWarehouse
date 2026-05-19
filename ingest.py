@@ -1,84 +1,142 @@
+!pip install vnstock3 duckdb
+pip install vnstock -U
+
 import os
 import datetime
-import duckdb
 import pandas as pd
-from vnstock3 import Vnstock
+import time
+from vnstock import register_user, Market
 
-def get_current_date_strings():
-    """Lấy ngày hôm nay dưới dạng chuỗi YYYY-MM-DD"""
-    today = datetime.date.today()
-    return today.strftime('%Y-%m-%d')
+def get_ticker_list():
+    """Định nghĩa danh sách 50 cổ phiếu hàng đầu thị trường"""
+    vn30 = [
+        "ACB", "BCM", "BID", "BVH", "CTG", "FPT", "GAS", "GVR", "HDB", "HPG", 
+        "MBB", "MSN", "MWG", "PLX", "POW", "SAB", "SHB", "SSB", "SSI", "STB", 
+        "TCB", "TPB", "VCB", "VHM", "VIB", "VIC", "VJC", "VNM", "VPB", "VRE"
+    ]
+    thanh_khoan_cao = [
+        "VND", "VCI", "HCM", "MBS", "SHS", "DIG", "DXG", "NLG", "PDR", "CEO",  
+        "NKG", "HSG", "PVD", "PVS", "DGC", "DCM", "DPM", "KBC", "VGC", "IDC"                 
+    ]
+    return list(set(vn30 + thanh_khoan_cao))[:50]
 
-def ingest_stock_data():
-    # 1. Kết nối nguồn dữ liệu vnstock3
-    stock = Vnstock()
+def extract_and_transform():
+    from google.colab import userdata
+    os.environ["VNSTOCK_API_KEY"] = userdata.get('VNSTOCK_API_KEY')
+    vns_key = os.getenv("VNSTOCK_API_KEY")
     
-    # Định nghĩa danh sách các mã cổ phiếu tiêu biểu cần theo dõi (Ví dụ rổ VN30 hoặc tùy chọn)
-    ticker_list = ['VCB', 'FPT', 'HPG', 'VIC', 'VNM', 'STB', 'MWG', 'TCB', 'SSI', 'VHM']
+    if not vns_key:
+        raise ValueError("Thiếu cấu hình VNSTOCK_API_KEY tại mục Secrets!")
+
+    register_user(api_key=vns_key)
+
+    start_dt = "2025-01-01"
+    end_dt = datetime.date.today().strftime("%Y-%m-%d")
+    ticker_list = get_ticker_list()
     
-    today_str = get_current_date_strings()
-    print(f"--- Bắt đầu cào dữ liệu cho ngày: {today_str} ---")
+    print(f"=== Bắt đầu tải dữ liệu {len(ticker_list)} mã từ {start_dt} ===")
+    df_list = []
+    market = Market()
     
-    # Lấy dữ liệu giá giao dịch lịch sử của ngày hôm nay
-    # (vnstock3 sẽ trả về dataframe chứa: open, high, low, close, volume,...)
-    df_prices_list = []
     for ticker in ticker_list:
         try:
-            # Lấy dữ liệu giá của ngày hôm nay (từ today_str đến today_str)
-            df_p = stock.stock_historical_data(symbol=ticker, start_date=today_str, end_date=today_str, resolution='1D', type='stock')
-            if df_p is not None and not df_p.empty:
-                df_prices_list.append(df_p)
-        except Exception as e:
-            print(f"Lỗi khi lấy giá mã {ticker}: {e}")
+            df_single = market.equity(ticker).ohlcv(start=start_dt, end=end_dt)
+            if df_single is not None and not df_single.empty:
+                df_single['ticker'] = ticker
+                df_list.append(df_single)
+                print(f"✓ Đã tải xong dữ liệu mã: {ticker}")
+                time.sleep(1.0) # Tránh rate limit
+        except Exception as single_err:
+            print(f"Bỏ qua lỗi tại mã {ticker}: {single_err}")
+            continue
             
-    # Lấy dữ liệu tin tức thị trường tổng hợp
-    df_news = pd.DataFrame()
+    if not df_list:
+        print("Không nhận được bất kỳ dữ liệu nào.")
+        return None
+        
+    df_prices = pd.concat(df_list, ignore_index=True)
+    if 'date' in df_prices.columns:
+        df_prices = df_prices.rename(columns={'date': 'time'})
+        
+    df_prices = df_prices.reset_index(drop=True)
+    print(f"\n[XONG BƯỚC 1] Tải dữ liệu thành công! Tổng cộng thu về {len(df_prices)} dòng dữ liệu.")
+    return df_prices
+
+# Chạy hàm và gán dữ liệu vào biến toàn cục để ô code sau sử dụng
+GLOBAL_DF = extract_and_transform()
+
+import os
+import duckdb
+
+def load_to_existing_table_global_env(df_prices):
+    if df_prices is None or df_prices.empty:
+        print("❌ Lỗi: Không có dữ liệu trong bộ nhớ! Hãy chạy lại Ô Code 1.")
+        return
+
+    from google.colab import userdata
+    # Lấy token từ mục Secrets của Colab
+    md_token = userdata.get('MOTHERDUCK_TOKEN')
+
+    if not md_token:
+        raise ValueError("Thiếu cấu hình MOTHERDUCK_TOKEN tại mục Secrets!")
+
+    md_token = md_token.strip()
+    
+    # GIẢI PHÁP GỐC: Ép Token thẳng vào biến môi trường của hệ điều hành Linux ngầm định.
+    os.environ["MOTHERDUCK_TOKEN"] = md_token
+
+    print("=== [PHẦN 2] Đang thiết lập kết nối DuckDB Đám mây ===")
+
     try:
-        # Lấy các tin tức mới nhất (Ví dụ: 30 tin mới nhất trong ngày)
-        df_news = stock.stock_news(symbol='ALL', page_size=30)
-        if df_news is not None and not df_news.empty:
-            # Lọc sơ bộ chỉ lấy các tin xuất hiện trong ngày hôm nay để tránh trùng lặp lớn ở tầng Bronze
-            # Lưu ý: Tùy thuộc cấu trúc cột thời gian của vnstock3, bạn có thể ép kiểu để lọc
-            df_news['ingest_date'] = today_str
+        # Khởi tạo kết nối trực tiếp, DuckDB tự lấy Token từ os.environ để liên kết
+        print("Đang gửi yêu cầu xác thực định danh lên máy chủ MotherDuck...")
+        conn = duckdb.connect("md:")
+
+        # Chuyển ngữ cảnh làm việc vào thẳng Database và Schema mục tiêu
+        print("Kết nối thành công! Đang chuyển hướng vào `vn_stock_db.main`...")
+        conn.execute("USE vn_stock_db.main;")
+
+        # TỰ ĐỘNG KHỞI TẠO BẢNG: Đảm bảo cấu trúc bảng khớp hoàn toàn với câu lệnh INSERT bên dưới
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS raw_daily_prices (
+                time TIMESTAMP,
+                open DOUBLE,
+                high DOUBLE,
+                low DOUBLE,
+                close DOUBLE,
+                volume LONG,
+                ticker VARCHAR
+            );
+        """)
+
+        # Đăng ký biến DataFrame thành một View ảo tạm thời trong RAM của DuckDB
+        conn.register("df_prices_view", df_prices)
+
+        # 1. CHIẾN LƯỢC IDEMPOTENT: Xóa dữ liệu trùng ngày + mã để tránh nhân đôi data
+        print("Đang quét và dọn dẹp các bản ghi trùng lặp ngày cũ...")
+        conn.execute("""
+            DELETE FROM raw_daily_prices
+            WHERE CAST(time AS DATE) IN (SELECT DISTINCT CAST(time AS DATE) FROM df_prices_view)
+              AND ticker IN (SELECT DISTINCT ticker FROM df_prices_view);
+        """)
+
+        # 2. INSERT: Tiến hành chèn dữ liệu mới từ DataFrame vào bảng raw_daily_prices
+        print("Đang tiến hành chèn dữ liệu mới vào bảng `raw_daily_prices`...")
+        conn.execute("""
+            INSERT INTO raw_daily_prices (time, open, high, low, close, volume, ticker)
+            SELECT CAST(time AS TIMESTAMP), open, high, low, close, CAST(volume AS LONG), ticker FROM df_prices_view;
+        """)
+
+        print("\n🎉 [SUCCESS] Quá trình Pipeline hoàn thành rực rỡ!")
+        total_rows = conn.execute("SELECT count(*) FROM raw_daily_prices;").fetchone()
+        print(f"📊 Tổng số lượng dòng thực tế hiện có trong bảng Cloud của bạn: {total_rows[0]}")
+
+        # Giải phóng cổng kết nối an toàn
+        conn.close()
+        
     except Exception as e:
-        print(f"Lỗi khi lấy tin tức: {e}")
+        print(f"\n❌ Quá trình nạp dữ liệu thất bại tại Phần 2. Chi tiết lỗi: {e}")
+        raise e
 
-    # 2. Kết nối tới MotherDuck bằng Token lấy từ môi trường (Environment Variable)
-    motherduck_token = os.getenv("MOTHERDUCK_TOKEN")
-    if not motherduck_token:
-        raise ValueError("Không tìm thấy MOTHERDUCK_TOKEN trong biến môi trường!")
-        
-    # Tạo chuỗi kết nối Cloud DuckDB
-    con = duckdb.connect(f"md:vn_stock_db?motherduck_token={motherduck_token}")
-    
-    # 3. Đẩy dữ liệu vào tầng Bronze (Khởi tạo nếu chưa có, hoặc chèn nối đuôi nếu đã tồn tại)
-    print("Đang nạp dữ liệu vào MotherDuck...")
-    
-    # Nạp dữ liệu giá
-    if df_prices_list:
-        df_prices_all = pd.concat(df_prices_list, ignore_index=True)
-        df_prices_all['ingestion_timestamp'] = datetime.datetime.now()
-        
-        # Kiểm tra bảng tồn tại chưa để dùng cơ chế Append
-        con.execute("CREATE TABLE IF NOT EXISTS bronze_daily_prices AS SELECT * FROM df_prices_all WHERE 1=0")
-        con.execute("INSERT INTO bronze_daily_prices SELECT * FROM df_prices_all")
-        print(f"Đã nạp thành công {len(df_prices_all)} dòng vào bảng bronze_daily_prices.")
-    else:
-        print("Không có dữ liệu giá giao dịch mới cho hôm nay (có thể là ngày nghỉ).")
-
-    # Nạp dữ liệu tin tức
-    if df_news is not None and not df_news.empty:
-        df_news['ingestion_timestamp'] = datetime.datetime.now()
-        
-        con.execute("CREATE TABLE IF NOT EXISTS bronze_market_news AS SELECT * FROM df_news WHERE 1=0")
-        con.execute("INSERT INTO bronze_market_news SELECT * FROM df_news")
-        print(f"Đã nạp thành công {len(df_news)} dòng vào bảng bronze_market_news.")
-    else:
-        print("Không thu thập được tin tức mới.")
-        
-    # Đóng kết nối
-    con.close()
-    print("--- Hoàn thành Pipeline Ingestion thành công! ---")
-
-if __name__ == "__main__":
-    ingest_stock_data()
+# SỬA LỖI TẠI ĐÂY: Truyền đúng biến toàn cục GLOBAL_DF được tạo ra từ Cell 1
+load_to_existing_table_global_env(GLOBAL_DF)
