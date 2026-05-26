@@ -5,7 +5,7 @@ on:
     # 09:00 UTC = 16:00 chiều giờ Việt Nam (GMT+7)
     - cron: '0 9 * * *'
   
-  # LỆNH QUAN TRỌNG: Kích hoạt nút bấm "Run workflow" thủ công trên GitHub để test
+  # Kích hoạt nút bấm chạy thủ công
   workflow_dispatch:
 
 jobs:
