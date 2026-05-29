@@ -1,0 +1,9 @@
+version: 2
+sources:
+  - name: bronze_source
+    database: vn_stock_db
+    schema: main
+    tables:
+      - name: bronze_company_profiles
+      - name: bronze_daily_prices
+      - name: bronze_market_news

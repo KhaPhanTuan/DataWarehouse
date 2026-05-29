@@ -1,0 +1,14 @@
+name: 'vn_stock_intelligence'
+version: '1.0.0'
+config-version: 2
+
+profile: 'vn_stock_warehouse'
+
+model-paths: ["models"]
+
+models:
+  vn_stock_intelligence:
+    staging:
+      +materialized: view  #Staging dùng view trung gian
+    marts:
+      +materialized: table #Marts lưu thành Table để tối ưu tốc độ

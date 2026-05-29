@@ -1,0 +1,9 @@
+vn_stock_warehouse:
+  outputs:
+    dev:
+      type: duckdb
+      path: "md:vn_stock_db?motherduck_token={{ env_var('MOTHERDUCK_TOKEN') }}"
+      extensions:
+        - motherduck
+      threads: 4
+  target: dev
