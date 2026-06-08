@@ -1,0 +1,13 @@
+# dbt artifacts
+logs/
+target/
+dbt_packages/
+modules/
+
+# Python artifacts
+__pycache__/
+*.pyc
+
+# Data files
+*.parquet
+*.png
