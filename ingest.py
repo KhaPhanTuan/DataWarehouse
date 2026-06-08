@@ -1,5 +1,6 @@
 import os
 from vnstock import register_user, Market, Reference, Fundamental
+import time
 
 # Hàm bọc thông minh hỗ trợ cả Colab và GitHub Actions
 def get_secret_key(key_name):
@@ -25,12 +26,15 @@ print(f"Xác thực thành công")
 
 import pandas as pd
 from datetime import datetime
-from google.colab import userdata
+
 
 # =========================================================================
 # 0. CẤU HÌNH THAM SỐ HỆ THỐNG
-# Lấy 3 mã bất kỳ trong nhóm VN30
-SYMBOLS = ['VHM']
+SYMBOLS = [
+    'ACB', 'BCM', 'BID', 'BVH', 'CTG', 'FPT', 'GAS', 'GVR', 'HDB', 'HPG']
+    # 'MBB', 'MSN', 'MWG', 'PLX', 'POW', 'SAB', 'SHB', 'SSB', 'SSI', 'STB'
+#     'TCB', 'TPB', 'VCB', 'VJC', 'VHM', 'VIC', 'VNM', 'VPB', 'VRE', 'BCM'
+# ]
 
 # Quét dữ liệu 10 năm, tham số count = ~3000 (Một năm khoảng 250d giao dịch)
 START_DATE = '2015-01-01'
@@ -126,6 +130,9 @@ try:
             df_rat['ingested_at'] = pipeline_run_time
             ratios_lists.append(df_rat)
 
+        print(f"Đã hoàn thành mã [{SYMBOL}]. Tạm dừng 60 giây trước khi sang mã tiếp theo...")
+        time.sleep(60)
+
     # 3. GỘP DỮ LIỆU THÀNH ĐA TẦNG BRONZE ĐỒNG NHẤT (CONCATENATION)
     print(f"\n--------------------------------------------------")
     print("Đang gộp dữ liệu các mã cổ phiếu thành cấu trúc bảng tập trung...")
@@ -180,8 +187,8 @@ def load_to_motherduck_pipeline():
         conn = duckdb.connect(connection_string)
 
         print("Kết nối thành công! Đang chuyển hướng vào `vn_stock_db.main`...")
-        conn.execute("CREATE DATABASE IF NOT EXISTS vn_stock_db;")
-        conn.execute("USE vn_stock_db.main;")
+        conn.execute("CREATE DATABASE IF NOT EXISTS vn_stock_analytics;")
+        conn.execute("USE vn_stock_analytics.main;")
 
         # 1. XỬ LÝ LŨY KẾ: Bảng giá lịch sử `bronze_daily_prices`
         if 'df_history' in globals() and df_history is not None and not df_history.empty:
@@ -247,7 +254,13 @@ def load_to_motherduck_pipeline():
                 conn.register("df_temp_view", df_data)
 
                 # KIỂM TRA BẢNG ĐÃ TỒN TẠI CHƯA
-                table_exists = conn.execute(f"SELECT COUNT(*) FROM information_schema.tables WHERE table_name = '{table_name}'").fetchone()[0]
+                table_exists = conn.execute(f"""
+                    SELECT COUNT(*) 
+                    FROM information_schema.tables 
+                    WHERE table_catalog = current_database() 
+                      AND table_schema = 'main' 
+                      AND table_name = '{table_name}'
+                    """).fetchone()[0]
 
                 if table_exists == 0:
                     # Nếu bảng chưa có, tạo mới
@@ -262,9 +275,28 @@ def load_to_motherduck_pipeline():
                         UNION BY NAME
                         SELECT * FROM df_temp_view;
                     """)
-                    conn.execute(f"CREATE OR REPLACE TABLE {table_name} AS SELECT DISTINCT * FROM temp_union_table;")
+
+
+                    pk_string = table_schemas.get(table_name, "")
+                    if "PRIMARY KEY" in pk_string:
+                        # Lấy các trường nằm trong dấu ngoặc đơn, ví dụ: "ticker, time" hoặc "time"
+                        partition_cols = pk_string.split("(")[1].split(")")[0]
+                    else:
+                        # Dự phòng nếu bảng không có khóa chính thì partition theo ticker và time
+                        partition_cols = "ticker, time" if "ticker" in df_data.columns else "time"
+                        
+                    # QUALIFY: Loại bỏ sạch rác trùng lặp, chỉ lấy bản ghi mới nhất của ngày đó
+                    conn.execute(f"""
+                        CREATE OR REPLACE TABLE {table_name} AS 
+                        SELECT * FROM temp_union_table
+                        QUALIFY ROW_NUMBER() OVER (
+                            PARTITION BY {partition_cols} 
+                            ORDER BY ingested_at DESC
+                        ) = 1;
+                    """)
+                    
                     conn.execute("DROP TABLE temp_union_table;")
-                    print(f" Đã gộp thêm dữ liệu mới vào bảng: [{table_name}]")
+                    print(f"   + [HỢP NHẤT KHỬ TRÙNG] Đã làm sạch trùng lặp thành công cho bảng: [{table_name}]")
             else:
                 print(f"   Bảng [{table_name}] không có dữ liệu để xử lý.")
 

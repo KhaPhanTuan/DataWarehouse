@@ -1,0 +1,1100 @@
+[0m12:31:34.691769 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000234C9B8EA50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000234C9468500>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000234C9B50A10>]}
+
+
+============================== 12:31:34.707079 | 19707d2f-7bb6-4d31-a68a-55a45120502e ==============================
+[0m12:31:34.707079 [info ] [MainThread]: Running with dbt=1.11.11
+[0m12:31:34.709127 [debug] [MainThread]: running dbt with arguments {'static_parser': 'True', 'no_print': 'None', 'version_check': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'printer_width': '80', 'write_json': 'True', 'empty': 'None', 'log_cache_events': 'False', 'introspect': 'True', 'cache_selected_only': 'False', 'fail_fast': 'False', 'debug': 'False', 'log_format': 'default', 'partial_parse': 'True', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'profiles_dir': 'D:\\UEL\\Nam3\\3\\DW\\DataWarehouse', 'invocation_command': 'dbt deps', 'use_colors': 'True', 'indirect_selection': 'eager', 'use_experimental_parser': 'False', 'log_path': 'D:\\UEL\\Nam3\\3\\DW\\DataWarehouse\\logs'}
+[0m12:31:35.424344 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '19707d2f-7bb6-4d31-a68a-55a45120502e', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000234CB644530>]}
+[0m12:31:35.561191 [debug] [MainThread]: Set downloads directory='C:\Users\ADMIN\AppData\Local\Temp\dbt-downloads-sr956jm8'
+[0m12:31:35.563297 [debug] [MainThread]: Making package index registry request: GET https://hub.getdbt.com/api/v1/index.json
+[0m12:31:35.823232 [debug] [MainThread]: Response from registry index: GET https://hub.getdbt.com/api/v1/index.json 200
+[0m12:31:35.826338 [debug] [MainThread]: Making package registry request: GET https://hub.getdbt.com/api/v1/dbt-labs/dbt_utils.json
+[0m12:31:35.855927 [debug] [MainThread]: Response from registry: GET https://hub.getdbt.com/api/v1/dbt-labs/dbt_utils.json 200
+[0m12:31:35.886687 [info ] [MainThread]: Updating lock file in file path: D:\UEL\Nam3\3\DW\DataWarehouse/package-lock.yml
+[0m12:31:35.910948 [debug] [MainThread]: Set downloads directory='C:\Users\ADMIN\AppData\Local\Temp\dbt-downloads-kvd6_bg_'
+[0m12:31:35.920823 [info ] [MainThread]: Installing dbt-labs/dbt_utils
+[0m12:31:36.920786 [info ] [MainThread]: Installed from version 1.1.1
+[0m12:31:36.922793 [info ] [MainThread]: Updated version available: 1.3.3
+[0m12:31:36.924785 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'package', 'label': '19707d2f-7bb6-4d31-a68a-55a45120502e', 'property_': 'install', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000234CA12FF20>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000234CB6FCC20>]}
+[0m12:31:36.926830 [info ] [MainThread]: 
+[0m12:31:36.927827 [info ] [MainThread]: Updates available for packages: ['dbt-labs/dbt_utils']                 
+Update your versions in packages.yml, then run dbt deps
+[0m12:31:36.934828 [debug] [MainThread]: Command `dbt deps` succeeded at 12:31:36.933834 after 2.90 seconds
+[0m12:31:36.935832 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000234C952F560>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000234C952DAC0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000234C6FF2C00>]}
+[0m12:31:36.937832 [debug] [MainThread]: Flushing usage events
+[0m12:31:38.564862 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m12:44:22.747065 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001F67FBF6FF0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001F602DAA870>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001F6053B4110>]}
+
+
+============================== 12:44:22.756072 | dbbec50a-b5e5-4776-bb13-c8d85e7d705e ==============================
+[0m12:44:22.756072 [info ] [MainThread]: Running with dbt=1.11.11
+[0m12:44:22.758073 [debug] [MainThread]: running dbt with arguments {'version_check': 'True', 'no_print': 'None', 'static_parser': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'target_path': 'None', 'printer_width': '80', 'write_json': 'True', 'empty': 'None', 'log_cache_events': 'False', 'introspect': 'True', 'cache_selected_only': 'False', 'log_format': 'default', 'debug': 'False', 'fail_fast': 'False', 'partial_parse': 'True', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'profiles_dir': 'D:\\UEL\\Nam3\\3\\DW\\DataWarehouse', 'invocation_command': 'dbt debug', 'indirect_selection': 'eager', 'use_colors': 'True', 'use_experimental_parser': 'False', 'log_path': 'D:\\UEL\\Nam3\\3\\DW\\DataWarehouse\\logs'}
+[0m12:44:22.807542 [info ] [MainThread]: dbt version: 1.11.11
+[0m12:44:22.808547 [info ] [MainThread]: python version: 3.12.4
+[0m12:44:22.809530 [info ] [MainThread]: python path: C:\Users\ADMIN\AppData\Local\Programs\Python\Python312\python.exe
+[0m12:44:22.810530 [info ] [MainThread]: os info: Windows-11-10.0.26200-SP0
+[0m12:44:23.073819 [info ] [MainThread]: Using profiles dir at D:\UEL\Nam3\3\DW\DataWarehouse
+[0m12:44:23.074836 [info ] [MainThread]: Using profiles.yml file at D:\UEL\Nam3\3\DW\DataWarehouse\profiles.yml
+[0m12:44:23.075821 [info ] [MainThread]: Using dbt_project.yml file at D:\UEL\Nam3\3\DW\DataWarehouse\dbt_project.yml
+[0m12:44:23.077697 [info ] [MainThread]: adapter type: duckdb
+[0m12:44:23.078706 [info ] [MainThread]: adapter version: 1.10.1
+[0m12:44:23.223602 [info ] [MainThread]: Configuration:
+[0m12:44:23.224608 [info ] [MainThread]:   profiles.yml file [[32mOK found and valid[0m]
+[0m12:44:23.225596 [info ] [MainThread]:   dbt_project.yml file [[32mOK found and valid[0m]
+[0m12:44:23.226496 [info ] [MainThread]: Required dependencies:
+[0m12:44:23.228498 [debug] [MainThread]: Executing "git --help"
+[0m12:44:23.315361 [debug] [MainThread]: STDOUT: "b"usage: git [-v | --version] [-h | --help] [-C <path>] [-c <name>=<value>]\n           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]\n           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--no-lazy-fetch]\n           [--no-optional-locks] [--no-advice] [--bare] [--git-dir=<path>]\n           [--work-tree=<path>] [--namespace=<name>] [--config-env=<name>=<envvar>]\n           <command> [<args>]\n\nThese are common Git commands used in various situations:\n\nstart a working area (see also: git help tutorial)\n   clone      Clone a repository into a new directory\n   init       Create an empty Git repository or reinitialize an existing one\n\nwork on the current change (see also: git help everyday)\n   add        Add file contents to the index\n   mv         Move or rename a file, a directory, or a symlink\n   restore    Restore working tree files\n   rm         Remove files from the working tree and from the index\n\nexamine the history and state (see also: git help revisions)\n   bisect     Use binary search to find the commit that introduced a bug\n   diff       Show changes between commits, commit and working tree, etc\n   grep       Print lines matching a pattern\n   log        Show commit logs\n   show       Show various types of objects\n   status     Show the working tree status\n\ngrow, mark and tweak your common history\n   backfill   Download missing objects in a partial clone\n   branch     List, create, or delete branches\n   commit     Record changes to the repository\n   merge      Join two or more development histories together\n   rebase     Reapply commits on top of another base tip\n   reset      Set `HEAD` or the index to a known state\n   switch     Switch branches\n   tag        Create, list, delete or verify tags\n\ncollaborate (see also: git help workflows)\n   fetch      Download objects and refs from another repository\n   pull       Fetch from and integrate with another repository or a local branch\n   push       Update remote refs along with associated objects\n\n'git help -a' and 'git help -g' list available subcommands and some\nconcept guides. See 'git help <command>' or 'git help <concept>'\nto read about a specific subcommand or concept.\nSee 'git help git' for an overview of the system.\n""
+[0m12:44:23.316361 [debug] [MainThread]: STDERR: "b''"
+[0m12:44:23.316361 [info ] [MainThread]:  - git [[32mOK found[0m]
+
+[0m12:44:23.317361 [info ] [MainThread]: Connection:
+[0m12:44:23.317361 [info ] [MainThread]:   database: vn_stock_db
+[0m12:44:23.318360 [info ] [MainThread]:   schema: main
+[0m12:44:23.318360 [info ] [MainThread]:   path: md:vn_stock_db?motherduck_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBoYW50dWFua2hhMTQ3QGdtYWlsLmNvbSIsIm1kUmVnaW9uIjoiYXdzLWV1LWNlbnRyYWwtMSIsInNlc3Npb24iOiJwaGFudHVhbmtoYTE0Ny5nbWFpbC5jb20iLCJwYXQiOiJRQlpFU2ZCQThJSnVfUGtWdDgxUTQtZDhyRnRoRV8tbE4yZjdwQmhFVXdvIiwidXNlcklkIjoiODFhODJlZjAtZTA5OC00M2M2LTkxYWUtMzMyMTk4YzMzNDEwIiwiaXNzIjoibWRfcGF0IiwicmVhZE9ubHkiOmZhbHNlLCJ0b2tlblR5cGUiOiJyZWFkX3dyaXRlIiwiaWF0IjoxNzgwODk3MTU0fQ.fw3Je9PFz3ocmqXIlEjirjovTN9MB7LfZLfBZmgliB8
+[0m12:44:23.318360 [info ] [MainThread]:   config_options: None
+[0m12:44:23.319405 [info ] [MainThread]:   extensions: ['motherduck']
+[0m12:44:23.319405 [info ] [MainThread]:   settings: {}
+[0m12:44:23.319405 [info ] [MainThread]:   external_root: .
+[0m12:44:23.320360 [info ] [MainThread]:   use_credential_provider: None
+[0m12:44:23.320360 [info ] [MainThread]:   attach: None
+[0m12:44:23.321361 [info ] [MainThread]:   filesystems: None
+[0m12:44:23.321361 [info ] [MainThread]:   remote: None
+[0m12:44:23.322359 [info ] [MainThread]:   plugins: [{'module': 'motherduck', 'alias': None, 'config': None}]
+[0m12:44:23.322359 [info ] [MainThread]:   disable_transactions: False
+[0m12:44:23.323362 [info ] [MainThread]: Registered adapter: duckdb=1.10.1
+[0m12:44:23.907006 [debug] [MainThread]: Acquiring new duckdb connection 'debug'
+[0m12:44:29.397118 [debug] [MainThread]: Using duckdb connection "debug"
+[0m12:44:29.398120 [debug] [MainThread]: On debug: select 1 as id
+[0m12:44:29.399119 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m12:44:35.538481 [debug] [MainThread]: DuckDB adapter: duckdb error: Invalid Input Error: Cannot execute statement of type "CREATE" on database "vn_stock_db" which is attached in read-only mode!
+[0m12:44:35.539488 [debug] [MainThread]: DuckDB adapter: Error running SQL: select 1 as id
+[0m12:44:35.540489 [debug] [MainThread]: DuckDB adapter: Rolling back transaction.
+[0m12:44:35.541488 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m12:44:35.547499 [info ] [MainThread]:   Connection test: [[31mERROR[0m]
+
+[0m12:44:35.549499 [info ] [MainThread]: [31m1 check failed:[0m
+[0m12:44:35.550501 [info ] [MainThread]: dbt was unable to connect to the specified database.
+The database returned the following error:
+
+  >Invalid Input Error: Cannot execute statement of type "CREATE" on database "vn_stock_db" which is attached in read-only mode!
+
+Check your database credentials and try again. For more information, visit:
+https://docs.getdbt.com/docs/configure-your-profile
+
+
+[0m12:44:35.552529 [debug] [MainThread]: Command `dbt debug` failed at 12:44:35.551499 after 13.17 seconds
+[0m12:44:35.553508 [debug] [MainThread]: Connection 'debug' was properly closed.
+[0m12:44:35.553508 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001F6051BAA20>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001F606ED58E0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001F606FAF2F0>]}
+[0m12:44:35.554497 [debug] [MainThread]: Flushing usage events
+[0m12:44:37.137751 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m12:54:28.210848 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000029EF8961130>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000029EF692EFF0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000029EF9173170>]}
+
+
+============================== 12:54:28.224384 | b6fcbd34-b5c2-48e5-b7bc-58319180c0e1 ==============================
+[0m12:54:28.224384 [info ] [MainThread]: Running with dbt=1.11.11
+[0m12:54:28.226907 [debug] [MainThread]: running dbt with arguments {'version_check': 'True', 'no_print': 'None', 'static_parser': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'printer_width': '80', 'write_json': 'True', 'introspect': 'True', 'log_cache_events': 'False', 'empty': 'None', 'cache_selected_only': 'False', 'log_format': 'default', 'debug': 'False', 'fail_fast': 'False', 'profiles_dir': 'D:\\UEL\\Nam3\\3\\DW\\DataWarehouse', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'partial_parse': 'True', 'use_colors': 'True', 'invocation_command': 'dbt debug', 'indirect_selection': 'eager', 'use_experimental_parser': 'False', 'log_path': 'D:\\UEL\\Nam3\\3\\DW\\DataWarehouse\\logs'}
+[0m12:54:28.386762 [info ] [MainThread]: dbt version: 1.11.11
+[0m12:54:28.389918 [info ] [MainThread]: python version: 3.12.4
+[0m12:54:28.392951 [info ] [MainThread]: python path: C:\Users\ADMIN\AppData\Local\Programs\Python\Python312\python.exe
+[0m12:54:28.395937 [info ] [MainThread]: os info: Windows-11-10.0.26200-SP0
+[0m12:54:28.750848 [info ] [MainThread]: Using profiles dir at D:\UEL\Nam3\3\DW\DataWarehouse
+[0m12:54:28.753281 [info ] [MainThread]: Using profiles.yml file at D:\UEL\Nam3\3\DW\DataWarehouse\profiles.yml
+[0m12:54:28.755406 [info ] [MainThread]: Using dbt_project.yml file at D:\UEL\Nam3\3\DW\DataWarehouse\dbt_project.yml
+[0m12:54:28.932507 [info ] [MainThread]: Configuration:
+[0m12:54:28.935659 [info ] [MainThread]:   profiles.yml file [[31mERROR invalid[0m]
+[0m12:54:28.937180 [info ] [MainThread]:   dbt_project.yml file [[32mOK found and valid[0m]
+[0m12:54:28.940219 [info ] [MainThread]: Required dependencies:
+[0m12:54:28.942297 [debug] [MainThread]: Executing "git --help"
+[0m12:54:29.111847 [debug] [MainThread]: STDOUT: "b"usage: git [-v | --version] [-h | --help] [-C <path>] [-c <name>=<value>]\n           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]\n           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--no-lazy-fetch]\n           [--no-optional-locks] [--no-advice] [--bare] [--git-dir=<path>]\n           [--work-tree=<path>] [--namespace=<name>] [--config-env=<name>=<envvar>]\n           <command> [<args>]\n\nThese are common Git commands used in various situations:\n\nstart a working area (see also: git help tutorial)\n   clone      Clone a repository into a new directory\n   init       Create an empty Git repository or reinitialize an existing one\n\nwork on the current change (see also: git help everyday)\n   add        Add file contents to the index\n   mv         Move or rename a file, a directory, or a symlink\n   restore    Restore working tree files\n   rm         Remove files from the working tree and from the index\n\nexamine the history and state (see also: git help revisions)\n   bisect     Use binary search to find the commit that introduced a bug\n   diff       Show changes between commits, commit and working tree, etc\n   grep       Print lines matching a pattern\n   log        Show commit logs\n   show       Show various types of objects\n   status     Show the working tree status\n\ngrow, mark and tweak your common history\n   backfill   Download missing objects in a partial clone\n   branch     List, create, or delete branches\n   commit     Record changes to the repository\n   merge      Join two or more development histories together\n   rebase     Reapply commits on top of another base tip\n   reset      Set `HEAD` or the index to a known state\n   switch     Switch branches\n   tag        Create, list, delete or verify tags\n\ncollaborate (see also: git help workflows)\n   fetch      Download objects and refs from another repository\n   pull       Fetch from and integrate with another repository or a local branch\n   push       Update remote refs along with associated objects\n\n'git help -a' and 'git help -g' list available subcommands and some\nconcept guides. See 'git help <command>' or 'git help <concept>'\nto read about a specific subcommand or concept.\nSee 'git help git' for an overview of the system.\n""
+[0m12:54:29.114847 [debug] [MainThread]: STDERR: "b''"
+[0m12:54:29.117365 [info ] [MainThread]:  - git [[32mOK found[0m]
+
+[0m12:54:29.120285 [info ] [MainThread]: Connection test skipped since no profile was found
+[0m12:54:29.124309 [info ] [MainThread]: [31m1 check failed:[0m
+[0m12:54:29.128898 [info ] [MainThread]: Profile loading failed for the following reason:
+Runtime Error
+  Credentials in profile "vn_stock_warehouse", target "dev" invalid: Runtime Error
+    Inconsistency detected between 'path' and 'database' fields in profile; the 'database' property must be set to 'my_db' to match the 'path'
+
+
+[0m12:54:29.135902 [debug] [MainThread]: Command `dbt debug` failed at 12:54:29.134911 after 1.51 seconds
+[0m12:54:29.138451 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000029EF8CF6630>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000029EF9D34D70>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000029EF94DC200>]}
+[0m12:54:29.142906 [debug] [MainThread]: Flushing usage events
+[0m12:54:30.535567 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m12:56:57.375814 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001D272624BF0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001D26EE46FF0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001D272D611C0>]}
+
+
+============================== 12:56:57.381811 | 31fa6ac9-c51c-4343-bb1e-04e98d915169 ==============================
+[0m12:56:57.381811 [info ] [MainThread]: Running with dbt=1.11.11
+[0m12:56:57.382819 [debug] [MainThread]: running dbt with arguments {'static_parser': 'True', 'no_print': 'None', 'version_check': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'printer_width': '80', 'write_json': 'True', 'empty': 'None', 'log_cache_events': 'False', 'introspect': 'True', 'cache_selected_only': 'False', 'fail_fast': 'False', 'debug': 'False', 'log_format': 'default', 'profiles_dir': 'D:\\UEL\\Nam3\\3\\DW\\DataWarehouse', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'partial_parse': 'True', 'indirect_selection': 'eager', 'use_colors': 'True', 'invocation_command': 'dbt debug', 'use_experimental_parser': 'False', 'log_path': 'D:\\UEL\\Nam3\\3\\DW\\DataWarehouse\\logs'}
+[0m12:56:57.403517 [info ] [MainThread]: dbt version: 1.11.11
+[0m12:56:57.404531 [info ] [MainThread]: python version: 3.12.4
+[0m12:56:57.404531 [info ] [MainThread]: python path: C:\Users\ADMIN\AppData\Local\Programs\Python\Python312\python.exe
+[0m12:56:57.405518 [info ] [MainThread]: os info: Windows-11-10.0.26200-SP0
+[0m12:56:57.581226 [info ] [MainThread]: Using profiles dir at D:\UEL\Nam3\3\DW\DataWarehouse
+[0m12:56:57.582124 [info ] [MainThread]: Using profiles.yml file at D:\UEL\Nam3\3\DW\DataWarehouse\profiles.yml
+[0m12:56:57.583242 [info ] [MainThread]: Using dbt_project.yml file at D:\UEL\Nam3\3\DW\DataWarehouse\dbt_project.yml
+[0m12:56:57.587136 [info ] [MainThread]: adapter type: duckdb
+[0m12:56:57.588260 [info ] [MainThread]: adapter version: 1.10.1
+[0m12:56:57.718968 [info ] [MainThread]: Configuration:
+[0m12:56:57.719866 [info ] [MainThread]:   profiles.yml file [[32mOK found and valid[0m]
+[0m12:56:57.719866 [info ] [MainThread]:   dbt_project.yml file [[32mOK found and valid[0m]
+[0m12:56:57.720865 [info ] [MainThread]: Required dependencies:
+[0m12:56:57.721865 [debug] [MainThread]: Executing "git --help"
+[0m12:56:57.779065 [debug] [MainThread]: STDOUT: "b"usage: git [-v | --version] [-h | --help] [-C <path>] [-c <name>=<value>]\n           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]\n           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--no-lazy-fetch]\n           [--no-optional-locks] [--no-advice] [--bare] [--git-dir=<path>]\n           [--work-tree=<path>] [--namespace=<name>] [--config-env=<name>=<envvar>]\n           <command> [<args>]\n\nThese are common Git commands used in various situations:\n\nstart a working area (see also: git help tutorial)\n   clone      Clone a repository into a new directory\n   init       Create an empty Git repository or reinitialize an existing one\n\nwork on the current change (see also: git help everyday)\n   add        Add file contents to the index\n   mv         Move or rename a file, a directory, or a symlink\n   restore    Restore working tree files\n   rm         Remove files from the working tree and from the index\n\nexamine the history and state (see also: git help revisions)\n   bisect     Use binary search to find the commit that introduced a bug\n   diff       Show changes between commits, commit and working tree, etc\n   grep       Print lines matching a pattern\n   log        Show commit logs\n   show       Show various types of objects\n   status     Show the working tree status\n\ngrow, mark and tweak your common history\n   backfill   Download missing objects in a partial clone\n   branch     List, create, or delete branches\n   commit     Record changes to the repository\n   merge      Join two or more development histories together\n   rebase     Reapply commits on top of another base tip\n   reset      Set `HEAD` or the index to a known state\n   switch     Switch branches\n   tag        Create, list, delete or verify tags\n\ncollaborate (see also: git help workflows)\n   fetch      Download objects and refs from another repository\n   pull       Fetch from and integrate with another repository or a local branch\n   push       Update remote refs along with associated objects\n\n'git help -a' and 'git help -g' list available subcommands and some\nconcept guides. See 'git help <command>' or 'git help <concept>'\nto read about a specific subcommand or concept.\nSee 'git help git' for an overview of the system.\n""
+[0m12:56:57.779065 [debug] [MainThread]: STDERR: "b''"
+[0m12:56:57.780034 [info ] [MainThread]:  - git [[32mOK found[0m]
+
+[0m12:56:57.780034 [info ] [MainThread]: Connection:
+[0m12:56:57.781027 [info ] [MainThread]:   database: vn_stock_db
+[0m12:56:57.781027 [info ] [MainThread]:   schema: main
+[0m12:56:57.782031 [info ] [MainThread]:   path: md:vn_stock_db
+[0m12:56:57.782031 [info ] [MainThread]:   config_options: None
+[0m12:56:57.783026 [info ] [MainThread]:   extensions: None
+[0m12:56:57.783026 [info ] [MainThread]:   settings: {}
+[0m12:56:57.784033 [info ] [MainThread]:   external_root: .
+[0m12:56:57.784033 [info ] [MainThread]:   use_credential_provider: None
+[0m12:56:57.784033 [info ] [MainThread]:   attach: None
+[0m12:56:57.785034 [info ] [MainThread]:   filesystems: None
+[0m12:56:57.785034 [info ] [MainThread]:   remote: None
+[0m12:56:57.786032 [info ] [MainThread]:   plugins: [{'module': 'motherduck', 'alias': None, 'config': None}]
+[0m12:56:57.787036 [info ] [MainThread]:   disable_transactions: False
+[0m12:56:57.788040 [info ] [MainThread]: Registered adapter: duckdb=1.10.1
+[0m12:56:58.028691 [debug] [MainThread]: Acquiring new duckdb connection 'debug'
+[0m12:56:58.112415 [debug] [MainThread]: Using duckdb connection "debug"
+[0m12:56:58.113419 [debug] [MainThread]: On debug: select 1 as id
+[0m12:56:58.113419 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m12:57:01.861867 [debug] [MainThread]: DuckDB adapter: duckdb error: Invalid Input Error: Cannot execute statement of type "CREATE" on database "vn_stock_db" which is attached in read-only mode!
+[0m12:57:01.861867 [debug] [MainThread]: DuckDB adapter: Error running SQL: select 1 as id
+[0m12:57:01.862871 [debug] [MainThread]: DuckDB adapter: Rolling back transaction.
+[0m12:57:01.862871 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m12:57:01.864785 [info ] [MainThread]:   Connection test: [[31mERROR[0m]
+
+[0m12:57:01.864785 [info ] [MainThread]: [31m1 check failed:[0m
+[0m12:57:01.865770 [info ] [MainThread]: dbt was unable to connect to the specified database.
+The database returned the following error:
+
+  >Invalid Input Error: Cannot execute statement of type "CREATE" on database "vn_stock_db" which is attached in read-only mode!
+
+Check your database credentials and try again. For more information, visit:
+https://docs.getdbt.com/docs/configure-your-profile
+
+
+[0m12:57:01.866777 [debug] [MainThread]: Command `dbt debug` failed at 12:57:01.866777 after 4.86 seconds
+[0m12:57:01.867778 [debug] [MainThread]: Connection 'debug' was properly closed.
+[0m12:57:01.868774 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001D2732A8AA0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001D274C02F00>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001D27079FC20>]}
+[0m12:57:01.869776 [debug] [MainThread]: Flushing usage events
+[0m12:57:03.290898 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m13:30:33.206747 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002C29A06BCB0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002C29A300950>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002C29A3008F0>]}
+
+
+============================== 13:30:33.217191 | abcbf7e2-4361-471e-84f6-e597a0f1c6ec ==============================
+[0m13:30:33.217191 [info ] [MainThread]: Running with dbt=1.11.11
+[0m13:30:33.219207 [debug] [MainThread]: running dbt with arguments {'static_parser': 'True', 'no_print': 'None', 'version_check': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'printer_width': '80', 'write_json': 'True', 'introspect': 'True', 'log_cache_events': 'False', 'empty': 'False', 'cache_selected_only': 'False', 'log_format': 'default', 'debug': 'False', 'fail_fast': 'False', 'profiles_dir': 'D:\\UEL\\Nam3\\3\\DW\\DataWarehouse', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'partial_parse': 'True', 'invocation_command': 'dbt compile', 'indirect_selection': 'eager', 'use_colors': 'True', 'use_experimental_parser': 'False', 'log_path': 'D:\\UEL\\Nam3\\3\\DW\\DataWarehouse\\logs'}
+[0m13:30:33.914221 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': 'abcbf7e2-4361-471e-84f6-e597a0f1c6ec', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002C29BB6C140>]}
+[0m13:30:33.989898 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': 'abcbf7e2-4361-471e-84f6-e597a0f1c6ec', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002C297C35070>]}
+[0m13:30:33.993793 [info ] [MainThread]: Registered adapter: duckdb=1.10.1
+[0m13:30:34.483498 [debug] [MainThread]: checksum: 30a8cc8fdcbf66701b0944d4ccce3fa46dd04b61e5df68b9f16d57b2e0e3f0be, vars: {}, profile: , target: , version: 1.11.11
+[0m13:30:34.485482 [info ] [MainThread]: Unable to do partial parsing because saved manifest not found. Starting full parse.
+[0m13:30:34.486482 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'partial_parser', 'label': 'abcbf7e2-4361-471e-84f6-e597a0f1c6ec', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002C29BE89340>]}
+[0m13:30:40.642161 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': 'abcbf7e2-4361-471e-84f6-e597a0f1c6ec', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002C29C30B350>]}
+[0m13:30:40.713727 [debug] [MainThread]: Wrote artifact WritableManifest to D:\UEL\Nam3\3\DW\DataWarehouse\target\manifest.json
+[0m13:30:40.716645 [debug] [MainThread]: Wrote artifact SemanticManifest to D:\UEL\Nam3\3\DW\DataWarehouse\target\semantic_manifest.json
+[0m13:30:40.742132 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': 'abcbf7e2-4361-471e-84f6-e597a0f1c6ec', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002C29C562A80>]}
+[0m13:30:40.743191 [info ] [MainThread]: Found 7 models, 3 sources, 599 macros
+[0m13:30:40.744143 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'abcbf7e2-4361-471e-84f6-e597a0f1c6ec', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002C29C114EF0>]}
+[0m13:30:40.746245 [info ] [MainThread]: 
+[0m13:30:40.747165 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m13:30:40.748145 [info ] [MainThread]: 
+[0m13:30:40.749147 [debug] [MainThread]: Acquiring new duckdb connection 'master'
+[0m13:30:40.755246 [debug] [ThreadPool]: Acquiring new duckdb connection 'list_vn_stock_analytics_main'
+[0m13:30:40.880791 [debug] [ThreadPool]: Using duckdb connection "list_vn_stock_analytics_main"
+[0m13:30:40.880791 [debug] [ThreadPool]: On list_vn_stock_analytics_main: BEGIN
+[0m13:30:40.881690 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m13:30:46.132953 [debug] [ThreadPool]: SQL status: OK in 5.251 seconds
+[0m13:30:46.132953 [debug] [ThreadPool]: Using duckdb connection "list_vn_stock_analytics_main"
+[0m13:30:46.133960 [debug] [ThreadPool]: On list_vn_stock_analytics_main: /* {"app": "dbt", "dbt_version": "1.11.11", "profile_name": "vn_stock_warehouse", "target_name": "dev", "connection_name": "list_vn_stock_analytics_main"} */
+select
+      'vn_stock_analytics' as database,
+      table_name as name,
+      table_schema as schema,
+      CASE table_type
+        WHEN 'BASE TABLE' THEN 'table'
+        WHEN 'VIEW' THEN 'view'
+        WHEN 'LOCAL TEMPORARY' THEN 'table'
+        END as type
+    from system.information_schema.tables
+    where lower(table_schema) = 'main'
+    and lower(table_catalog) = 'vn_stock_analytics'
+  
+[0m13:30:46.168686 [debug] [ThreadPool]: SQL status: OK in 0.035 seconds
+[0m13:30:46.172702 [debug] [ThreadPool]: On list_vn_stock_analytics_main: ROLLBACK
+[0m13:30:46.206538 [debug] [ThreadPool]: Failed to rollback 'list_vn_stock_analytics_main'
+[0m13:30:46.207586 [debug] [ThreadPool]: On list_vn_stock_analytics_main: Close
+[0m13:30:46.210504 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'abcbf7e2-4361-471e-84f6-e597a0f1c6ec', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002C29C51BE00>]}
+[0m13:30:46.225559 [debug] [Thread-1 (]: Began running node model.vn_stock_intelligence.stg_company_profiles
+[0m13:30:46.226559 [debug] [Thread-2 (]: Began running node model.vn_stock_intelligence.stg_daily_prices
+[0m13:30:46.227583 [debug] [Thread-3 (]: Began running node model.vn_stock_intelligence.stg_market_news
+[0m13:30:46.228559 [debug] [Thread-1 (]: Acquiring new duckdb connection 'model.vn_stock_intelligence.stg_company_profiles'
+[0m13:30:46.229561 [debug] [Thread-2 (]: Acquiring new duckdb connection 'model.vn_stock_intelligence.stg_daily_prices'
+[0m13:30:46.231561 [debug] [Thread-3 (]: Acquiring new duckdb connection 'model.vn_stock_intelligence.stg_market_news'
+[0m13:30:46.232578 [debug] [Thread-1 (]: Began compiling node model.vn_stock_intelligence.stg_company_profiles
+[0m13:30:46.233555 [debug] [Thread-2 (]: Began compiling node model.vn_stock_intelligence.stg_daily_prices
+[0m13:30:46.234559 [debug] [Thread-3 (]: Began compiling node model.vn_stock_intelligence.stg_market_news
+[0m13:30:46.245556 [debug] [Thread-1 (]: Writing injected SQL for node "model.vn_stock_intelligence.stg_company_profiles"
+[0m13:30:46.249557 [debug] [Thread-2 (]: Writing injected SQL for node "model.vn_stock_intelligence.stg_daily_prices"
+[0m13:30:46.253660 [debug] [Thread-3 (]: Writing injected SQL for node "model.vn_stock_intelligence.stg_market_news"
+[0m13:30:46.256673 [debug] [Thread-1 (]: Began executing node model.vn_stock_intelligence.stg_company_profiles
+[0m13:30:46.258849 [debug] [Thread-1 (]: Finished running node model.vn_stock_intelligence.stg_company_profiles
+[0m13:30:46.258849 [debug] [Thread-3 (]: Began executing node model.vn_stock_intelligence.stg_market_news
+[0m13:30:46.259887 [debug] [Thread-2 (]: Began executing node model.vn_stock_intelligence.stg_daily_prices
+[0m13:30:46.260900 [debug] [Thread-4 (]: Began running node model.vn_stock_intelligence.dim_stocks
+[0m13:30:46.261922 [debug] [Thread-3 (]: Finished running node model.vn_stock_intelligence.stg_market_news
+[0m13:30:46.262912 [debug] [Thread-2 (]: Finished running node model.vn_stock_intelligence.stg_daily_prices
+[0m13:30:46.263911 [debug] [Thread-4 (]: Acquiring new duckdb connection 'model.vn_stock_intelligence.dim_stocks'
+[0m13:30:46.265899 [debug] [Thread-1 (]: Began running node model.vn_stock_intelligence.fact_news
+[0m13:30:46.266896 [debug] [Thread-3 (]: Began running node model.vn_stock_intelligence.fact_daily_prices
+[0m13:30:46.266896 [debug] [Thread-4 (]: Began compiling node model.vn_stock_intelligence.dim_stocks
+[0m13:30:46.267919 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.vn_stock_intelligence.stg_company_profiles, now model.vn_stock_intelligence.fact_news)
+[0m13:30:46.268960 [debug] [Thread-3 (]: Re-using an available connection from the pool (formerly model.vn_stock_intelligence.stg_market_news, now model.vn_stock_intelligence.fact_daily_prices)
+[0m13:30:46.272935 [debug] [Thread-4 (]: Writing injected SQL for node "model.vn_stock_intelligence.dim_stocks"
+[0m13:30:46.273938 [debug] [Thread-1 (]: Began compiling node model.vn_stock_intelligence.fact_news
+[0m13:30:46.274936 [debug] [Thread-3 (]: Began compiling node model.vn_stock_intelligence.fact_daily_prices
+[0m13:30:46.278947 [debug] [Thread-1 (]: Writing injected SQL for node "model.vn_stock_intelligence.fact_news"
+[0m13:30:46.285515 [debug] [Thread-3 (]: Writing injected SQL for node "model.vn_stock_intelligence.fact_daily_prices"
+[0m13:30:46.286504 [debug] [Thread-4 (]: Began executing node model.vn_stock_intelligence.dim_stocks
+[0m13:30:46.288508 [debug] [Thread-4 (]: Finished running node model.vn_stock_intelligence.dim_stocks
+[0m13:30:46.288508 [debug] [Thread-1 (]: Began executing node model.vn_stock_intelligence.fact_news
+[0m13:30:46.289504 [debug] [Thread-3 (]: Began executing node model.vn_stock_intelligence.fact_daily_prices
+[0m13:30:46.291911 [debug] [Thread-1 (]: Finished running node model.vn_stock_intelligence.fact_news
+[0m13:30:46.292910 [debug] [Thread-3 (]: Finished running node model.vn_stock_intelligence.fact_daily_prices
+[0m13:30:46.294910 [debug] [Thread-2 (]: Began running node model.vn_stock_intelligence.analytics_wide_ai_ready
+[0m13:30:46.295924 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.vn_stock_intelligence.stg_daily_prices, now model.vn_stock_intelligence.analytics_wide_ai_ready)
+[0m13:30:46.296924 [debug] [Thread-2 (]: Began compiling node model.vn_stock_intelligence.analytics_wide_ai_ready
+[0m13:30:46.302921 [debug] [Thread-2 (]: Writing injected SQL for node "model.vn_stock_intelligence.analytics_wide_ai_ready"
+[0m13:30:46.304683 [debug] [Thread-2 (]: Began executing node model.vn_stock_intelligence.analytics_wide_ai_ready
+[0m13:30:46.306727 [debug] [Thread-2 (]: Finished running node model.vn_stock_intelligence.analytics_wide_ai_ready
+[0m13:30:46.308709 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m13:30:46.309711 [debug] [MainThread]: Connection 'list_vn_stock_analytics_main' was properly closed.
+[0m13:30:46.309711 [debug] [MainThread]: Connection 'model.vn_stock_intelligence.fact_news' was properly closed.
+[0m13:30:46.310711 [debug] [MainThread]: Connection 'model.vn_stock_intelligence.analytics_wide_ai_ready' was properly closed.
+[0m13:30:46.310711 [debug] [MainThread]: Connection 'model.vn_stock_intelligence.fact_daily_prices' was properly closed.
+[0m13:30:46.311712 [debug] [MainThread]: Connection 'model.vn_stock_intelligence.dim_stocks' was properly closed.
+[0m13:30:46.313710 [debug] [MainThread]: Command end result
+[0m13:30:46.455723 [debug] [MainThread]: Wrote artifact WritableManifest to D:\UEL\Nam3\3\DW\DataWarehouse\target\manifest.json
+[0m13:30:46.459781 [debug] [MainThread]: Wrote artifact SemanticManifest to D:\UEL\Nam3\3\DW\DataWarehouse\target\semantic_manifest.json
+[0m13:30:46.472786 [debug] [MainThread]: Wrote artifact RunExecutionResult to D:\UEL\Nam3\3\DW\DataWarehouse\target\run_results.json
+[0m13:30:46.474374 [debug] [MainThread]: Command `dbt compile` succeeded at 13:30:46.474374 after 13.68 seconds
+[0m13:30:46.475493 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002C299E31B80>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002C29996DBE0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002C29C7F76B0>]}
+[0m13:30:46.476496 [debug] [MainThread]: Flushing usage events
+[0m13:30:48.122847 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m14:18:16.285273 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000230EE11D070>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000230EC18A840>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000230EF642870>]}
+
+
+============================== 14:18:16.295623 | 24ba1124-f759-487b-b7bc-24e181e0a2c9 ==============================
+[0m14:18:16.295623 [info ] [MainThread]: Running with dbt=1.11.11
+[0m14:18:16.297542 [debug] [MainThread]: running dbt with arguments {'static_parser': 'True', 'no_print': 'None', 'version_check': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'target_path': 'None', 'printer_width': '80', 'write_json': 'True', 'introspect': 'True', 'log_cache_events': 'False', 'empty': 'False', 'cache_selected_only': 'False', 'fail_fast': 'False', 'debug': 'False', 'log_format': 'default', 'partial_parse': 'True', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'profiles_dir': 'D:\\UEL\\Nam3\\3\\DW\\DataWarehouse', 'use_colors': 'True', 'invocation_command': 'dbt run', 'indirect_selection': 'eager', 'use_experimental_parser': 'False', 'log_path': 'D:\\UEL\\Nam3\\3\\DW\\DataWarehouse\\logs'}
+[0m14:18:16.658734 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '24ba1124-f759-487b-b7bc-24e181e0a2c9', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000230F07CEF90>]}
+[0m14:18:16.739336 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '24ba1124-f759-487b-b7bc-24e181e0a2c9', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000230EF48EB70>]}
+[0m14:18:16.743352 [info ] [MainThread]: Registered adapter: duckdb=1.10.1
+[0m14:18:16.981215 [debug] [MainThread]: checksum: 30a8cc8fdcbf66701b0944d4ccce3fa46dd04b61e5df68b9f16d57b2e0e3f0be, vars: {}, profile: , target: , version: 1.11.11
+[0m14:18:17.203241 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m14:18:17.203241 [debug] [MainThread]: Nothing changed, skipping partial parsing.
+[0m14:18:17.204242 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m14:18:17.247753 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '24ba1124-f759-487b-b7bc-24e181e0a2c9', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000230F0972D80>]}
+[0m14:18:17.384000 [debug] [MainThread]: Wrote artifact WritableManifest to D:\UEL\Nam3\3\DW\DataWarehouse\target\manifest.json
+[0m14:18:17.387627 [debug] [MainThread]: Wrote artifact SemanticManifest to D:\UEL\Nam3\3\DW\DataWarehouse\target\semantic_manifest.json
+[0m14:18:17.414746 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': '24ba1124-f759-487b-b7bc-24e181e0a2c9', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000230F0C69130>]}
+[0m14:18:17.415746 [info ] [MainThread]: Found 7 models, 3 sources, 599 macros
+[0m14:18:17.416743 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '24ba1124-f759-487b-b7bc-24e181e0a2c9', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000230F0C3E900>]}
+[0m14:18:17.420760 [info ] [MainThread]: 
+[0m14:18:17.421742 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m14:18:17.423744 [info ] [MainThread]: 
+[0m14:18:17.424745 [debug] [MainThread]: Acquiring new duckdb connection 'master'
+[0m14:18:17.432743 [debug] [ThreadPool]: Acquiring new duckdb connection 'list_vn_stock_analytics'
+[0m14:18:17.601340 [debug] [ThreadPool]: Using duckdb connection "list_vn_stock_analytics"
+[0m14:18:17.602337 [debug] [ThreadPool]: On list_vn_stock_analytics: /* {"app": "dbt", "dbt_version": "1.11.11", "profile_name": "vn_stock_warehouse", "target_name": "dev", "connection_name": "list_vn_stock_analytics"} */
+
+    
+    select schema_name
+    from system.information_schema.schemata
+    
+    where lower(catalog_name) = '"vn_stock_analytics"'
+    
+  
+  
+[0m14:18:17.603324 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m14:18:21.678777 [debug] [ThreadPool]: SQL status: OK in 4.076 seconds
+[0m14:18:21.681303 [debug] [ThreadPool]: On list_vn_stock_analytics: Close
+[0m14:18:21.684300 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_vn_stock_analytics, now create_vn_stock_analytics_main)
+[0m14:18:21.685300 [debug] [ThreadPool]: Creating schema "database: "vn_stock_analytics"
+schema: "main"
+"
+[0m14:18:21.697297 [debug] [ThreadPool]: Using duckdb connection "create_vn_stock_analytics_main"
+[0m14:18:21.698298 [debug] [ThreadPool]: On create_vn_stock_analytics_main: /* {"app": "dbt", "dbt_version": "1.11.11", "profile_name": "vn_stock_warehouse", "target_name": "dev", "connection_name": "create_vn_stock_analytics_main"} */
+
+    
+        select type from duckdb_databases()
+        where lower(database_name)='vn_stock_analytics'
+        and type='sqlite'
+    
+  
+[0m14:18:21.700297 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m14:18:21.704379 [debug] [ThreadPool]: SQL status: OK in 0.005 seconds
+[0m14:18:21.708571 [debug] [ThreadPool]: Using duckdb connection "create_vn_stock_analytics_main"
+[0m14:18:21.708571 [debug] [ThreadPool]: On create_vn_stock_analytics_main: BEGIN
+[0m14:18:21.711596 [debug] [ThreadPool]: SQL status: OK in 0.002 seconds
+[0m14:18:21.712611 [debug] [ThreadPool]: Using duckdb connection "create_vn_stock_analytics_main"
+[0m14:18:21.712611 [debug] [ThreadPool]: On create_vn_stock_analytics_main: /* {"app": "dbt", "dbt_version": "1.11.11", "profile_name": "vn_stock_warehouse", "target_name": "dev", "connection_name": "create_vn_stock_analytics_main"} */
+
+    
+    
+        create schema if not exists "vn_stock_analytics"."main"
+    
+[0m14:18:21.930712 [debug] [ThreadPool]: SQL status: OK in 0.217 seconds
+[0m14:18:21.933644 [debug] [ThreadPool]: On create_vn_stock_analytics_main: COMMIT
+[0m14:18:21.934661 [debug] [ThreadPool]: Using duckdb connection "create_vn_stock_analytics_main"
+[0m14:18:21.936096 [debug] [ThreadPool]: On create_vn_stock_analytics_main: COMMIT
+[0m14:18:22.138447 [debug] [ThreadPool]: SQL status: OK in 0.201 seconds
+[0m14:18:22.139428 [debug] [ThreadPool]: On create_vn_stock_analytics_main: Close
+[0m14:18:22.144621 [debug] [ThreadPool]: Acquiring new duckdb connection 'list_vn_stock_analytics_main'
+[0m14:18:22.155115 [debug] [ThreadPool]: Using duckdb connection "list_vn_stock_analytics_main"
+[0m14:18:22.155115 [debug] [ThreadPool]: On list_vn_stock_analytics_main: BEGIN
+[0m14:18:22.156117 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m14:18:22.158117 [debug] [ThreadPool]: SQL status: OK in 0.002 seconds
+[0m14:18:22.159117 [debug] [ThreadPool]: Using duckdb connection "list_vn_stock_analytics_main"
+[0m14:18:22.160113 [debug] [ThreadPool]: On list_vn_stock_analytics_main: /* {"app": "dbt", "dbt_version": "1.11.11", "profile_name": "vn_stock_warehouse", "target_name": "dev", "connection_name": "list_vn_stock_analytics_main"} */
+select
+      'vn_stock_analytics' as database,
+      table_name as name,
+      table_schema as schema,
+      CASE table_type
+        WHEN 'BASE TABLE' THEN 'table'
+        WHEN 'VIEW' THEN 'view'
+        WHEN 'LOCAL TEMPORARY' THEN 'table'
+        END as type
+    from system.information_schema.tables
+    where lower(table_schema) = 'main'
+    and lower(table_catalog) = 'vn_stock_analytics'
+  
+[0m14:18:22.176309 [debug] [ThreadPool]: SQL status: OK in 0.015 seconds
+[0m14:18:22.179250 [debug] [ThreadPool]: On list_vn_stock_analytics_main: ROLLBACK
+[0m14:18:22.182275 [debug] [ThreadPool]: Failed to rollback 'list_vn_stock_analytics_main'
+[0m14:18:22.183685 [debug] [ThreadPool]: On list_vn_stock_analytics_main: Close
+[0m14:18:22.186701 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '24ba1124-f759-487b-b7bc-24e181e0a2c9', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000230F0C3CF20>]}
+[0m14:18:22.187700 [debug] [MainThread]: Using duckdb connection "master"
+[0m14:18:22.187700 [debug] [MainThread]: On master: BEGIN
+[0m14:18:22.188697 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m14:18:22.190700 [debug] [MainThread]: SQL status: OK in 0.002 seconds
+[0m14:18:22.191697 [debug] [MainThread]: On master: COMMIT
+[0m14:18:22.192697 [debug] [MainThread]: Using duckdb connection "master"
+[0m14:18:22.193702 [debug] [MainThread]: On master: COMMIT
+[0m14:18:22.195755 [debug] [MainThread]: SQL status: OK in 0.001 seconds
+[0m14:18:22.196807 [debug] [MainThread]: On master: Close
+[0m14:18:22.207810 [debug] [Thread-1 (]: Began running node model.vn_stock_intelligence.stg_company_profiles
+[0m14:18:22.208810 [debug] [Thread-2 (]: Began running node model.vn_stock_intelligence.stg_daily_prices
+[0m14:18:22.208810 [debug] [Thread-3 (]: Began running node model.vn_stock_intelligence.stg_market_news
+[0m14:18:22.210807 [info ] [Thread-1 (]: 1 of 7 START sql view model main.stg_company_profiles .......................... [RUN]
+[0m14:18:22.211815 [info ] [Thread-2 (]: 2 of 7 START sql view model main.stg_daily_prices .............................. [RUN]
+[0m14:18:22.212809 [info ] [Thread-3 (]: 3 of 7 START sql view model main.stg_market_news ............................... [RUN]
+[0m14:18:22.214807 [debug] [Thread-1 (]: Acquiring new duckdb connection 'model.vn_stock_intelligence.stg_company_profiles'
+[0m14:18:22.215807 [debug] [Thread-2 (]: Acquiring new duckdb connection 'model.vn_stock_intelligence.stg_daily_prices'
+[0m14:18:22.217320 [debug] [Thread-3 (]: Acquiring new duckdb connection 'model.vn_stock_intelligence.stg_market_news'
+[0m14:18:22.218337 [debug] [Thread-1 (]: Began compiling node model.vn_stock_intelligence.stg_company_profiles
+[0m14:18:22.218337 [debug] [Thread-2 (]: Began compiling node model.vn_stock_intelligence.stg_daily_prices
+[0m14:18:22.219337 [debug] [Thread-3 (]: Began compiling node model.vn_stock_intelligence.stg_market_news
+[0m14:18:22.233349 [debug] [Thread-1 (]: Writing injected SQL for node "model.vn_stock_intelligence.stg_company_profiles"
+[0m14:18:22.314596 [debug] [Thread-2 (]: Writing injected SQL for node "model.vn_stock_intelligence.stg_daily_prices"
+[0m14:18:22.318061 [debug] [Thread-3 (]: Writing injected SQL for node "model.vn_stock_intelligence.stg_market_news"
+[0m14:18:22.319510 [debug] [Thread-1 (]: Began executing node model.vn_stock_intelligence.stg_company_profiles
+[0m14:18:22.319510 [debug] [Thread-2 (]: Began executing node model.vn_stock_intelligence.stg_daily_prices
+[0m14:18:22.352870 [debug] [Thread-1 (]: Writing runtime sql for node "model.vn_stock_intelligence.stg_company_profiles"
+[0m14:18:22.352870 [debug] [Thread-3 (]: Began executing node model.vn_stock_intelligence.stg_market_news
+[0m14:18:22.358652 [debug] [Thread-2 (]: Writing runtime sql for node "model.vn_stock_intelligence.stg_daily_prices"
+[0m14:18:22.364574 [debug] [Thread-3 (]: Writing runtime sql for node "model.vn_stock_intelligence.stg_market_news"
+[0m14:18:22.366734 [debug] [Thread-1 (]: Using duckdb connection "model.vn_stock_intelligence.stg_company_profiles"
+[0m14:18:22.368150 [debug] [Thread-3 (]: Using duckdb connection "model.vn_stock_intelligence.stg_market_news"
+[0m14:18:22.369633 [debug] [Thread-2 (]: Using duckdb connection "model.vn_stock_intelligence.stg_daily_prices"
+[0m14:18:22.370655 [debug] [Thread-1 (]: On model.vn_stock_intelligence.stg_company_profiles: BEGIN
+[0m14:18:22.371654 [debug] [Thread-3 (]: On model.vn_stock_intelligence.stg_market_news: BEGIN
+[0m14:18:22.372652 [debug] [Thread-2 (]: On model.vn_stock_intelligence.stg_daily_prices: BEGIN
+[0m14:18:22.373656 [debug] [Thread-1 (]: Opening a new connection, currently in state init
+[0m14:18:22.374651 [debug] [Thread-3 (]: Opening a new connection, currently in state init
+[0m14:18:22.375650 [debug] [Thread-2 (]: Opening a new connection, currently in state init
+[0m14:18:22.378659 [debug] [Thread-1 (]: SQL status: OK in 0.005 seconds
+[0m14:18:22.379658 [debug] [Thread-3 (]: SQL status: OK in 0.005 seconds
+[0m14:18:22.380653 [debug] [Thread-2 (]: SQL status: OK in 0.005 seconds
+[0m14:18:22.381648 [debug] [Thread-1 (]: Using duckdb connection "model.vn_stock_intelligence.stg_company_profiles"
+[0m14:18:22.381648 [debug] [Thread-3 (]: Using duckdb connection "model.vn_stock_intelligence.stg_market_news"
+[0m14:18:22.382651 [debug] [Thread-2 (]: Using duckdb connection "model.vn_stock_intelligence.stg_daily_prices"
+[0m14:18:22.383657 [debug] [Thread-1 (]: On model.vn_stock_intelligence.stg_company_profiles: /* {"app": "dbt", "dbt_version": "1.11.11", "profile_name": "vn_stock_warehouse", "target_name": "dev", "node_id": "model.vn_stock_intelligence.stg_company_profiles"} */
+
+  
+  create view "vn_stock_analytics"."main"."stg_company_profiles__dbt_tmp" as (
+    WITH ranked_profiles AS (
+    SELECT
+        symbol,
+        company_type,
+        exchange,
+        ceo_name,
+        charter_capital,
+        listing_date,
+        ingested_at,
+        -- Khử trùng lặp
+        ROW_NUMBER() OVER (PARTITION BY symbol ORDER BY ingested_at DESC) AS row_num
+    FROM "vn_stock_analytics"."main"."bronze_company_profiles"
+)
+SELECT
+    symbol,
+    company_type,
+    exchange,
+    ceo_name,
+    CAST(charter_capital AS DOUBLE) AS charter_capital,
+    -- KỸ THUẬT: Sử dụng STRPTIME để parse chuỗi 'ngày/tháng/năm' của VN về dạng DATE
+    TRY_CAST(STRPTIME(listing_date, '%d/%m/%Y') AS DATE) AS listing_date,
+    ingested_at
+FROM ranked_profiles
+WHERE row_num = 1
+  );
+
+[0m14:18:22.384652 [debug] [Thread-3 (]: On model.vn_stock_intelligence.stg_market_news: /* {"app": "dbt", "dbt_version": "1.11.11", "profile_name": "vn_stock_warehouse", "target_name": "dev", "node_id": "model.vn_stock_intelligence.stg_market_news"} */
+
+  
+  create view "vn_stock_analytics"."main"."stg_market_news__dbt_tmp" as (
+    WITH ranked_news AS (
+    SELECT 
+        ticker,
+        title,
+        head,
+        publish_time,
+        article_id,
+        ingested_at,
+        ROW_NUMBER() OVER (PARTITION BY article_id ORDER BY ingested_at DESC) AS row_num
+    FROM "vn_stock_analytics"."main"."bronze_market_news"
+)
+SELECT
+    article_id,
+    ticker,
+    title,
+    COALESCE(head, 'Không có tóm tắt') AS summary,
+    CAST(publish_time AS TIMESTAMP) AS published_at,
+    ingested_at
+FROM ranked_news
+WHERE row_num = 1
+  );
+
+[0m14:18:22.385651 [debug] [Thread-2 (]: On model.vn_stock_intelligence.stg_daily_prices: /* {"app": "dbt", "dbt_version": "1.11.11", "profile_name": "vn_stock_warehouse", "target_name": "dev", "node_id": "model.vn_stock_intelligence.stg_daily_prices"} */
+
+  
+  create view "vn_stock_analytics"."main"."stg_daily_prices__dbt_tmp" as (
+    WITH raw_prices AS (
+    SELECT * FROM "vn_stock_analytics"."main"."bronze_daily_prices"
+)
+SELECT
+    CAST(time AS DATE) AS transaction_date,
+    ticker,
+    CAST(open AS DOUBLE) AS open_price,
+    CAST(high AS DOUBLE) AS high_price,
+    CAST(low AS DOUBLE) AS low_price,
+    CAST(close AS DOUBLE) AS close_price,
+    CAST(volume AS LONG) AS volume,
+    ingested_at
+FROM raw_prices
+WHERE open_price > 0 AND volume >= 0
+  );
+
+[0m14:18:22.642605 [debug] [Thread-2 (]: SQL status: OK in 0.251 seconds
+[0m14:18:22.644874 [debug] [Thread-1 (]: SQL status: OK in 0.257 seconds
+[0m14:18:22.646208 [debug] [Thread-3 (]: SQL status: OK in 0.258 seconds
+[0m14:18:22.682843 [debug] [Thread-2 (]: Using duckdb connection "model.vn_stock_intelligence.stg_daily_prices"
+[0m14:18:22.697572 [debug] [Thread-1 (]: Using duckdb connection "model.vn_stock_intelligence.stg_company_profiles"
+[0m14:18:22.711104 [debug] [Thread-3 (]: Using duckdb connection "model.vn_stock_intelligence.stg_market_news"
+[0m14:18:22.713105 [debug] [Thread-2 (]: On model.vn_stock_intelligence.stg_daily_prices: /* {"app": "dbt", "dbt_version": "1.11.11", "profile_name": "vn_stock_warehouse", "target_name": "dev", "node_id": "model.vn_stock_intelligence.stg_daily_prices"} */
+alter view "vn_stock_analytics"."main"."stg_daily_prices__dbt_tmp" rename to "stg_daily_prices"
+[0m14:18:22.716102 [debug] [Thread-1 (]: On model.vn_stock_intelligence.stg_company_profiles: /* {"app": "dbt", "dbt_version": "1.11.11", "profile_name": "vn_stock_warehouse", "target_name": "dev", "node_id": "model.vn_stock_intelligence.stg_company_profiles"} */
+alter view "vn_stock_analytics"."main"."stg_company_profiles__dbt_tmp" rename to "stg_company_profiles"
+[0m14:18:22.717617 [debug] [Thread-3 (]: On model.vn_stock_intelligence.stg_market_news: /* {"app": "dbt", "dbt_version": "1.11.11", "profile_name": "vn_stock_warehouse", "target_name": "dev", "node_id": "model.vn_stock_intelligence.stg_market_news"} */
+alter view "vn_stock_analytics"."main"."stg_market_news__dbt_tmp" rename to "stg_market_news"
+[0m14:18:22.943688 [debug] [Thread-1 (]: SQL status: OK in 0.221 seconds
+[0m14:18:22.944692 [debug] [Thread-2 (]: SQL status: OK in 0.225 seconds
+[0m14:18:22.945690 [debug] [Thread-3 (]: SQL status: OK in 0.222 seconds
+[0m14:18:22.975850 [debug] [Thread-1 (]: On model.vn_stock_intelligence.stg_company_profiles: COMMIT
+[0m14:18:22.979846 [debug] [Thread-2 (]: On model.vn_stock_intelligence.stg_daily_prices: COMMIT
+[0m14:18:22.984852 [debug] [Thread-3 (]: On model.vn_stock_intelligence.stg_market_news: COMMIT
+[0m14:18:22.987382 [debug] [Thread-1 (]: Using duckdb connection "model.vn_stock_intelligence.stg_company_profiles"
+[0m14:18:22.988384 [debug] [Thread-2 (]: Using duckdb connection "model.vn_stock_intelligence.stg_daily_prices"
+[0m14:18:22.990380 [debug] [Thread-3 (]: Using duckdb connection "model.vn_stock_intelligence.stg_market_news"
+[0m14:18:22.991378 [debug] [Thread-1 (]: On model.vn_stock_intelligence.stg_company_profiles: COMMIT
+[0m14:18:22.992381 [debug] [Thread-2 (]: On model.vn_stock_intelligence.stg_daily_prices: COMMIT
+[0m14:18:22.994382 [debug] [Thread-3 (]: On model.vn_stock_intelligence.stg_market_news: COMMIT
+[0m14:18:23.440538 [debug] [Thread-2 (]: SQL status: OK in 0.444 seconds
+[0m14:18:23.450537 [debug] [Thread-1 (]: SQL status: OK in 0.456 seconds
+[0m14:18:23.452683 [debug] [Thread-3 (]: SQL status: OK in 0.456 seconds
+[0m14:18:23.456668 [debug] [Thread-2 (]: Using duckdb connection "model.vn_stock_intelligence.stg_daily_prices"
+[0m14:18:23.462081 [debug] [Thread-1 (]: Using duckdb connection "model.vn_stock_intelligence.stg_company_profiles"
+[0m14:18:23.468082 [debug] [Thread-3 (]: Using duckdb connection "model.vn_stock_intelligence.stg_market_news"
+[0m14:18:23.470083 [debug] [Thread-2 (]: On model.vn_stock_intelligence.stg_daily_prices: /* {"app": "dbt", "dbt_version": "1.11.11", "profile_name": "vn_stock_warehouse", "target_name": "dev", "node_id": "model.vn_stock_intelligence.stg_daily_prices"} */
+
+      drop view if exists "vn_stock_analytics"."main"."stg_daily_prices__dbt_backup" cascade
+    
+[0m14:18:23.471086 [debug] [Thread-1 (]: On model.vn_stock_intelligence.stg_company_profiles: /* {"app": "dbt", "dbt_version": "1.11.11", "profile_name": "vn_stock_warehouse", "target_name": "dev", "node_id": "model.vn_stock_intelligence.stg_company_profiles"} */
+
+      drop view if exists "vn_stock_analytics"."main"."stg_company_profiles__dbt_backup" cascade
+    
+[0m14:18:23.472095 [debug] [Thread-3 (]: On model.vn_stock_intelligence.stg_market_news: /* {"app": "dbt", "dbt_version": "1.11.11", "profile_name": "vn_stock_warehouse", "target_name": "dev", "node_id": "model.vn_stock_intelligence.stg_market_news"} */
+
+      drop view if exists "vn_stock_analytics"."main"."stg_market_news__dbt_backup" cascade
+    
+[0m14:18:23.678153 [debug] [Thread-1 (]: SQL status: OK in 0.203 seconds
+[0m14:18:23.686459 [debug] [Thread-1 (]: On model.vn_stock_intelligence.stg_company_profiles: Close
+[0m14:18:23.690491 [debug] [Thread-2 (]: SQL status: OK in 0.217 seconds
+[0m14:18:23.691490 [debug] [Thread-3 (]: SQL status: OK in 0.216 seconds
+[0m14:18:23.694489 [debug] [Thread-2 (]: On model.vn_stock_intelligence.stg_daily_prices: Close
+[0m14:18:23.696477 [debug] [Thread-3 (]: On model.vn_stock_intelligence.stg_market_news: Close
+[0m14:18:23.698480 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '24ba1124-f759-487b-b7bc-24e181e0a2c9', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000230F106ACF0>]}
+[0m14:18:23.699482 [debug] [Thread-2 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '24ba1124-f759-487b-b7bc-24e181e0a2c9', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000230F08DAB10>]}
+[0m14:18:23.700482 [debug] [Thread-3 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '24ba1124-f759-487b-b7bc-24e181e0a2c9', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000230F11AC170>]}
+[0m14:18:23.702664 [info ] [Thread-1 (]: 1 of 7 OK created sql view model main.stg_company_profiles ..................... [[32mOK[0m in 1.47s]
+[0m14:18:23.704671 [info ] [Thread-2 (]: 2 of 7 OK created sql view model main.stg_daily_prices ......................... [[32mOK[0m in 1.48s]
+[0m14:18:23.706673 [info ] [Thread-3 (]: 3 of 7 OK created sql view model main.stg_market_news .......................... [[32mOK[0m in 1.48s]
+[0m14:18:23.708674 [debug] [Thread-1 (]: Finished running node model.vn_stock_intelligence.stg_company_profiles
+[0m14:18:23.709669 [debug] [Thread-2 (]: Finished running node model.vn_stock_intelligence.stg_daily_prices
+[0m14:18:23.710683 [debug] [Thread-3 (]: Finished running node model.vn_stock_intelligence.stg_market_news
+[0m14:18:23.712671 [debug] [Thread-4 (]: Began running node model.vn_stock_intelligence.dim_stocks
+[0m14:18:23.713670 [debug] [Thread-1 (]: Began running node model.vn_stock_intelligence.fact_daily_prices
+[0m14:18:23.714670 [debug] [Thread-2 (]: Began running node model.vn_stock_intelligence.fact_news
+[0m14:18:23.716677 [info ] [Thread-4 (]: 4 of 7 START sql table model main.dim_stocks ................................... [RUN]
+[0m14:18:23.719190 [info ] [Thread-1 (]: 5 of 7 START sql table model main.fact_daily_prices ............................ [RUN]
+[0m14:18:23.721214 [info ] [Thread-2 (]: 6 of 7 START sql table model main.fact_news .................................... [RUN]
+[0m14:18:23.722207 [debug] [Thread-4 (]: Acquiring new duckdb connection 'model.vn_stock_intelligence.dim_stocks'
+[0m14:18:23.724205 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.vn_stock_intelligence.stg_company_profiles, now model.vn_stock_intelligence.fact_daily_prices)
+[0m14:18:23.725206 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.vn_stock_intelligence.stg_daily_prices, now model.vn_stock_intelligence.fact_news)
+[0m14:18:23.726207 [debug] [Thread-4 (]: Began compiling node model.vn_stock_intelligence.dim_stocks
+[0m14:18:23.727204 [debug] [Thread-1 (]: Began compiling node model.vn_stock_intelligence.fact_daily_prices
+[0m14:18:23.728208 [debug] [Thread-2 (]: Began compiling node model.vn_stock_intelligence.fact_news
+[0m14:18:23.733208 [debug] [Thread-4 (]: Writing injected SQL for node "model.vn_stock_intelligence.dim_stocks"
+[0m14:18:23.763467 [debug] [Thread-1 (]: Writing injected SQL for node "model.vn_stock_intelligence.fact_daily_prices"
+[0m14:18:23.770522 [debug] [Thread-2 (]: Writing injected SQL for node "model.vn_stock_intelligence.fact_news"
+[0m14:18:23.773462 [debug] [Thread-4 (]: Began executing node model.vn_stock_intelligence.dim_stocks
+[0m14:18:23.775461 [debug] [Thread-1 (]: Began executing node model.vn_stock_intelligence.fact_daily_prices
+[0m14:18:23.813490 [debug] [Thread-4 (]: Writing runtime sql for node "model.vn_stock_intelligence.dim_stocks"
+[0m14:18:23.814488 [debug] [Thread-2 (]: Began executing node model.vn_stock_intelligence.fact_news
+[0m14:18:23.823019 [debug] [Thread-1 (]: Writing runtime sql for node "model.vn_stock_intelligence.fact_daily_prices"
+[0m14:18:23.829017 [debug] [Thread-2 (]: Writing runtime sql for node "model.vn_stock_intelligence.fact_news"
+[0m14:18:23.832383 [debug] [Thread-4 (]: Using duckdb connection "model.vn_stock_intelligence.dim_stocks"
+[0m14:18:23.835408 [debug] [Thread-1 (]: Using duckdb connection "model.vn_stock_intelligence.fact_daily_prices"
+[0m14:18:23.836406 [debug] [Thread-4 (]: On model.vn_stock_intelligence.dim_stocks: BEGIN
+[0m14:18:23.837406 [debug] [Thread-2 (]: Using duckdb connection "model.vn_stock_intelligence.fact_news"
+[0m14:18:23.839405 [debug] [Thread-1 (]: On model.vn_stock_intelligence.fact_daily_prices: BEGIN
+[0m14:18:23.841403 [debug] [Thread-4 (]: Opening a new connection, currently in state init
+[0m14:18:23.844425 [debug] [Thread-2 (]: On model.vn_stock_intelligence.fact_news: BEGIN
+[0m14:18:23.845425 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m14:18:23.847423 [debug] [Thread-2 (]: Opening a new connection, currently in state closed
+[0m14:18:23.849430 [debug] [Thread-4 (]: SQL status: OK in 0.008 seconds
+[0m14:18:23.854431 [debug] [Thread-2 (]: SQL status: OK in 0.006 seconds
+[0m14:18:23.855420 [debug] [Thread-4 (]: Using duckdb connection "model.vn_stock_intelligence.dim_stocks"
+[0m14:18:23.856421 [debug] [Thread-1 (]: SQL status: OK in 0.011 seconds
+[0m14:18:23.857946 [debug] [Thread-2 (]: Using duckdb connection "model.vn_stock_intelligence.fact_news"
+[0m14:18:23.858977 [debug] [Thread-4 (]: On model.vn_stock_intelligence.dim_stocks: /* {"app": "dbt", "dbt_version": "1.11.11", "profile_name": "vn_stock_warehouse", "target_name": "dev", "node_id": "model.vn_stock_intelligence.dim_stocks"} */
+
+  
+    
+    
+
+    create  table
+      "vn_stock_analytics"."main"."dim_stocks__dbt_tmp"
+  
+    as (
+      SELECT
+    symbol AS ticker,
+    company_type,
+    exchange,
+    ceo_name,
+    charter_capital,
+    CAST(listing_date AS DATE) AS listing_date
+FROM "vn_stock_analytics"."main"."stg_company_profiles"
+    );
+  
+  
+[0m14:18:23.860970 [debug] [Thread-1 (]: Using duckdb connection "model.vn_stock_intelligence.fact_daily_prices"
+[0m14:18:23.861967 [debug] [Thread-2 (]: On model.vn_stock_intelligence.fact_news: /* {"app": "dbt", "dbt_version": "1.11.11", "profile_name": "vn_stock_warehouse", "target_name": "dev", "node_id": "model.vn_stock_intelligence.fact_news"} */
+
+  
+    
+    
+
+    create  table
+      "vn_stock_analytics"."main"."fact_news__dbt_tmp"
+  
+    as (
+      SELECT
+    article_id,
+    ticker,
+    title,
+    summary,
+    published_at,
+    CAST(NULL AS DOUBLE) AS sentiment_score -- Ô dữ liệu chờ sẵn để mô hình AI điền vào ở Giai đoạn 3
+FROM "vn_stock_analytics"."main"."stg_market_news"
+    );
+  
+  
+[0m14:18:23.863976 [debug] [Thread-1 (]: On model.vn_stock_intelligence.fact_daily_prices: /* {"app": "dbt", "dbt_version": "1.11.11", "profile_name": "vn_stock_warehouse", "target_name": "dev", "node_id": "model.vn_stock_intelligence.fact_daily_prices"} */
+
+  
+    
+    
+
+    create  table
+      "vn_stock_analytics"."main"."fact_daily_prices__dbt_tmp"
+  
+    as (
+      SELECT
+    md5(cast(coalesce(cast(transaction_date as TEXT), '_dbt_utils_surrogate_key_null_') || '-' || coalesce(cast(ticker as TEXT), '_dbt_utils_surrogate_key_null_') as TEXT)) AS price_key,
+    transaction_date,
+    ticker,
+    open_price,
+    high_price,
+    low_price,
+    close_price,
+    volume,
+    (close_price - open_price) AS daily_variance
+FROM "vn_stock_analytics"."main"."stg_daily_prices"
+    );
+  
+  
+[0m14:18:24.098573 [debug] [Thread-4 (]: SQL status: OK in 0.235 seconds
+[0m14:18:24.104605 [debug] [Thread-2 (]: SQL status: OK in 0.240 seconds
+[0m14:18:24.103614 [debug] [Thread-4 (]: Using duckdb connection "model.vn_stock_intelligence.dim_stocks"
+[0m14:18:24.109364 [debug] [Thread-2 (]: Using duckdb connection "model.vn_stock_intelligence.fact_news"
+[0m14:18:24.110362 [debug] [Thread-4 (]: On model.vn_stock_intelligence.dim_stocks: /* {"app": "dbt", "dbt_version": "1.11.11", "profile_name": "vn_stock_warehouse", "target_name": "dev", "node_id": "model.vn_stock_intelligence.dim_stocks"} */
+alter table "vn_stock_analytics"."main"."dim_stocks__dbt_tmp" rename to "dim_stocks"
+[0m14:18:24.111350 [debug] [Thread-2 (]: On model.vn_stock_intelligence.fact_news: /* {"app": "dbt", "dbt_version": "1.11.11", "profile_name": "vn_stock_warehouse", "target_name": "dev", "node_id": "model.vn_stock_intelligence.fact_news"} */
+alter table "vn_stock_analytics"."main"."fact_news__dbt_tmp" rename to "fact_news"
+[0m14:18:24.306646 [debug] [Thread-1 (]: SQL status: OK in 0.441 seconds
+[0m14:18:24.311509 [debug] [Thread-1 (]: Using duckdb connection "model.vn_stock_intelligence.fact_daily_prices"
+[0m14:18:24.312511 [debug] [Thread-1 (]: On model.vn_stock_intelligence.fact_daily_prices: /* {"app": "dbt", "dbt_version": "1.11.11", "profile_name": "vn_stock_warehouse", "target_name": "dev", "node_id": "model.vn_stock_intelligence.fact_daily_prices"} */
+alter table "vn_stock_analytics"."main"."fact_daily_prices__dbt_tmp" rename to "fact_daily_prices"
+[0m14:18:24.323319 [debug] [Thread-4 (]: SQL status: OK in 0.211 seconds
+[0m14:18:24.324329 [debug] [Thread-2 (]: SQL status: OK in 0.211 seconds
+[0m14:18:24.331193 [debug] [Thread-4 (]: On model.vn_stock_intelligence.dim_stocks: COMMIT
+[0m14:18:24.334326 [debug] [Thread-2 (]: On model.vn_stock_intelligence.fact_news: COMMIT
+[0m14:18:24.335270 [debug] [Thread-4 (]: Using duckdb connection "model.vn_stock_intelligence.dim_stocks"
+[0m14:18:24.336195 [debug] [Thread-2 (]: Using duckdb connection "model.vn_stock_intelligence.fact_news"
+[0m14:18:24.337194 [debug] [Thread-4 (]: On model.vn_stock_intelligence.dim_stocks: COMMIT
+[0m14:18:24.338194 [debug] [Thread-2 (]: On model.vn_stock_intelligence.fact_news: COMMIT
+[0m14:18:24.522487 [debug] [Thread-1 (]: SQL status: OK in 0.209 seconds
+[0m14:18:24.525502 [debug] [Thread-1 (]: On model.vn_stock_intelligence.fact_daily_prices: COMMIT
+[0m14:18:24.526491 [debug] [Thread-1 (]: Using duckdb connection "model.vn_stock_intelligence.fact_daily_prices"
+[0m14:18:24.527489 [debug] [Thread-1 (]: On model.vn_stock_intelligence.fact_daily_prices: COMMIT
+[0m14:18:24.746435 [debug] [Thread-2 (]: SQL status: OK in 0.408 seconds
+[0m14:18:24.747443 [debug] [Thread-4 (]: SQL status: OK in 0.409 seconds
+[0m14:18:24.752435 [debug] [Thread-2 (]: Using duckdb connection "model.vn_stock_intelligence.fact_news"
+[0m14:18:24.756451 [debug] [Thread-4 (]: Using duckdb connection "model.vn_stock_intelligence.dim_stocks"
+[0m14:18:24.757450 [debug] [Thread-2 (]: On model.vn_stock_intelligence.fact_news: /* {"app": "dbt", "dbt_version": "1.11.11", "profile_name": "vn_stock_warehouse", "target_name": "dev", "node_id": "model.vn_stock_intelligence.fact_news"} */
+
+      drop table if exists "vn_stock_analytics"."main"."fact_news__dbt_backup" cascade
+    
+[0m14:18:24.758450 [debug] [Thread-4 (]: On model.vn_stock_intelligence.dim_stocks: /* {"app": "dbt", "dbt_version": "1.11.11", "profile_name": "vn_stock_warehouse", "target_name": "dev", "node_id": "model.vn_stock_intelligence.dim_stocks"} */
+
+      drop table if exists "vn_stock_analytics"."main"."dim_stocks__dbt_backup" cascade
+    
+[0m14:18:25.014880 [debug] [Thread-1 (]: SQL status: OK in 0.486 seconds
+[0m14:18:25.017876 [debug] [Thread-1 (]: Using duckdb connection "model.vn_stock_intelligence.fact_daily_prices"
+[0m14:18:25.018873 [debug] [Thread-1 (]: On model.vn_stock_intelligence.fact_daily_prices: /* {"app": "dbt", "dbt_version": "1.11.11", "profile_name": "vn_stock_warehouse", "target_name": "dev", "node_id": "model.vn_stock_intelligence.fact_daily_prices"} */
+
+      drop table if exists "vn_stock_analytics"."main"."fact_daily_prices__dbt_backup" cascade
+    
+[0m14:18:25.170539 [debug] [Thread-4 (]: SQL status: OK in 0.410 seconds
+[0m14:18:25.174552 [debug] [Thread-4 (]: On model.vn_stock_intelligence.dim_stocks: Close
+[0m14:18:25.176553 [debug] [Thread-4 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '24ba1124-f759-487b-b7bc-24e181e0a2c9', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000230F26E3260>]}
+[0m14:18:25.179543 [debug] [Thread-2 (]: SQL status: OK in 0.420 seconds
+[0m14:18:25.178543 [info ] [Thread-4 (]: 4 of 7 OK created sql table model main.dim_stocks .............................. [[32mOK[0m in 1.45s]
+[0m14:18:25.183543 [debug] [Thread-2 (]: On model.vn_stock_intelligence.fact_news: Close
+[0m14:18:25.184543 [debug] [Thread-4 (]: Finished running node model.vn_stock_intelligence.dim_stocks
+[0m14:18:25.186545 [debug] [Thread-2 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '24ba1124-f759-487b-b7bc-24e181e0a2c9', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000230EC18B6B0>]}
+[0m14:18:25.189547 [info ] [Thread-2 (]: 6 of 7 OK created sql table model main.fact_news ............................... [[32mOK[0m in 1.46s]
+[0m14:18:25.191556 [debug] [Thread-2 (]: Finished running node model.vn_stock_intelligence.fact_news
+[0m14:18:25.222109 [debug] [Thread-1 (]: SQL status: OK in 0.203 seconds
+[0m14:18:25.225102 [debug] [Thread-1 (]: On model.vn_stock_intelligence.fact_daily_prices: Close
+[0m14:18:25.227111 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '24ba1124-f759-487b-b7bc-24e181e0a2c9', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000230F26AC050>]}
+[0m14:18:25.229111 [info ] [Thread-1 (]: 5 of 7 OK created sql table model main.fact_daily_prices ....................... [[32mOK[0m in 1.50s]
+[0m14:18:25.231116 [debug] [Thread-1 (]: Finished running node model.vn_stock_intelligence.fact_daily_prices
+[0m14:18:25.232109 [debug] [Thread-3 (]: Began running node model.vn_stock_intelligence.analytics_wide_ai_ready
+[0m14:18:25.233102 [info ] [Thread-3 (]: 7 of 7 START sql table model main.analytics_wide_ai_ready ...................... [RUN]
+[0m14:18:25.235104 [debug] [Thread-3 (]: Re-using an available connection from the pool (formerly model.vn_stock_intelligence.stg_market_news, now model.vn_stock_intelligence.analytics_wide_ai_ready)
+[0m14:18:25.236101 [debug] [Thread-3 (]: Began compiling node model.vn_stock_intelligence.analytics_wide_ai_ready
+[0m14:18:25.242137 [debug] [Thread-3 (]: Writing injected SQL for node "model.vn_stock_intelligence.analytics_wide_ai_ready"
+[0m14:18:25.244167 [debug] [Thread-3 (]: Began executing node model.vn_stock_intelligence.analytics_wide_ai_ready
+[0m14:18:25.249152 [debug] [Thread-3 (]: Writing runtime sql for node "model.vn_stock_intelligence.analytics_wide_ai_ready"
+[0m14:18:25.251151 [debug] [Thread-3 (]: Using duckdb connection "model.vn_stock_intelligence.analytics_wide_ai_ready"
+[0m14:18:25.251151 [debug] [Thread-3 (]: On model.vn_stock_intelligence.analytics_wide_ai_ready: BEGIN
+[0m14:18:25.252151 [debug] [Thread-3 (]: Opening a new connection, currently in state closed
+[0m14:18:25.254153 [debug] [Thread-3 (]: SQL status: OK in 0.002 seconds
+[0m14:18:25.256150 [debug] [Thread-3 (]: Using duckdb connection "model.vn_stock_intelligence.analytics_wide_ai_ready"
+[0m14:18:25.257150 [debug] [Thread-3 (]: On model.vn_stock_intelligence.analytics_wide_ai_ready: /* {"app": "dbt", "dbt_version": "1.11.11", "profile_name": "vn_stock_warehouse", "target_name": "dev", "node_id": "model.vn_stock_intelligence.analytics_wide_ai_ready"} */
+
+  
+    
+    
+
+    create  table
+      "vn_stock_analytics"."main"."analytics_wide_ai_ready__dbt_tmp"
+  
+    as (
+      WITH price_returns AS (
+    SELECT
+        transaction_date,
+        ticker,
+        close_price,
+        -- Lấy giá đóng cửa của ngày T+1
+        LEAD(close_price, 1) OVER (PARTITION BY ticker ORDER BY transaction_date) AS next_day_close
+    FROM "vn_stock_analytics"."main"."fact_daily_prices"
+),
+
+calculated_returns AS (
+    SELECT
+        transaction_date,
+        ticker,
+        close_price,
+        next_day_close,
+        ((next_day_close - close_price) / close_price) * 100 AS next_day_return_percentage
+    FROM price_returns
+    WHERE next_day_close IS NOT NULL
+),
+
+news_with_date AS (
+    SELECT 
+        *,
+        CAST(published_at AS DATE) AS news_date
+    FROM "vn_stock_analytics"."main"."fact_news"
+),
+
+-- Ánh xạ mọi ngày ra tin về ngày giao dịch hợp lệ kế tiếp vì t7, cn không có gd tại ttVN
+news_mapped_to_trading_date AS (
+    SELECT 
+        n.article_id,
+        n.ticker,
+        n.title,
+        n.summary,
+        n.published_at,
+        n.news_date,
+        -- Tìm ngày giao dịch nhỏ nhất nhưng phải lớn hơn hoặc bằng ngày ra tin
+        MIN(r.transaction_date) AS mapped_transaction_date
+    FROM news_with_date n
+    INNER JOIN calculated_returns r 
+        ON n.ticker = r.ticker 
+       AND r.transaction_date >= n.news_date
+    GROUP BY 
+        n.article_id, n.ticker, n.title, n.summary, n.published_at, n.news_date
+)
+
+-- Kết nối để lấy tỷ suất sinh lời của ngày giao dịch kế tiếp
+SELECT
+    m.article_id,
+    m.ticker,
+    m.title,
+    m.summary,
+    m.published_at,
+    m.news_date,
+    m.mapped_transaction_date,
+    cr.next_day_return_percentage
+FROM news_mapped_to_trading_date m
+INNER JOIN calculated_returns cr
+    ON m.ticker = cr.ticker
+   AND m.mapped_transaction_date = cr.transaction_date
+    );
+  
+  
+[0m14:18:25.496846 [debug] [Thread-3 (]: SQL status: OK in 0.239 seconds
+[0m14:18:25.503863 [debug] [Thread-3 (]: Using duckdb connection "model.vn_stock_intelligence.analytics_wide_ai_ready"
+[0m14:18:25.504861 [debug] [Thread-3 (]: On model.vn_stock_intelligence.analytics_wide_ai_ready: /* {"app": "dbt", "dbt_version": "1.11.11", "profile_name": "vn_stock_warehouse", "target_name": "dev", "node_id": "model.vn_stock_intelligence.analytics_wide_ai_ready"} */
+alter table "vn_stock_analytics"."main"."analytics_wide_ai_ready__dbt_tmp" rename to "analytics_wide_ai_ready"
+[0m14:18:25.717973 [debug] [Thread-3 (]: SQL status: OK in 0.212 seconds
+[0m14:18:25.720975 [debug] [Thread-3 (]: On model.vn_stock_intelligence.analytics_wide_ai_ready: COMMIT
+[0m14:18:25.721974 [debug] [Thread-3 (]: Using duckdb connection "model.vn_stock_intelligence.analytics_wide_ai_ready"
+[0m14:18:25.722869 [debug] [Thread-3 (]: On model.vn_stock_intelligence.analytics_wide_ai_ready: COMMIT
+[0m14:18:26.144282 [debug] [Thread-3 (]: SQL status: OK in 0.421 seconds
+[0m14:18:26.149282 [debug] [Thread-3 (]: Using duckdb connection "model.vn_stock_intelligence.analytics_wide_ai_ready"
+[0m14:18:26.150292 [debug] [Thread-3 (]: On model.vn_stock_intelligence.analytics_wide_ai_ready: /* {"app": "dbt", "dbt_version": "1.11.11", "profile_name": "vn_stock_warehouse", "target_name": "dev", "node_id": "model.vn_stock_intelligence.analytics_wide_ai_ready"} */
+
+      drop table if exists "vn_stock_analytics"."main"."analytics_wide_ai_ready__dbt_backup" cascade
+    
+[0m14:18:27.130328 [debug] [Thread-3 (]: SQL status: OK in 0.979 seconds
+[0m14:18:27.133341 [debug] [Thread-3 (]: On model.vn_stock_intelligence.analytics_wide_ai_ready: Close
+[0m14:18:27.134342 [debug] [Thread-3 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '24ba1124-f759-487b-b7bc-24e181e0a2c9', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000230F2686960>]}
+[0m14:18:27.136345 [info ] [Thread-3 (]: 7 of 7 OK created sql table model main.analytics_wide_ai_ready ................. [[32mOK[0m in 1.90s]
+[0m14:18:27.138406 [debug] [Thread-3 (]: Finished running node model.vn_stock_intelligence.analytics_wide_ai_ready
+[0m14:18:27.141343 [debug] [MainThread]: Using duckdb connection "master"
+[0m14:18:27.142447 [debug] [MainThread]: On master: BEGIN
+[0m14:18:27.143460 [debug] [MainThread]: Opening a new connection, currently in state closed
+[0m14:18:27.145404 [debug] [MainThread]: SQL status: OK in 0.002 seconds
+[0m14:18:27.146918 [debug] [MainThread]: On master: COMMIT
+[0m14:18:27.146918 [debug] [MainThread]: Using duckdb connection "master"
+[0m14:18:27.147936 [debug] [MainThread]: On master: COMMIT
+[0m14:18:27.149933 [debug] [MainThread]: SQL status: OK in 0.001 seconds
+[0m14:18:27.150946 [debug] [MainThread]: On master: Close
+[0m14:18:27.151930 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m14:18:27.151930 [debug] [MainThread]: Connection 'create_vn_stock_analytics_main' was properly closed.
+[0m14:18:27.152930 [debug] [MainThread]: Connection 'list_vn_stock_analytics_main' was properly closed.
+[0m14:18:27.153945 [debug] [MainThread]: Connection 'model.vn_stock_intelligence.fact_daily_prices' was properly closed.
+[0m14:18:27.154945 [debug] [MainThread]: Connection 'model.vn_stock_intelligence.fact_news' was properly closed.
+[0m14:18:27.155930 [debug] [MainThread]: Connection 'model.vn_stock_intelligence.analytics_wide_ai_ready' was properly closed.
+[0m14:18:27.155930 [debug] [MainThread]: Connection 'model.vn_stock_intelligence.dim_stocks' was properly closed.
+[0m14:18:27.157940 [info ] [MainThread]: 
+[0m14:18:27.158931 [info ] [MainThread]: Finished running 4 table models, 3 view models in 0 hours 0 minutes and 9.73 seconds (9.73s).
+[0m14:18:27.162932 [debug] [MainThread]: Command end result
+[0m14:18:27.218224 [debug] [MainThread]: Wrote artifact WritableManifest to D:\UEL\Nam3\3\DW\DataWarehouse\target\manifest.json
+[0m14:18:27.222340 [debug] [MainThread]: Wrote artifact SemanticManifest to D:\UEL\Nam3\3\DW\DataWarehouse\target\semantic_manifest.json
+[0m14:18:27.233353 [debug] [MainThread]: Wrote artifact RunExecutionResult to D:\UEL\Nam3\3\DW\DataWarehouse\target\run_results.json
+[0m14:18:27.234355 [info ] [MainThread]: 
+[0m14:18:27.236352 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m14:18:27.237351 [info ] [MainThread]: 
+[0m14:18:27.238366 [info ] [MainThread]: Done. PASS=7 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=7
+[0m14:18:27.240357 [debug] [MainThread]: Command `dbt run` succeeded at 14:18:27.240357 after 11.32 seconds
+[0m14:18:27.241358 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000230EC879700>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000230EEAC8920>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000230EE883DA0>]}
+[0m14:18:27.242358 [debug] [MainThread]: Flushing usage events
+[0m14:18:30.197415 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m14:19:32.230008 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001F9D7A08E60>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001F9D84F2CF0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001F9D84F2000>]}
+
+
+============================== 14:19:32.240752 | a12b65ba-c80c-43cf-9c49-e8190ceb2e5b ==============================
+[0m14:19:32.240752 [info ] [MainThread]: Running with dbt=1.11.11
+[0m14:19:32.243762 [debug] [MainThread]: running dbt with arguments {'version_check': 'True', 'no_print': 'None', 'static_parser': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'target_path': 'None', 'printer_width': '80', 'write_json': 'True', 'empty': 'None', 'log_cache_events': 'False', 'introspect': 'True', 'cache_selected_only': 'False', 'log_format': 'default', 'debug': 'False', 'fail_fast': 'False', 'partial_parse': 'True', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'profiles_dir': 'D:\\UEL\\Nam3\\3\\DW\\DataWarehouse', 'invocation_command': 'dbt docs generate', 'use_colors': 'True', 'indirect_selection': 'eager', 'use_experimental_parser': 'False', 'log_path': 'D:\\UEL\\Nam3\\3\\DW\\DataWarehouse\\logs'}
+[0m14:19:32.958780 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': 'a12b65ba-c80c-43cf-9c49-e8190ceb2e5b', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001F9DA20DBE0>]}
+[0m14:19:33.097849 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': 'a12b65ba-c80c-43cf-9c49-e8190ceb2e5b', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001F9DA1BBE30>]}
+[0m14:19:33.102854 [info ] [MainThread]: Registered adapter: duckdb=1.10.1
+[0m14:19:33.929164 [debug] [MainThread]: checksum: 30a8cc8fdcbf66701b0944d4ccce3fa46dd04b61e5df68b9f16d57b2e0e3f0be, vars: {}, profile: , target: , version: 1.11.11
+[0m14:19:34.291822 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m14:19:34.293819 [debug] [MainThread]: Nothing changed, skipping partial parsing.
+[0m14:19:34.294849 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m14:19:34.389156 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': 'a12b65ba-c80c-43cf-9c49-e8190ceb2e5b', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001F9DA2C9010>]}
+[0m14:19:34.443131 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': 'a12b65ba-c80c-43cf-9c49-e8190ceb2e5b', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001F9DA59FCE0>]}
+[0m14:19:34.445198 [info ] [MainThread]: Found 7 models, 3 sources, 599 macros
+[0m14:19:34.448151 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'a12b65ba-c80c-43cf-9c49-e8190ceb2e5b', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001F9DA0FB5F0>]}
+[0m14:19:34.453144 [info ] [MainThread]: 
+[0m14:19:34.456151 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m14:19:34.459108 [info ] [MainThread]: 
+[0m14:19:34.462193 [debug] [MainThread]: Acquiring new duckdb connection 'master'
+[0m14:19:34.477655 [debug] [ThreadPool]: Acquiring new duckdb connection 'list_vn_stock_analytics_main'
+[0m14:19:34.746638 [debug] [ThreadPool]: Using duckdb connection "list_vn_stock_analytics_main"
+[0m14:19:34.747606 [debug] [ThreadPool]: On list_vn_stock_analytics_main: BEGIN
+[0m14:19:34.748605 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m14:19:38.810955 [debug] [ThreadPool]: SQL status: OK in 4.062 seconds
+[0m14:19:38.811959 [debug] [ThreadPool]: Using duckdb connection "list_vn_stock_analytics_main"
+[0m14:19:38.813957 [debug] [ThreadPool]: On list_vn_stock_analytics_main: /* {"app": "dbt", "dbt_version": "1.11.11", "profile_name": "vn_stock_warehouse", "target_name": "dev", "connection_name": "list_vn_stock_analytics_main"} */
+select
+      'vn_stock_analytics' as database,
+      table_name as name,
+      table_schema as schema,
+      CASE table_type
+        WHEN 'BASE TABLE' THEN 'table'
+        WHEN 'VIEW' THEN 'view'
+        WHEN 'LOCAL TEMPORARY' THEN 'table'
+        END as type
+    from system.information_schema.tables
+    where lower(table_schema) = 'main'
+    and lower(table_catalog) = 'vn_stock_analytics'
+  
+[0m14:19:38.847478 [debug] [ThreadPool]: SQL status: OK in 0.032 seconds
+[0m14:19:38.851481 [debug] [ThreadPool]: On list_vn_stock_analytics_main: ROLLBACK
+[0m14:19:38.853481 [debug] [ThreadPool]: Failed to rollback 'list_vn_stock_analytics_main'
+[0m14:19:38.854482 [debug] [ThreadPool]: On list_vn_stock_analytics_main: Close
+[0m14:19:38.859843 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'a12b65ba-c80c-43cf-9c49-e8190ceb2e5b', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001F9DA144320>]}
+[0m14:19:38.869857 [debug] [Thread-1 (]: Began running node model.vn_stock_intelligence.stg_company_profiles
+[0m14:19:38.869857 [debug] [Thread-2 (]: Began running node model.vn_stock_intelligence.stg_daily_prices
+[0m14:19:38.870852 [debug] [Thread-3 (]: Began running node model.vn_stock_intelligence.stg_market_news
+[0m14:19:38.871852 [debug] [Thread-1 (]: Acquiring new duckdb connection 'model.vn_stock_intelligence.stg_company_profiles'
+[0m14:19:38.872865 [debug] [Thread-2 (]: Acquiring new duckdb connection 'model.vn_stock_intelligence.stg_daily_prices'
+[0m14:19:38.873866 [debug] [Thread-3 (]: Acquiring new duckdb connection 'model.vn_stock_intelligence.stg_market_news'
+[0m14:19:38.874858 [debug] [Thread-1 (]: Began compiling node model.vn_stock_intelligence.stg_company_profiles
+[0m14:19:38.875857 [debug] [Thread-2 (]: Began compiling node model.vn_stock_intelligence.stg_daily_prices
+[0m14:19:38.876868 [debug] [Thread-3 (]: Began compiling node model.vn_stock_intelligence.stg_market_news
+[0m14:19:38.889865 [debug] [Thread-1 (]: Writing injected SQL for node "model.vn_stock_intelligence.stg_company_profiles"
+[0m14:19:38.894851 [debug] [Thread-2 (]: Writing injected SQL for node "model.vn_stock_intelligence.stg_daily_prices"
+[0m14:19:38.900874 [debug] [Thread-3 (]: Writing injected SQL for node "model.vn_stock_intelligence.stg_market_news"
+[0m14:19:38.902655 [debug] [Thread-1 (]: Began executing node model.vn_stock_intelligence.stg_company_profiles
+[0m14:19:38.904654 [debug] [Thread-1 (]: Finished running node model.vn_stock_intelligence.stg_company_profiles
+[0m14:19:38.905753 [debug] [Thread-2 (]: Began executing node model.vn_stock_intelligence.stg_daily_prices
+[0m14:19:38.906759 [debug] [Thread-3 (]: Began executing node model.vn_stock_intelligence.stg_market_news
+[0m14:19:38.907671 [debug] [Thread-4 (]: Began running node model.vn_stock_intelligence.dim_stocks
+[0m14:19:38.909751 [debug] [Thread-2 (]: Finished running node model.vn_stock_intelligence.stg_daily_prices
+[0m14:19:38.910650 [debug] [Thread-3 (]: Finished running node model.vn_stock_intelligence.stg_market_news
+[0m14:19:38.912653 [debug] [Thread-4 (]: Acquiring new duckdb connection 'model.vn_stock_intelligence.dim_stocks'
+[0m14:19:38.913653 [debug] [Thread-1 (]: Began running node model.vn_stock_intelligence.fact_daily_prices
+[0m14:19:38.915651 [debug] [Thread-2 (]: Began running node model.vn_stock_intelligence.fact_news
+[0m14:19:38.915651 [debug] [Thread-4 (]: Began compiling node model.vn_stock_intelligence.dim_stocks
+[0m14:19:38.917686 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.vn_stock_intelligence.stg_company_profiles, now model.vn_stock_intelligence.fact_daily_prices)
+[0m14:19:38.918650 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.vn_stock_intelligence.stg_daily_prices, now model.vn_stock_intelligence.fact_news)
+[0m14:19:38.922662 [debug] [Thread-4 (]: Writing injected SQL for node "model.vn_stock_intelligence.dim_stocks"
+[0m14:19:38.923662 [debug] [Thread-1 (]: Began compiling node model.vn_stock_intelligence.fact_daily_prices
+[0m14:19:38.924655 [debug] [Thread-2 (]: Began compiling node model.vn_stock_intelligence.fact_news
+[0m14:19:38.951295 [debug] [Thread-1 (]: Writing injected SQL for node "model.vn_stock_intelligence.fact_daily_prices"
+[0m14:19:38.952281 [debug] [Thread-4 (]: Began executing node model.vn_stock_intelligence.dim_stocks
+[0m14:19:38.956286 [debug] [Thread-2 (]: Writing injected SQL for node "model.vn_stock_intelligence.fact_news"
+[0m14:19:38.958284 [debug] [Thread-4 (]: Finished running node model.vn_stock_intelligence.dim_stocks
+[0m14:19:38.960286 [debug] [Thread-1 (]: Began executing node model.vn_stock_intelligence.fact_daily_prices
+[0m14:19:38.961287 [debug] [Thread-2 (]: Began executing node model.vn_stock_intelligence.fact_news
+[0m14:19:38.963284 [debug] [Thread-1 (]: Finished running node model.vn_stock_intelligence.fact_daily_prices
+[0m14:19:38.964285 [debug] [Thread-2 (]: Finished running node model.vn_stock_intelligence.fact_news
+[0m14:19:38.966283 [debug] [Thread-3 (]: Began running node model.vn_stock_intelligence.analytics_wide_ai_ready
+[0m14:19:38.968286 [debug] [Thread-3 (]: Re-using an available connection from the pool (formerly model.vn_stock_intelligence.stg_market_news, now model.vn_stock_intelligence.analytics_wide_ai_ready)
+[0m14:19:38.969289 [debug] [Thread-3 (]: Began compiling node model.vn_stock_intelligence.analytics_wide_ai_ready
+[0m14:19:38.974300 [debug] [Thread-3 (]: Writing injected SQL for node "model.vn_stock_intelligence.analytics_wide_ai_ready"
+[0m14:19:38.976297 [debug] [Thread-3 (]: Began executing node model.vn_stock_intelligence.analytics_wide_ai_ready
+[0m14:19:38.978296 [debug] [Thread-3 (]: Finished running node model.vn_stock_intelligence.analytics_wide_ai_ready
+[0m14:19:38.981289 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m14:19:38.982283 [debug] [MainThread]: Connection 'list_vn_stock_analytics_main' was properly closed.
+[0m14:19:38.983285 [debug] [MainThread]: Connection 'model.vn_stock_intelligence.fact_daily_prices' was properly closed.
+[0m14:19:38.983285 [debug] [MainThread]: Connection 'model.vn_stock_intelligence.fact_news' was properly closed.
+[0m14:19:38.984286 [debug] [MainThread]: Connection 'model.vn_stock_intelligence.analytics_wide_ai_ready' was properly closed.
+[0m14:19:38.985285 [debug] [MainThread]: Connection 'model.vn_stock_intelligence.dim_stocks' was properly closed.
+[0m14:19:38.988329 [debug] [MainThread]: Command end result
+[0m14:19:39.214046 [debug] [MainThread]: Wrote artifact WritableManifest to D:\UEL\Nam3\3\DW\DataWarehouse\target\manifest.json
+[0m14:19:39.217060 [debug] [MainThread]: Wrote artifact SemanticManifest to D:\UEL\Nam3\3\DW\DataWarehouse\target\semantic_manifest.json
+[0m14:19:39.222059 [debug] [MainThread]: Wrote artifact RunExecutionResult to D:\UEL\Nam3\3\DW\DataWarehouse\target\run_results.json
+[0m14:19:39.622107 [debug] [MainThread]: Acquiring new duckdb connection 'generate_catalog'
+[0m14:19:39.623121 [info ] [MainThread]: Building catalog
+[0m14:19:39.639145 [debug] [ThreadPool]: Acquiring new duckdb connection 'vn_stock_analytics.information_schema'
+[0m14:19:39.646146 [debug] [ThreadPool]: Using duckdb connection "vn_stock_analytics.information_schema"
+[0m14:19:39.646146 [debug] [ThreadPool]: On vn_stock_analytics.information_schema: BEGIN
+[0m14:19:39.647654 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m14:19:39.651666 [debug] [ThreadPool]: SQL status: OK in 0.004 seconds
+[0m14:19:39.651666 [debug] [ThreadPool]: Using duckdb connection "vn_stock_analytics.information_schema"
+[0m14:19:39.652664 [debug] [ThreadPool]: On vn_stock_analytics.information_schema: /* {"app": "dbt", "dbt_version": "1.11.11", "profile_name": "vn_stock_warehouse", "target_name": "dev", "connection_name": "vn_stock_analytics.information_schema"} */
+with relations AS (
+      select
+        t.table_name
+        , t.database_name
+        , t.schema_name
+        , 'BASE TABLE' as table_type
+        , t.comment as table_comment
+      from duckdb_tables() t
+      WHERE t.database_name = 'vn_stock_analytics'
+      UNION ALL
+      SELECT v.view_name as table_name
+      , v.database_name
+      , v.schema_name
+      , 'VIEW' as table_type
+      , v.comment as table_comment
+      from duckdb_views() v
+      WHERE v.database_name = 'vn_stock_analytics'
+    )
+    select
+        'vn_stock_analytics' as table_database,
+        r.schema_name as table_schema,
+        r.table_name,
+        r.table_type,
+        r.table_comment,
+        c.column_name,
+        c.column_index as column_index,
+        c.data_type as column_type,
+        c.comment as column_comment,
+        NULL as table_owner
+    FROM relations r JOIN duckdb_columns() c ON r.schema_name = c.schema_name AND r.table_name = c.table_name
+    WHERE (upper(r.schema_name) = upper('main'))
+    ORDER BY
+        r.schema_name,
+        r.table_name,
+        c.column_index
+[0m14:19:39.726630 [debug] [ThreadPool]: SQL status: OK in 0.074 seconds
+[0m14:19:39.749671 [debug] [ThreadPool]: On vn_stock_analytics.information_schema: ROLLBACK
+[0m14:19:39.751697 [debug] [ThreadPool]: Failed to rollback 'vn_stock_analytics.information_schema'
+[0m14:19:39.752656 [debug] [ThreadPool]: On vn_stock_analytics.information_schema: Close
+[0m14:19:39.799354 [debug] [MainThread]: Wrote artifact CatalogArtifact to D:\UEL\Nam3\3\DW\DataWarehouse\target\catalog.json
+[0m14:19:39.872475 [debug] [MainThread]: Wrote artifact WritableManifest to D:\UEL\Nam3\3\DW\DataWarehouse\target\manifest.json
+[0m14:19:39.877494 [debug] [MainThread]: Wrote artifact SemanticManifest to D:\UEL\Nam3\3\DW\DataWarehouse\target\semantic_manifest.json
+[0m14:19:39.879495 [info ] [MainThread]: Catalog written to D:\UEL\Nam3\3\DW\DataWarehouse\target\catalog.json
+[0m14:19:39.881582 [debug] [MainThread]: Command `dbt docs generate` succeeded at 14:19:39.881582 after 8.01 seconds
+[0m14:19:39.882591 [debug] [MainThread]: Connection 'generate_catalog' was properly closed.
+[0m14:19:39.884602 [debug] [MainThread]: Connection 'vn_stock_analytics.information_schema' was properly closed.
+[0m14:19:39.885594 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001F9D879C140>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001F9D8252F60>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001F9D5DA3BC0>]}
+[0m14:19:39.886625 [debug] [MainThread]: Flushing usage events
+[0m14:19:40.982039 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m14:20:01.516787 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000027309F50DA0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000273091F1B80>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000027309843590>]}
+
+
+============================== 14:20:01.524786 | 5bb380ff-9e99-475f-905f-1a64ba67aaf1 ==============================
+[0m14:20:01.524786 [info ] [MainThread]: Running with dbt=1.11.11
+[0m14:20:01.526781 [debug] [MainThread]: running dbt with arguments {'version_check': 'True', 'no_print': 'None', 'static_parser': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'printer_width': '80', 'write_json': 'True', 'introspect': 'True', 'log_cache_events': 'False', 'empty': 'None', 'cache_selected_only': 'False', 'log_format': 'default', 'debug': 'False', 'fail_fast': 'False', 'partial_parse': 'True', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'profiles_dir': 'D:\\UEL\\Nam3\\3\\DW\\DataWarehouse', 'use_colors': 'True', 'indirect_selection': 'eager', 'invocation_command': 'dbt docs serve', 'use_experimental_parser': 'False', 'log_path': 'D:\\UEL\\Nam3\\3\\DW\\DataWarehouse\\logs'}
+[0m14:20:01.863468 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '5bb380ff-9e99-475f-905f-1a64ba67aaf1', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002730BC38D70>]}
+[0m14:20:01.945853 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '5bb380ff-9e99-475f-905f-1a64ba67aaf1', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002730BB8AED0>]}
+[0m14:20:02.144268 [error] [MainThread]: Encountered an error:
+[WinError 10013] An attempt was made to access a socket in a way forbidden by its access permissions
+[0m14:20:02.217474 [error] [MainThread]: Traceback (most recent call last):
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python312\Lib\site-packages\dbt\cli\requires.py", line 182, in wrapper
+    result, success = func(*args, **kwargs)
+                      ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python312\Lib\site-packages\dbt\cli\requires.py", line 128, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python312\Lib\site-packages\dbt\cli\requires.py", line 276, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python312\Lib\site-packages\dbt\cli\requires.py", line 321, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python312\Lib\site-packages\dbt\cli\requires.py", line 368, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python312\Lib\site-packages\dbt\cli\main.py", line 309, in docs_serve
+    results = task.run()
+              ^^^^^^^^^^
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python312\Lib\site-packages\dbt\task\docs\serve.py", line 24, in run
+    with socketserver.TCPServer((host, port), SimpleHTTPRequestHandler) as httpd:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 457, in __init__
+    self.server_bind()
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 473, in server_bind
+    self.socket.bind(self.server_address)
+PermissionError: [WinError 10013] An attempt was made to access a socket in a way forbidden by its access permissions
+
+[0m14:20:02.220437 [debug] [MainThread]: Command `dbt docs serve` failed at 14:20:02.219432 after 0.90 seconds
+[0m14:20:02.221377 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002730941F290>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002730BD117C0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000027309FC4620>]}
+[0m14:20:02.222506 [debug] [MainThread]: Flushing usage events
+[0m14:20:03.323059 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m14:21:23.055096 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002D16FB2EFF0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002D17361A120>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002D173083DA0>]}
+
+
+============================== 14:21:23.064133 | 5363d8e3-e7fe-4c4b-b3e3-0dfd91054abb ==============================
+[0m14:21:23.064133 [info ] [MainThread]: Running with dbt=1.11.11
+[0m14:21:23.066145 [debug] [MainThread]: running dbt with arguments {'version_check': 'True', 'no_print': 'None', 'static_parser': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'printer_width': '80', 'write_json': 'True', 'introspect': 'True', 'log_cache_events': 'False', 'empty': 'None', 'cache_selected_only': 'False', 'fail_fast': 'False', 'debug': 'False', 'log_format': 'default', 'partial_parse': 'True', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'profiles_dir': 'D:\\UEL\\Nam3\\3\\DW\\DataWarehouse', 'indirect_selection': 'eager', 'invocation_command': 'dbt docs serve --port 8888', 'use_colors': 'True', 'use_experimental_parser': 'False', 'log_path': 'D:\\UEL\\Nam3\\3\\DW\\DataWarehouse\\logs'}
+[0m14:21:23.399289 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '5363d8e3-e7fe-4c4b-b3e3-0dfd91054abb', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002D175039700>]}
+[0m14:21:23.463393 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '5363d8e3-e7fe-4c4b-b3e3-0dfd91054abb', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002D1733F9F10>]}
+[0m15:19:04.396870 [error] [MainThread]: Encountered an error:
+
+[0m15:19:04.570510 [error] [MainThread]: Traceback (most recent call last):
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python312\Lib\site-packages\dbt\cli\requires.py", line 182, in wrapper
+    result, success = func(*args, **kwargs)
+                      ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python312\Lib\site-packages\dbt\cli\requires.py", line 128, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python312\Lib\site-packages\dbt\cli\requires.py", line 276, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python312\Lib\site-packages\dbt\cli\requires.py", line 321, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python312\Lib\site-packages\dbt\cli\requires.py", line 368, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python312\Lib\site-packages\dbt\cli\main.py", line 309, in docs_serve
+    results = task.run()
+              ^^^^^^^^^^
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python312\Lib\site-packages\dbt\task\docs\serve.py", line 29, in run
+    httpd.serve_forever()
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 235, in serve_forever
+    ready = selector.select(poll_interval)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python312\Lib\selectors.py", line 323, in select
+    r, w, _ = self._select(self._readers, self._writers, [], timeout)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python312\Lib\selectors.py", line 314, in _select
+    r, w, x = select.select(r, w, w, timeout)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+
+[0m15:19:04.603552 [debug] [MainThread]: Command `dbt docs serve` failed at 15:19:04.599553 after 3461.90 seconds
+[0m15:19:04.619771 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002D172E54EF0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002D1751CDDC0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002D173807EF0>]}
+[0m15:19:04.625792 [debug] [MainThread]: Flushing usage events
+[0m15:19:06.282826 [debug] [MainThread]: An error was encountered while trying to flush usage events

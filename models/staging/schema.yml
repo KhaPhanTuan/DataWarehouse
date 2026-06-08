@@ -1,7 +1,7 @@
 version: 2
 sources:
   - name: bronze_source
-    database: vn_stock_db
+    database: vn_stock_analytics
     schema: main
     tables:
       - name: bronze_company_profiles
