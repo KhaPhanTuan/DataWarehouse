@@ -31,10 +31,10 @@ from datetime import datetime
 # =========================================================================
 # 0. CẤU HÌNH THAM SỐ HỆ THỐNG
 SYMBOLS = [
-    'ACB', 'BCM', 'BID', 'BVH', 'CTG', 'FPT', 'GAS', 'GVR', 'HDB', 'HPG']
-    # 'MBB', 'MSN', 'MWG', 'PLX', 'POW', 'SAB', 'SHB', 'SSB', 'SSI', 'STB'
-#     'TCB', 'TPB', 'VCB', 'VJC', 'VHM', 'VIC', 'VNM', 'VPB', 'VRE', 'BCM'
-# ]
+    # 'ACB', 'BCM', 'BID', 'BVH', 'CTG', 'FPT', 'GAS', 'GVR', 'HDB', 'HPG']
+    'MBB', 'MSN', 'MWG', 'PLX', 'POW', 'SAB', 'SHB', 'SSB', 'SSI', 'STB',
+    'TCB', 'TPB', 'VCB', 'VJC', 'VHM', 'VIC', 'VNM', 'VPB', 'VRE', 'BCM'
+]
 
 # Quét dữ liệu 10 năm, tham số count = ~3000 (Một năm khoảng 250d giao dịch)
 START_DATE = '2015-01-01'
@@ -130,8 +130,8 @@ try:
             df_rat['ingested_at'] = pipeline_run_time
             ratios_lists.append(df_rat)
 
-        print(f"Đã hoàn thành mã [{SYMBOL}]. Tạm dừng 60 giây trước khi sang mã tiếp theo...")
-        time.sleep(60)
+        print(f"Đã hoàn thành mã [{SYMBOL}]. Tạm dừng 50 giây trước khi sang mã tiếp theo...")
+        time.sleep(50)
 
     # 3. GỘP DỮ LIỆU THÀNH ĐA TẦNG BRONZE ĐỒNG NHẤT (CONCATENATION)
     print(f"\n--------------------------------------------------")
@@ -186,7 +186,7 @@ def load_to_motherduck_pipeline():
         connection_string = f"md:?token={md_token}"
         conn = duckdb.connect(connection_string)
 
-        print("Kết nối thành công! Đang chuyển hướng vào `vn_stock_db.main`...")
+        print("Kết nối thành công! Đang chuyển hướng vào `vn_stock_analytics.main`...")
         conn.execute("CREATE DATABASE IF NOT EXISTS vn_stock_analytics;")
         conn.execute("USE vn_stock_analytics.main;")
 
@@ -227,11 +227,11 @@ def load_to_motherduck_pipeline():
         table_schemas = {
             "bronze_realtime_quotes": "PRIMARY KEY (ticker, time)",
             "bronze_company_profiles": "PRIMARY KEY (ticker)",
-            "bronze_balance_sheets": "PRIMARY KEY (ticker, \"Chỉ số\", \"Kỳ tài chính\")" if 'df_balance_sheet' in globals() and df_balance_sheet is not None and 'Chỉ số' in df_balance_sheet.columns else "PRIMARY KEY (ticker, time)",
-            "bronze_income_statements": "PRIMARY KEY (ticker, \"Chỉ số\", \"Kỳ tài chính\")" if 'df_income_statement' in globals() and df_income_statement is not None and 'Chỉ số' in df_income_statement.columns else "PRIMARY KEY (ticker, time)",
-            "bronze_cash_flows": "PRIMARY KEY (ticker, \"Chỉ số\", \"Kỳ tài chính\")" if 'df_cash_flow' in globals() and df_cash_flow is not None and 'Chỉ số' in df_cash_flow.columns else "PRIMARY KEY (ticker, time)",
-            "bronze_financial_ratios": "PRIMARY KEY (ticker, ticker) -- Tạm thời tạo bảng động cho ratios",
-            "bronze_market_news": "PRIMARY KEY (ticker, id)" if 'df_news' in globals() and df_news is not None and 'id' in df_news.columns else "",
+            "bronze_balance_sheets": "PRIMARY KEY (ticker, item_id)",
+            "bronze_income_statements": "PRIMARY KEY (ticker, item_id)",
+            "bronze_cash_flows": "PRIMARY KEY (ticker, item_id)",
+            "bronze_financial_ratios": "PRIMARY KEY (ticker, item_id)",
+            "bronze_market_news": "PRIMARY KEY (article_id)",
             "bronze_corporate_events": "PRIMARY KEY (ticker, time)",
             "bronze_vnindex_prices": "PRIMARY KEY (time)"
         }
@@ -268,6 +268,8 @@ def load_to_motherduck_pipeline():
                     print(f"   + [TẠO MỚI] Đã khởi tạo thành công bảng: [{table_name}]")
                 else:
                     # Nếu bảng ĐÃ CÓ SẴN dữ liệu cũ (như năm 2024-2025) -> nạp nối đuôi
+                    conn.execute("DROP TABLE IF EXISTS temp_union_table;")
+
                     # Dùng UNION/DISTINCT để làm sạch
                     conn.execute(f"""
                         CREATE TABLE temp_union_table AS
