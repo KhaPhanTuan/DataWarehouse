@@ -31,9 +31,16 @@ from datetime import datetime
 # =========================================================================
 # 0. CẤU HÌNH THAM SỐ HỆ THỐNG
 SYMBOLS = [
-    # 'ACB', 'BCM', 'BID', 'BVH', 'CTG', 'FPT', 'GAS', 'GVR', 'HDB', 'HPG']
-    'MBB', 'MSN', 'MWG', 'PLX', 'POW', 'SAB', 'SHB', 'SSB', 'SSI', 'STB',
-    'TCB', 'TPB', 'VCB', 'VJC', 'VHM', 'VIC', 'VNM', 'VPB', 'VRE', 'BCM'
+    # 'ASM', 'BAF', 'BMP', 'CTD', 'CTR', 'DGC', 'DHG', 'DRC', 'DXS', 'ELC',
+    # 'FIT', 'HAX', 'HDC', 'HQC', 'HT1', 'IJC', 'IMP', 'ITA', 'KDC', 'KHG',
+    'NBB', 'NHA', 'NTL', 'PAN', 'PPC', 'PTB', 'QCG', 'RAL', 'SAM', 'SBT',
+    'SCR', 'SJS', 'SKG', 'SMC', 'SZC', 'TDC', 'TDH', 'TIP', 'TNH', 'TSC',
+    'TTA', 'TV2', 'VGC', 'VNE', 'VNG', 'VOS', 'VPH', 'VPI', 'VSC', 'VTO',
+    'HUT', 'TNG', 'IDC', 'PVC', 'PVB', 'L14', 'LAS', 'NBC', 'TVD', 'TC6',
+    'BVS', 'VIG', 'APS', 'IDJ', 'API', 'CAP', 'DHT', 'INN', 'NDN', 'VC3',
+    'PGS', 'PVG', 'PVI', 'TAR', 'DTD', 'GIC', 'MAC', 'CTC', 'MST', 'CVN',
+    'KLF', 'DDG', 'CSC', 'L18', 'HEV', 'CIA', 'S99', 'SCI', 'TIG', 'VNT',
+    'WSS', 'CLH', 'VHL', 'CAN', 'VMC', 'SRA', 'PPE', 'ALV', 'BII', 'AMV'
 ]
 
 # Quét dữ liệu 10 năm, tham số count = ~3000 (Một năm khoảng 250d giao dịch)
@@ -130,8 +137,8 @@ try:
             df_rat['ingested_at'] = pipeline_run_time
             ratios_lists.append(df_rat)
 
-        print(f"Đã hoàn thành mã [{SYMBOL}]. Tạm dừng 50 giây trước khi sang mã tiếp theo...")
-        time.sleep(50)
+        print(f"Đã hoàn thành mã [{SYMBOL}]. Tạm dừng 20 giây trước khi sang mã tiếp theo...")
+        time.sleep(20)
 
     # 3. GỘP DỮ LIỆU THÀNH ĐA TẦNG BRONZE ĐỒNG NHẤT (CONCATENATION)
     print(f"\n--------------------------------------------------")
@@ -190,35 +197,52 @@ def load_to_motherduck_pipeline():
         conn.execute("CREATE DATABASE IF NOT EXISTS vn_stock_analytics;")
         conn.execute("USE vn_stock_analytics.main;")
 
-        # 1. XỬ LÝ LŨY KẾ: Bảng giá lịch sử `bronze_daily_prices`
+        # 1. XỬ LÝ LŨY KẾ: bronze_daily_prices
+        # Thay bằng UNION + QUALIFY
         if 'df_history' in globals() and df_history is not None and not df_history.empty:
-            print("\n Đang xử lý lũy kế bảng giá lịch sử: [bronze_daily_prices]...")
-
-            # BỎ LỆNH DROP TABLE! Chỉ tạo nếu bảng CHƯA TỒN TẠI
-            conn.execute("""
-                CREATE TABLE IF NOT EXISTS bronze_daily_prices (
-                    time TIMESTAMP,
-                    open DOUBLE,
-                    high DOUBLE,
-                    low DOUBLE,
-                    close DOUBLE,
-                    volume LONG,
-                    ticker VARCHAR,
-                    ingested_at TIMESTAMP,
-                    PRIMARY KEY (ticker, time)
-                );
-            """)
+            print("\n ⏳ Đang xử lý lũy kế bảng giá lịch sử: [bronze_daily_prices]...")
 
             conn.register("df_prices_view", df_history)
 
-            # Chèn thêm data năm 2023. Nếu trùng ngày+mã của năm 2024-2025 cũ thì tự update đè lên.
-            print("Đang tiến hành hợp nhất dữ liệu bằng chiến lược INSERT OR REPLACE...")
-            conn.execute("""
-                INSERT OR REPLACE INTO bronze_daily_prices (time, open, high, low, close, volume, ticker, ingested_at)
-                SELECT CAST(time AS TIMESTAMP), open, high, low, close, CAST(volume AS LONG), ticker, CAST(ingested_at AS TIMESTAMP)
-                FROM df_prices_view;
-            """)
-            print("Đã hợp nhất thành công vào bảng: [bronze_daily_prices]")
+            # KIỂM TRA BẢNG ĐÃ TỒN TẠI CHƯA
+            table_exists = conn.execute("""
+                SELECT COUNT(*) 
+                FROM information_schema.tables 
+                WHERE table_catalog = current_database() 
+                  AND table_schema = 'main' 
+                  AND table_name = 'bronze_daily_prices'
+            """).fetchone()[0]
+
+            if table_exists == 0:
+                # Nếu chưa có bảng, tiến hành khởi tạo mới từ view
+                conn.execute("""
+                    CREATE TABLE bronze_daily_prices AS 
+                    SELECT CAST(time AS TIMESTAMP) AS time, open, high, low, close, CAST(volume AS LONG) AS volume, ticker, CAST(ingested_at AS TIMESTAMP) AS ingested_at 
+                    FROM df_prices_view;
+                """)
+                print("   + [TẠO MỚI] Đã khởi tạo thành công bảng: [bronze_daily_prices]")
+            else:
+                # Nếu đã có bảng, gộp dữ liệu cũ với dữ liệu mới nạp và khử trùng bằng QUALIFY
+                conn.execute("DROP TABLE IF EXISTS temp_union_prices;")
+                conn.execute("""
+                    CREATE TABLE temp_union_prices AS
+                    SELECT * FROM bronze_daily_prices
+                    UNION BY NAME
+                    SELECT CAST(time AS TIMESTAMP) AS time, open, high, low, close, CAST(volume AS LONG) AS volume, ticker, CAST(ingested_at AS TIMESTAMP) AS ingested_at 
+                    FROM df_prices_view;
+                """)
+
+                # Ép chỉ giữ lại 1 dòng mới nhất dựa trên thời gian ingested_at cho mỗi mã vào mỗi ngày
+                conn.execute("""
+                    CREATE OR REPLACE TABLE bronze_daily_prices AS 
+                    SELECT * FROM temp_union_prices
+                    QUALIFY ROW_NUMBER() OVER (
+                        PARTITION BY ticker, time 
+                        ORDER BY ingested_at DESC
+                    ) = 1;
+                """)
+                conn.execute("DROP TABLE temp_union_prices;")
+                print("   + [HỢP NHẤT và KHỬ TRÙNG] Đã làm sạch trùng lặp thành công cho bảng: [bronze_daily_prices]")
         else:
             print("\n- Bảng [bronze_daily_prices] không có dữ liệu trong RAM.")
 
