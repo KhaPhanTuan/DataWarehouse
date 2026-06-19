@@ -11,3 +11,7 @@ __pycache__/
 # Data files
 *.parquet
 *.png
+
+# Bỏ qua file chứa thông tin bảo mật
+.env
+
