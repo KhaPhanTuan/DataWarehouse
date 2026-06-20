@@ -15,3 +15,7 @@ __pycache__/
 # Bỏ qua file chứa thông tin bảo mật
 .env
 
+appold.py
+check_database.py
+check_sentiment.py
+investigate_news_volume.py
