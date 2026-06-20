@@ -15,23 +15,26 @@ def get_groq_response(prompt: str, context: str) -> str:
         "Content-Type": "application/json"
     }
     
-    # Xây dựng Prompt hệ thống ép AI trả lời dựa trên Data thực tế
+    # NÂNG CẤP CHUYÊN SÂU: Prompt định hình phong cách Chuyên gia Phân tích Tài chính cao cấp
     system_prompt = f"""
-    Bạn là một trợ lý phân tích dữ liệu chứng khoán chuyên nghiệp (VN Stock Intelligence Assistant).
-    Hãy sử dụng thông tin dữ liệu giá thực tế được cung cấp dưới đây để trả lời câu hỏi của người dùng một cách chính xác, ngắn gọn, đi thẳng vào vấn đề.
-    Nếu dữ liệu không có thông tin yêu cầu, hãy thẳng thắn báo là không có trong cơ sở dữ liệu, tuyệt đối không tự bịa ra con số.
+    Bạn là một Chuyên viên Phân tích Khối Nghiên cứu Thị trường Chứng khoán cấp cao (VN Stock Intelligence Senior Analyst).
     
-    [DỮ LIỆU THỰC TẾ TỪ MOTHERDUCK KHỚP BỘ LỌC]:
+    ⚠️ QUY TẮC ĐỊNH DẠNG SỐ & ĐƠN VỊ:
+    1. Dữ liệu giá trong bảng dưới đây đang ở đơn vị "nghìn đồng" (ví dụ: 72.25 nghĩa là 72,250 đồng). 
+    2. Khi trả lời về giá, BẮT BUỘC phải nhân với 1000 và định dạng lại thành số đầy đủ (ví dụ: 72,250 ₫). TUYỆT ĐỐI KHÔNG trả lời 72.25 ₫.
+    3. Luôn sử dụng ngôn ngữ tài chính chuyên nghiệp: "biên độ dao động", "thanh khoản", "xu hướng tích lũy".
+
+    [BẢNG DỮ LIỆU GIAO DỊCH 15 PHIÊN GẦN NHẤT TỪ LAKEHOUSE]:
     {context}
     """
     
     payload = {
-        "model": "llama-3.3-70b-versatile", # Model mạnh và chạy cực nhanh của Groq
+        "model": "llama-3.3-70b-versatile", # Model giữ nguyên như cũ để đảm bảo tốc độ và độ thông minh
         "messages": [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": prompt}
         ],
-        "temperature": 0.2
+        "temperature": 0.15 # Hạ thấp một chút để AI bám sát dữ liệu gốc chuẩn xác hơn, tránh trả lời bay bổng
     }
     
     try:
@@ -39,16 +42,16 @@ def get_groq_response(prompt: str, context: str) -> str:
         if response.status_code == 200:
             return response.json()['choices'][0]['message']['content']
         else:
-            return f"❌ Lỗi kết nối Groq API (Mã lỗi: {response.status_code}): {response.text}"
+            return f"Lỗi kết nối Groq API (Mã lỗi: {response.status_code}): {response.text}"
     except Exception as e:
-        return f"❌ Đã xảy ra lỗi khi gọi AI: {e}"
+        return f"Đã xảy ra lỗi khi gọi AI: {e}"
 
 def render_chat_page(ticker: str):
     """Giao diện trang Chatbot GenBI Assistant"""
-    st.title("🤖 GenBI Assistant — Trợ lý Dữ liệu thông minh")
+    st.title("GenBI Assistant — Trợ lý Dữ liệu thông minh")
     st.caption(f"Đang kết nối Lakehouse dữ liệu giá thực tế của mã cổ phiếu: **{ticker}**")
     
-    if st.button("⬅️ Quay lại Dashboard", type="secondary"):
+    if st.button("Quay lại Dashboard", type="secondary"):
         st.session_state.show_chat = False
         st.rerun()
         
@@ -69,7 +72,7 @@ def render_chat_page(ticker: str):
             st.markdown(user_input)
         st.session_state.messages.append({"role": "user", "content": user_input})
         
-        # 🤖 BƯỚC RAG: Truy vấn nhanh dữ liệu giá gần nhất từ MotherDuck để làm ngữ cảnh (Context)
+        # BƯỚC RAG: Truy vấn nhanh dữ liệu giá gần nhất từ MotherDuck để làm ngữ cảnh (Context)
         token = os.getenv("motherduck_token")
         context_str = "Không tìm thấy dữ liệu giá."
         

@@ -1,6 +1,5 @@
 """
 Dashboard Streamlit - Phân tích Chứng khoán VN & Tâm lý Thị trường
-Bản cập nhật: Khôi phục và nâng cấp Biểu đồ số 3 (Biến động điểm Tâm lý theo ngày), Sửa màu sắc bộ lọc, Link mở tab mới & Tích hợp GenBI Chat RAG
 """
 
 import duckdb
@@ -9,6 +8,7 @@ import pandas as pd
 import os
 import importlib
 import sys
+import re
 from datetime import date, datetime
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
@@ -24,7 +24,6 @@ importlib.reload(genbi_chat)
 # =============================================================================
 st.set_page_config(
     page_title="VN Stock Intelligence Dashboard",
-
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -53,11 +52,45 @@ def parse_dd_mm_yyyy(text: str) -> date | None:
     except ValueError:
         return None
 
+# Hàm bóc tách chuỗi phần trăm từ AI để vẽ biểu đồ tròn (Pie chart)
+def parse_sentiment_percentages(score_str: str) -> dict:
+    default_vals = {"Tích cực": 0.0, "Trung lập": 100.0, "Tiêu cực": 0.0}
+    if not score_str or pd.isna(score_str):
+        return default_vals
+    try:
+        pos_match = re.search(r'positive=([\d.]+)%', str(score_str))
+        neu_match = re.search(r'neutral=([\d.]+)%', str(score_str))
+        neg_match = re.search(r'negative=([\d.]+)%', str(score_str))
+        
+        return {
+            "Tích cực": float(pos_match.group(1)) if pos_match else 0.0,
+            "Trung lập": float(neu_match.group(1)) if neu_match else 100.0,
+            "Tiêu cực": float(neg_match.group(1)) if neg_match else 0.0
+        }
+    except Exception:
+        return default_vals
+
 # Kiểm tra nếu người dùng đang mở trang chat GenBI
 if st.session_state.show_chat:
     selected_ticker = st.session_state.get("current_ticker", "HPG")
     genbi_chat.render_chat_page(selected_ticker)
     st.stop()
+
+# Lấy danh sách TOÀN BỘ 186 mã cổ phiếu thực tế có trong Data Warehouse
+@st.cache_data(ttl=3600)
+def load_all_tickers() -> list[str]:
+    token = os.getenv("motherduck_token")
+    if not token:
+        return ["HPG", "FPT", "VCB", "VNM", "MWG"]
+    try:
+        con = duckdb.connect(f"md:vn_stock_analytics?motherduck_token={token}")
+        df = con.execute("SELECT DISTINCT ticker FROM vn_stock_analytics.main.analytics_wide_ai_ready ORDER BY ticker").fetchdf()
+        con.close()
+        return [str(t).upper() for t in df['ticker'].tolist() if t]
+    except Exception:
+        return ["HPG", "FPT", "VCB", "VNM", "MWG"]
+
+ALL_AVAILABLE_TICKERS = load_all_tickers()
 
 # =============================================================================
 # TRUY VẤN DỮ LIỆU GIÁ CHÍNH TỪ MOTHERDUCK
@@ -91,76 +124,63 @@ def load_real_stock_data(ticker: str) -> pd.DataFrame:
         return pd.DataFrame()
 
 @st.cache_data(ttl=1800)
-def load_real_market_news(ticker: str, start_date: date, end_date: date) -> pd.DataFrame:
+def load_real_market_news(ticker: str) -> pd.DataFrame:
     token = os.getenv("motherduck_token")
     if not token:
         return pd.DataFrame()
     try:
         con = duckdb.connect(f"md:vn_stock_analytics?motherduck_token={token}")
+        # THỰC HIỆN LEFT JOIN ĐỂ LẤY URL TỪ BẢNG THÔ CHUẨN XÁC
         query = f"""
             SELECT 
-                f.title,
-                f.published_at,
-                COALESCE(f.sentiment_score, 0.0) AS sentiment_score,
-                f.summary,
-                COALESCE(b.url, '#') AS url,
-                COALESCE(b.head, 'Tổng hợp') AS source
-            FROM vn_stock_analytics.main.fact_news f
-            LEFT JOIN vn_stock_analytics.main.bronze_market_news b
-                ON f.article_id = b.article_id
-            WHERE UPPER(f.ticker) = UPPER('{ticker}')
-              AND CAST(f.published_at AS DATE) BETWEEN '{start_date}' AND '{end_date}'
-            ORDER BY f.published_at DESC
+                ai.title,
+                ai.published_at,
+                ai.sentiment_label,
+                ai.sentiment_score AS raw_sentiment_score,
+                ai.summary,
+                bn.url,
+                'Tổng hợp' AS source
+            FROM vn_stock_analytics.main.analytics_wide_ai_ready ai
+            LEFT JOIN vn_stock_analytics.main.bronze_market_news bn ON ai.title = bn.title
+            WHERE UPPER(ai.ticker) = UPPER('{ticker}')
+            ORDER BY ai.published_at DESC
         """
         df = con.execute(query).fetchdf()
         con.close()
         
         if not df.empty:
             df['published_at'] = pd.to_datetime(df['published_at'])
-            df['sentiment_score'] = pd.to_numeric(df['sentiment_score']).fillna(0.0)
-            df['sentiment_label'] = df['sentiment_score'].apply(
-                lambda x: "Tích cực" if x > 0.1 else ("Tiêu cực" if x < -0.1 else "Trung lập")
-            )
+            label_map = {"positive": "Tích cực", "negative": "Tiêu cực", "neutral": "Trung lập"}
+            df['sentiment_label'] = df['sentiment_label'].str.lower().map(label_map).fillna("Trung lập")
         return df
     except Exception as e:
-        st.error(f"Lỗi kết nối Data Tin tức: {e}")
+        st.error(f"Lỗi kết nối dữ liệu AI Ready & URL: {e}")
         return pd.DataFrame()
 
-def map_sentiment_filter(selected: list[str]) -> set[int] | None:
-    if not selected or "Tất cả" in selected:
-        return None
-    mapping = {"Tích cực": 1, "Trung lập": 0, "Tiêu cực": -1}
-    return {mapping[s] for s in selected if s in mapping}
-
 # =============================================================================
-# BỘ LỌC SIDEBAR & ĐỔI MÀU UI CÁC TAG THEO MÀU PASTEL YÊU CẦU
+# BỘ LỌC SIDEBAR
 # =============================================================================
-TICKERS = ["HPG", "FPT", "VCB", "VNM", "MWG"]
 DATA_PRICE_START = date(2015, 1, 5)
 DATA_NEWS_START = date(2025, 10, 22)
 DATA_MAX_DATE = date(2026, 6, 12)
 
-st.markdown("""
-    <style>
-    span[data-baseweb="tag"]:has(span[title="Tất cả"]) { background-color: #e0e0e0 !important; color: #333333 !important; }
-    span[data-baseweb="tag"]:has(span[title="Tích cực"]) { background-color: #d4edda !important; color: #155724 !important; }
-    span[data-baseweb="tag"]:has(span[title="Tiêu cực"]) { background-color: #f8d7da !important; color: #721c24 !important; }
-    span[data-baseweb="tag"]:has(span[title="Trung lập"]) { background-color: #d1ecf1 !important; color: #0c5460 !important; }
-    </style>
-""", unsafe_allow_html=True)
-
 with st.sidebar:
     st.header("Bộ lọc dữ liệu")
-    selected_ticker = st.selectbox("Mã cổ phiếu", options=TICKERS, index=0)
-    st.session_state["current_ticker"] = selected_ticker
-
     
+    # [NÂNG CẤP]: Tìm kiếm gợi ý (Autocomplete) từ 186 mã cổ phiếu, giao diện gọn gàng
+    selected_ticker = st.selectbox(
+        "Mã cổ phiếu", 
+        options=ALL_AVAILABLE_TICKERS, 
+        index=ALL_AVAILABLE_TICKERS.index("FPT") if "FPT" in ALL_AVAILABLE_TICKERS else 0,
+        help="Nhập chữ cái để tìm kiếm nhanh mã cổ phiếu"
+    )
+    st.session_state["current_ticker"] = selected_ticker
 
     default_start_date = DATA_NEWS_START
     default_end_date = date(2026, 6, 8)
 
-    start_text = st.text_input("Ngày bắt đầu", value=format_dd_mm_yyyy(default_start_date))
-    end_text = st.text_input("Ngày kết thúc", value=format_dd_mm_yyyy(default_end_date))
+    start_text = st.text_input("Ngày bắt đầu giá", value=format_dd_mm_yyyy(default_start_date))
+    end_text = st.text_input("Ngày kết thúc giá", value=format_dd_mm_yyyy(default_end_date))
 
     filter_start = parse_dd_mm_yyyy(start_text)
     filter_end = parse_dd_mm_yyyy(end_text)
@@ -170,20 +190,8 @@ with st.sidebar:
         st.stop()
 
     if filter_start < DATA_PRICE_START or filter_end > DATA_MAX_DATE:
-        st.error(f"Hệ thống chỉ có dữ liệu từ {format_dd_mm_yyyy(DATA_PRICE_START)} đến {format_dd_mm_yyyy(DATA_MAX_DATE)}.")
+        st.error(f"Hệ thống chỉ có dữ liệu giá từ {format_dd_mm_yyyy(DATA_PRICE_START)} đến {format_dd_mm_yyyy(DATA_MAX_DATE)}.")
         st.stop()
-
-    if filter_start < DATA_NEWS_START:
-        st.warning(
-            f"Hệ thống bắt đầu phân tích tâm lý từ ngày 22/10/2025. "
-            f"Giai đoạn trước đó sẽ chỉ hiển thị dữ liệu giá chứng khoán."
-        )
-
-    selected_sentiments = st.multiselect(
-        "Sắc thái tâm lý", 
-        options=["Tất cả", "Tích cực", "Tiêu cực", "Trung lập"], 
-        default=["Tất cả"]
-    )
 
     st.subheader("Lưu ý")
     st.caption(
@@ -198,7 +206,7 @@ st.title("VN Stock Intelligence")
 st.markdown("Hệ thống giám sát biến động giá thị trường tích hợp phân tích tâm lý theo thời gian thực.")
 
 df_stock = load_real_stock_data(selected_ticker)
-df_news = load_real_market_news(selected_ticker, filter_start, filter_end)
+df_news = load_real_market_news(selected_ticker)
 
 if df_stock.empty:
     st.warning(f"Không tìm thấy dữ liệu giá của mã {selected_ticker} trên MotherDuck.")
@@ -206,19 +214,14 @@ if df_stock.empty:
 
 df_prices = df_stock[(df_stock["date"].dt.date >= filter_start) & (df_stock["date"].dt.date <= filter_end)].sort_values("date")
 
-if not df_news.empty:
-    allowed_scores = map_sentiment_filter(selected_sentiments)
-    if allowed_scores is not None:
-        df_news = df_news[df_news["sentiment_score"].apply(lambda x: 1 if x > 0.1 else (-1 if x < -0.1 else 0)).isin(allowed_scores)]
-
 # KHU VỰC GIAO DIỆN CHÍNH
 overview_col, chat_btn_col = st.columns([5, 1.2])
 with overview_col:
     st.subheader(f"Tổng quan mã cổ phiếu — {selected_ticker}")
-    st.caption(f"Thời gian: **{format_dd_mm_yyyy(filter_start)}** → **{format_dd_mm_yyyy(filter_end)}**")
+    st.caption(f"Thời gian giá: **{format_dd_mm_yyyy(filter_start)}** → **{format_dd_mm_yyyy(filter_end)}**")
 with chat_btn_col:
     st.write("")
-    if st.button("GenBI Assistant", type="primary", use_container_width=True):
+    if st.button("💬 GenBI Assistant", type="primary", use_container_width=True):
         st.session_state.show_chat = True
         st.rerun()
 
@@ -234,18 +237,23 @@ prev_close = prev_row["close"]
 pct_change = ((latest_close - prev_close) / prev_close * 100) if prev_close else 0.0
 
 total_volume = int(df_prices["volume"].sum())
-total_news = len(df_news)
-avg_sentiment = float(df_news["sentiment_score"].mean()) if not df_news.empty and total_news > 0 else 0.0
 
-kpi1, kpi2, kpi3, kpi4 = st.columns(4)
+# Lấy nhãn trạng thái từ bài báo duy nhất hiện tại
+if not df_news.empty:
+    current_label = df_news.iloc[0]["sentiment_label"]
+    raw_score_string = df_news.iloc[0]["raw_sentiment_score"]
+else:
+    current_label = "Trung lập (Mặc định)"
+    raw_score_string = "positive=0.0%; neutral=100.0%; negative=0.0%"
+
+# Hiển thị 3 ô KPI gọn gàng
+kpi1, kpi2, kpi3 = st.columns(3)
 with kpi1:
     st.metric("Giá đóng cửa gần nhất", format_vnd(latest_close), delta=f"{pct_change:+.2f}%")
 with kpi2:
-    st.metric("Tổng khối lượng", f"{total_volume:,} CP")
+    st.metric("Tổng khối lượng giao dịch", f"{total_volume:,} CP")
 with kpi3:
-    st.metric("Chỉ số Tâm lý TB", f"{avg_sentiment:+.2f}")
-with kpi4:
-    st.metric("Tổng tin tức thu thập", f"{total_news:,}")
+    st.metric("Sắc thái tâm lý chủ đạo", current_label)
 
 st.divider()
 
@@ -280,90 +288,104 @@ with col_chart_main:
     st.plotly_chart(fig_combo, use_container_width=True)
 
 with col_chart_pie:
-    st.markdown("**Biểu đồ: Tỷ lệ Sắc thái Tâm lý**")
-    if df_news.empty:
-        st.info("Không có dữ liệu sắc thái nào khớp kỳ lọc này.")
-    else:
-        sentiment_counts = df_news["sentiment_label"].value_counts().reset_index()
-        sentiment_counts.columns = ["label", "count"]
-        color_map = {"Tích cực": "#2ecc71", "Trung lập": "#3498db", "Tiêu cực": "#e74c3c"}
-        fig_pie = go.Figure(data=[go.Pie(labels=sentiment_counts["label"], values=sentiment_counts["count"], hole=0.45, marker=dict(colors=[color_map.get(lbl, "#3498db") for lbl in sentiment_counts["label"]]))])
-        fig_pie.update_layout(height=350, margin=dict(l=10, r=10, t=10, b=10), showlegend=False)
-        st.plotly_chart(fig_pie, use_container_width=True)
+    st.markdown("**Biểu đồ: Phân rã sắc thái AI (%)**")
+    pct_data = parse_sentiment_percentages(raw_score_string)
+    labels = list(pct_data.keys())
+    values = list(pct_data.values())
+    
+    color_map = {"Tích cực": "#2ecc71", "Trung lập": "#3498db", "Tiêu cực": "#e74c3c"}
+    fig_pie = go.Figure(data=[go.Pie(
+        labels=labels, 
+        values=values, 
+        hole=0.45, 
+        marker=dict(colors=[color_map[l] for l in labels]),
+        textinfo='label+percent'
+    )])
+    fig_pie.update_layout(height=350, margin=dict(l=10, r=10, t=10, b=10), showlegend=False)
+    st.plotly_chart(fig_pie, use_container_width=True)
 
 # =============================================================================
-# BIỂU ĐỒ SỐ 3: BIẾN ĐỘNG ĐIỂM TÂM LÝ THEO NGÀY (CẬP NHẬT CHUẨN ĐÉT Ý BẠN)
+# BIỂU ĐỒ NẾN KỸ THUẬT PHÂN TÍCH OHLC GIÁ TRỊ CAO TRÊN MOTHERDUCK
 # =============================================================================
 st.divider()
-st.markdown("Biểu đồ: Biến động điểm Tâm lý theo ngày")
-
-if df_news.empty:
-    st.info("Không có dữ liệu tin tức để tính toán điểm tâm lý theo chuỗi thời gian.")
-else:
-    # Gom nhóm tính điểm trung bình tâm lý của mã đó theo từng ngày
-    df_news['publish_date'] = df_news['published_at'].dt.date
-    daily_sentiment = df_news.groupby('publish_date')['sentiment_score'].mean().reset_index().sort_values('publish_date')
-    
-    fig_sentiment_line = go.Figure()
-    fig_sentiment_line.add_trace(
-        go.Scatter(
-            x=daily_sentiment["publish_date"],
-            y=daily_sentiment["sentiment_score"],
-            name="Điểm tâm lý TB ngày",
-            mode="lines+markers",
-            line=dict(color="#2ecc71", width=2.5),
-            marker=dict(size=6, color="#1abc9c"),
-            hovertemplate="Ngày: %{x}<br>Điểm tâm lý: %{y:.2f}<extra></extra>"
-        )
-    )
-    
-    # Cấu hình đường biên hỗ trợ nhìn xu hướng âm / dương rõ ràng
-    fig_sentiment_line.add_hline(y=0.1, line_dash="dash", line_color="rgba(46, 204, 113, 0.5)", annotation_text="Ngưỡng Tích cực")
-    fig_sentiment_line.add_hline(y=-0.1, line_dash="dash", line_color="rgba(231, 76, 60, 0.5)", annotation_text="Ngưỡng Tiêu cực")
-    
-    fig_sentiment_line.update_layout(
-        xaxis_title="Ngày công bố tin",
-        yaxis_title="Điểm số Sentiment (-1 đến +1)",
-        yaxis=dict(range=[-1.1, 1.1]),
-        height=320,
-        margin=dict(l=10, r=10, t=20, b=10)
-    )
-    st.plotly_chart(fig_sentiment_line, use_container_width=True)
+st.markdown(f"**Biểu đồ phân tích kỹ thuật: Biến động giá nến Nhật OHLC — {selected_ticker}**")
+fig_candle = go.Figure(data=[go.Candlestick(
+    x=df_prices["date"],
+    open=df_prices["open"] * 1000,
+    high=df_prices["high"] * 1000,
+    low=df_prices["low"] * 1000,
+    close=df_prices["close"] * 1000,
+    increasing_line_color='#2ecc71', decreasing_line_color='#e74c3c',
+    name="Nến giá"
+)])
+fig_candle.update_layout(
+    height=360,
+    margin=dict(l=10, r=10, t=20, b=10),
+    xaxis_rangeslider_visible=False,
+    yaxis_title="Giá giao dịch (₫)"
+)
+st.plotly_chart(fig_candle, use_container_width=True)
 
 # =============================================================================
-# DANH SÁCH TIN TỨC & TRÌNH XEM CHI TIẾT (ĐƯA XUỐNG EXPANDER GỌN GÀNG)
+# BOX TIN TỨC: DANH SÁCH CÁC BÀI BÁO MỚI NHẤT & TÓM TẮT TỪ AI
 # =============================================================================
 st.write("")
-with st.expander("Danh sách bài báo gần nhất"):
-    if df_news.empty:
-        st.write("Không tìm thấy bài báo nào trong khoảng thời gian được lọc.")
-    else:
-        top_news = df_news.sort_values("published_at", ascending=False).head(10).copy()
-        top_news["Ngày đăng"] = top_news["published_at"].dt.strftime("%d/%m/%Y %H:%M")
+st.subheader("Tin tức & Tóm tắt phân tích mới nhất")
+
+if df_news.empty:
+    st.info("Hiện hệ thống crawler đang đồng bộ tin tức cho mã cổ phiếu này.")
+else:
+    # Vòng lặp hiển thị toàn bộ danh sách bài báo thu thập được
+    for _, article in df_news.iterrows():
+        publish_time = article["published_at"].strftime("%d/%m/%Y %H:%M") if pd.notnull(article.get("published_at")) else "Không rõ ngày"
         
-        display_news = top_news[["Ngày đăng", "title", "source", "sentiment_label", "url", "summary"]].rename(
-            columns={"title": "Tiêu đề tin tức", "source": "Nguồn báo", "sentiment_label": "Sắc thái tâm lý", "url": "Liên kết xem"}
-        )
+        badge_colors = {"Tích cực": "#2ecc71", "Tiêu cực": "#e74c3c", "Trung lập": "#3498db"}
+        sentiment = article.get('sentiment_label', 'Trung lập')
+        current_badge_color = badge_colors.get(sentiment, "#3498db")
         
-        selection = st.dataframe(
-            display_news[["Ngày đăng", "Tiêu đề tin tức", "Nguồn báo", "Sắc thái tâm lý", "Liên kết xem"]],
-            use_container_width=True,
-            hide_index=True,
-            on_select="rerun",
-            selection_mode="single-row",
-            column_config={
-                "Liên kết xem": st.column_config.LinkColumn(
-                    "Liên kết xem",
-                    display_text="Mở bài báo ↗"
-                )
-            }
-        )
+        # 1. XỬ LÝ SUMMARY AI VỚI MODEL ĐÃ CẬP NHẬT (LLAMA-3.1-8B-INSTANT)
+        raw_summary = article.get('summary', '')
+        if pd.isna(raw_summary) or str(raw_summary).strip() in ['', 'None', 'nan']:
+            groq_key = os.getenv("GROQ_API_KEY") or os.getenv("groq_api_key")
+            if groq_key:
+                try:
+                    from groq import Groq
+                    client = Groq(api_key=groq_key)
+                    # Đổi sang model mới tinh 'llama-3.1-8b-instant' chạy siêu tốc và ổn định
+                    completion = client.chat.completions.create(
+                        model="llama-3.1-8b-instant",
+                        messages=[
+                            {"role": "system", "content": "Bạn là một trợ lý phân tích chứng khoán Việt Nam chuyên nghiệp. Hãy viết tóm tắt lý do hoặc bối cảnh cho tiêu đề bài báo bằng tiếng Việt ngắn gọn trong 1-2 câu."},
+                            {"role": "user", "content": f"Tiêu đề: {article['title']}"}
+                        ],
+                        max_tokens=150,
+                        temperature=0.3
+                    )
+                    ai_summary_html = f"<b>Tóm tắt:</b> {completion.choices[0].message.content}"
+                except Exception as groq_err:
+                    ai_summary_html = f"<i style='color: #e74c3c;'>Hệ thống AI đang bận (Lỗi: {groq_err}), vui lòng thử lại sau...</i>"
+            else:
+                ai_summary_html = "<i style='color: #8c98a5;'>Hệ thống AI đang chờ phân tích bổ sung (Thiếu GROQ_API_KEY)...</i>"
+        else:
+            ai_summary_html = f"<b>Tóm tắt lý do từ AI:</b> {raw_summary}"
+            
+        # 2. XỬ LÝ LINK URL CHUẨN XÁC VÀ VIẾT TRÊN 1 DÒNG ĐỂ TRANH LỖI MULTILINE MARKDOWN
+        article_url = str(article.get('url', '')).strip()
+        link_button_html = ""
+        if article_url and article_url != 'None' and article_url != 'nan':
+            full_url = f"https://vietstock.vn{article_url}" if article_url.startswith("/") else article_url
+            # Viết chuỗi HTML gọn trên một dòng, tránh thụt đầu dòng làm vỡ markdown
+            link_button_html = f'<div style="margin-top: 15px; text-align: right;"><a href="{full_url}" target="_blank" style="text-decoration: none; background-color: #3498db; color: white; padding: 6px 16px; border-radius: 4px; font-size: 13px; font-weight: 500; display: inline-block;">Xem bài báo gốc ↗</a></div>'
         
-        selected_rows = selection.selection.rows if selection.selection else []
-        if selected_rows:
-            row_data = display_news.iloc[selected_rows[0]]
-            st.markdown("---")
-            st.markdown(f"#### Chi tiết nội dung tin tức")
-            st.markdown(f"**Tiêu đề:** {row_data['Tiêu đề tin tức']}")
-            st.markdown(f"**Nguồn:** {row_data['Nguồn báo']} | **Sắc thái:** {row_data['Sắc thái tâm lý']}")
-            st.info(f"**Nội dung tóm tắt lý do:** \n{row_data['summary']}")
+        # 3. RENDER DUY NHẤT 1 KHỐI HTML ĐỒNG NHẤT KHÔNG CÓ THỤT ĐẦU DÒNG TRONG CHUỖI
+        st.markdown(f"""
+<div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 5px solid {current_badge_color}; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <span style="color: #6c757d; font-size: 13px;">Xuất bản: {publish_time}</span>
+        <span style="background-color: {current_badge_color}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: bold;">{sentiment}</span>
+    </div>
+    <h4 style="margin-top: 5px; margin-bottom: 10px; color: #2c3e50; font-weight: 600; line-height: 1.4;">{article['title']}</h4>
+    <p style="font-size: 14px; color: #4f5f6f; line-height: 1.6; margin-bottom: 5px;">{ai_summary_html}</p>
+    {link_button_html}
+</div>
+""", unsafe_allow_html=True)
