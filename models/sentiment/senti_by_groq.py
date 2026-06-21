@@ -2,12 +2,15 @@ import duckdb
 import pandas as pd
 import requests
 import time
-# 1. Kết nối MotherDuck và lấy dữ liệu
-con = duckdb.connect("md:vn_stock_analytics", config={"motherduck_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBoYW50dWFua2hhMTQ3QGdtYWlsLmNvbSIsIm1kUmVnaW9uIjoiYXdzLWV1LWNlbnRyYWwtMSIsInNlc3Npb24iOiJwaGFudHVhbmtoYTE0Ny5nbWFpbC5jb20iLCJwYXQiOiJRQlpFU2ZCQThJSnVfUGtWdDgxUTQtZDhyRnRoRV8tbE4yZjdwQmhFVXdvIiwidXNlcklkIjoiODFhODJlZjAtZTA5OC00M2M2LTkxYWUtMzMyMTk4YzMzNDEwIiwiaXNzIjoibWRfcGF0IiwicmVhZE9ubHkiOmZhbHNlLCJ0b2tlblR5cGUiOiJyZWFkX3dyaXRlIiwiaWF0IjoxNzgwODk3MTU0fQ.fw3Je9PFz3ocmqXIlEjirjovTN9MB7LfZLfBZmgliB8"})
-df = con.execute("SELECT * FROM analytics_wide_ai_ready LIMIT 200").fetchdf()
+# 1. Kết nối MotherDuck và Gorq 
+md_token = os.getenv("MOTHERDUCK_TOKEN")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
-# 2. Gọi Groq API
-GROQ_API_KEY = "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"
+if not md_token or not GROQ_API_KEY:
+    raise ValueError("Thiếu biến môi trường MOTHERDUCK_TOKEN hoặc GROQ_API_KEY!")
+
+con = duckdb.connect(f"md:vn_stock_analytics?token={md_token.strip()}")
+df = con.execute("SELECT * FROM analytics_wide_ai_ready LIMIT 200").fetchdf()
 url = "https://api.groq.com/openai/v1/chat/completions"
 
 
@@ -49,5 +52,5 @@ df['groq_label'] = df.apply(
 )
 
 # 4. Lưu ra CSV
-df.to_csv("e:/DATAWAREHOUSE/DataWarehouse/models/sentiment/self_labels.csv", index=False, encoding="utf-8-sig")
+df.to_csv("./models/sentiment/self_labels.csv", index=False, encoding="utf-8-sig")
 print("Đã gán nhãn và lưu vào self_labels.csv")

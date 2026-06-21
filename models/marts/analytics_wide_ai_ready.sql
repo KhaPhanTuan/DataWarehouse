@@ -84,7 +84,11 @@ SELECT
     m.news_date,
     m.mapped_transaction_date,
     cr.next_day_return_percentage,
-    v.volatility_level
+    v.volatility_level,
+    -- lấy nhãn từ bảng AI đổ về, mặc định là 'neutral' nếu chưa quét qua mô hình
+    COALESCE(s.sentiment_label, 'neutral') AS sentiment_label,
+    -- phân rã xác suất dạng chuỗi cấu trúc regex của app.py
+    COALESCE(s.sentiment_score, 'positive=0.0%; neutral=100.0%; negative=0.0%') AS sentiment_score
 FROM news_mapped_to_trading_date m
 LEFT JOIN calculated_returns_clean cr
     ON m.ticker = cr.ticker
@@ -92,3 +96,6 @@ LEFT JOIN calculated_returns_clean cr
 LEFT JOIN volatility_labeled v
     ON m.ticker = v.ticker
    AND m.mapped_transaction_date = v.transaction_date
+-- LEFT JOIN trực tiếp với bảng kết quả chạy ngầm của Python AI Pipeline
+LEFT JOIN vn_stock_analytics.main.bronze_news_sentiment s
+    ON m.article_id = s.article_id

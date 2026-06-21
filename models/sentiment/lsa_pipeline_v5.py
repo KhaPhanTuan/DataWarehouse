@@ -17,8 +17,8 @@ import joblib, os, warnings
 warnings.filterwarnings('ignore')
 
 
-DATA_PATH  = "e:/DATAWAREHOUSE/DataWarehouse/models/sentiment/self_labels.csv"
-SAVE_DIR   = "e:/DATAWAREHOUSE/DataWarehouse/models/sentiment"
+DATA_PATH  = "./models/sentiment/self_labels.csv"
+SAVE_DIR   = "./models/sentiment"
 TOKEN      = r'[a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]+'
 N_REPEATS  = 10    # số lần lặp CV — tăng lên 20 nếu cần estimate chính xác hơn
 N_FOLDS    = 5

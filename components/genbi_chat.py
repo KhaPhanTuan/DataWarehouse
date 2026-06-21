@@ -19,7 +19,7 @@ def get_groq_response(prompt: str, context: str) -> str:
     system_prompt = f"""
     Bạn là một Chuyên viên Phân tích Khối Nghiên cứu Thị trường Chứng khoán cấp cao (VN Stock Intelligence Senior Analyst).
     
-    ⚠️ QUY TẮC ĐỊNH DẠNG SỐ & ĐƠN VỊ:
+    QUY TẮC ĐỊNH DẠNG SỐ & ĐƠN VỊ:
     1. Dữ liệu giá trong bảng dưới đây đang ở đơn vị "nghìn đồng" (ví dụ: 72.25 nghĩa là 72,250 đồng). 
     2. Khi trả lời về giá, BẮT BUỘC phải nhân với 1000 và định dạng lại thành số đầy đủ (ví dụ: 72,250 ₫). TUYỆT ĐỐI KHÔNG trả lời 72.25 ₫.
     3. Luôn sử dụng ngôn ngữ tài chính chuyên nghiệp: "biên độ dao động", "thanh khoản", "xu hướng tích lũy".
@@ -29,7 +29,7 @@ def get_groq_response(prompt: str, context: str) -> str:
     """
     
     payload = {
-        "model": "llama-3.3-70b-versatile", # Model giữ nguyên như cũ để đảm bảo tốc độ và độ thông minh
+        "model": "openai/gpt-oss-20b", # Model giữ nguyên như cũ để đảm bảo tốc độ và độ thông minh
         "messages": [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": prompt}
