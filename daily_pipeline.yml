@@ -22,8 +22,9 @@ jobs:
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pandas numpy scikit-learn scikit-image joblib duckdb requests vnstock
-        pip install dbt-core dbt-duckdb
+        pip install pandas numpy scikit-learn scikit-image joblib requests vnstock
+        pip install duckdb==1.5.3
+        pip install dbt-core dbt-duckdb==1.5.3
 
     # Thực thi cào dữ liệu thô
     - name: Execute Data Ingestion (Bronze Layer)
