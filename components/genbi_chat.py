@@ -73,12 +73,12 @@ def render_chat_page(ticker: str):
         st.session_state.messages.append({"role": "user", "content": user_input})
         
         # BƯỚC RAG: Truy vấn nhanh dữ liệu giá gần nhất từ MotherDuck để làm ngữ cảnh (Context)
-        token = os.getenv("motherduck_token")
+        token = os.getenv("MOTHERDUCK_TOKEN")
         context_str = "Không tìm thấy dữ liệu giá."
         
         if token:
             try:
-                con = duckdb.connect(f"md:vn_stock_analytics?motherduck_token={token}")
+                con = duckdb.connect(f"md:vn_stock_analytics?token={token.strip()}")
                 # Lấy 15 ngày giao dịch gần nhất của mã đó để AI phân tích xu hướng ngắn hạn
                 query = f"""
                     SELECT transaction_date, open_price, high_price, low_price, close_price, volume
