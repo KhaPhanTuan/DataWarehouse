@@ -79,11 +79,11 @@ if st.session_state.show_chat:
 # Lấy danh sách TOÀN BỘ 186 mã cổ phiếu thực tế có trong Data Warehouse
 @st.cache_data(ttl=3600)
 def load_all_tickers() -> list[str]:
-    token = os.getenv("motherduck_token")
+    token = os.getenv("MOTHERDUCK_TOKEN")
     if not token:
         return ["HPG", "FPT", "VCB", "VNM", "MWG"]
     try:
-        con = duckdb.connect(f"md:vn_stock_analytics?motherduck_token={token}")
+        con = duckdb.connect(f"md:vn_stock_analytics")
         df = con.execute("SELECT DISTINCT ticker FROM vn_stock_analytics.main.analytics_wide_ai_ready ORDER BY ticker").fetchdf()
         con.close()
         return [str(t).upper() for t in df['ticker'].tolist() if t]
@@ -97,12 +97,12 @@ ALL_AVAILABLE_TICKERS = load_all_tickers()
 # =============================================================================
 @st.cache_data(ttl=3600)
 def load_real_stock_data(ticker: str) -> pd.DataFrame:
-    token = os.getenv("motherduck_token")
+    token = os.getenv("MOTHERDUCK_TOKEN")
     if not token:
-        st.error("Không tìm thấy biến 'motherduck_token' trong file .env!")
+        st.error("Không tìm thấy biến 'MOTHERDUCK_TOKEN' trong file .env!")
         return pd.DataFrame()
     try:
-        con = duckdb.connect(f"md:vn_stock_analytics?motherduck_token={token}")
+        con = duckdb.connect(f"md:vn_stock_analytics")
         query = f"""
             SELECT 
                 transaction_date AS date,
@@ -125,11 +125,11 @@ def load_real_stock_data(ticker: str) -> pd.DataFrame:
 
 @st.cache_data(ttl=1800)
 def load_real_market_news(ticker: str) -> pd.DataFrame:
-    token = os.getenv("motherduck_token")
+    token = os.getenv("MOTHERDUCK_TOKEN")
     if not token:
         return pd.DataFrame()
     try:
-        con = duckdb.connect(f"md:vn_stock_analytics?motherduck_token={token}")
+        con = duckdb.connect(f"md:vn_stock_analytics")
         # THỰC HIỆN LEFT JOIN ĐỂ LẤY URL TỪ BẢNG THÔ CHUẨN XÁC
         query = f"""
             SELECT 

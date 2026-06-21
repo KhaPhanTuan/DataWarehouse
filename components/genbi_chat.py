@@ -5,9 +5,9 @@ import requests
 
 def get_groq_response(prompt: str, context: str) -> str:
     """Gửi ngữ cảnh dữ liệu và câu hỏi của người dùng sang Groq API"""
-    api_key = os.getenv("groq_api_key")
+    api_key = os.getenv("GROQ_API_KEY")
     if not api_key:
-        return "⚠️ Chưa cấu hình 'groq_api_key' trong file .env. Vui lòng bổ sung để chat với GenBI!"
+        return "Chưa cấu hình 'GROQ_API_KEY' trong file .env. Vui lòng bổ sung để chat với GenBI!"
     
     url = "https://api.groq.com/openai/v1/chat/completions"
     headers = {
