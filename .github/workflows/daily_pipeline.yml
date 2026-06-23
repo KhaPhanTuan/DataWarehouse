@@ -25,7 +25,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install pandas numpy scikit-learn scikit-image joblib requests vnstock
         pip install duckdb==1.5.3
-        pip install dbt-core dbt-duckdb==1.5.3
+        pip install dbt-duckdb
 
     # tự động quét mã động từ Cloud và cào dữ liệu thô mới nhất
     - name: Execute Data Ingestion (Bronze Layer)
