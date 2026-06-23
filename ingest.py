@@ -27,23 +27,39 @@ print(f"Xác thực thành công")
 import pandas as pd
 from datetime import datetime
 
-
 # =========================================================================
-# 0. CẤU HÌNH THAM SỐ HỆ THỐNG
-SYMBOLS = [
-    # 'ASM', 'BAF', 'BMP', 'CTD', 'CTR', 'DGC', 'DHG', 'DRC', 'DXS', 'ELC',
-    # 'FIT', 'HAX', 'HDC', 'HQC', 'HT1', 'IJC', 'IMP', 'ITA', 'KDC', 'KHG',
-    'NBB', 'NHA', 'NTL', 'PAN', 'PPC', 'PTB', 'QCG', 'RAL', 'SAM', 'SBT',
-    'SCR', 'SJS', 'SKG', 'SMC', 'SZC', 'TDC', 'TDH', 'TIP', 'TNH', 'TSC',
-    'TTA', 'TV2', 'VGC', 'VNE', 'VNG', 'VOS', 'VPH', 'VPI', 'VSC', 'VTO',
-    'HUT', 'TNG', 'IDC', 'PVC', 'PVB', 'L14', 'LAS', 'NBC', 'TVD', 'TC6',
-    'BVS', 'VIG', 'APS', 'IDJ', 'API', 'CAP', 'DHT', 'INN', 'NDN', 'VC3',
-    'PGS', 'PVG', 'PVI', 'TAR', 'DTD', 'GIC', 'MAC', 'CTC', 'MST', 'CVN',
-    'KLF', 'DDG', 'CSC', 'L18', 'HEV', 'CIA', 'S99', 'SCI', 'TIG', 'VNT',
-    'WSS', 'CLH', 'VHL', 'CAN', 'VMC', 'SRA', 'PPE', 'ALV', 'BII', 'AMV'
-]
+# 0. CẤU HÌNH TỰ ĐỘNG QUÉT MÃ TỪ CLOUD
+# =========================================================================
+# Danh sách 5 mã dự phòng tối thiểu nếu kho dữ liệu thô trống
+FALLBACK_SYMBOLS = ['HPG', 'FPT', 'VCB', 'VNM', 'MWG']
 
-# Quét dữ liệu 10 năm, tham số count = ~3000 (Một năm khoảng 250d giao dịch)
+def dynamic_load_warehouse_tickers():
+    md_token = get_secret_key('MOTHERDUCK_TOKEN')
+    if not md_token:
+        print("Không tìm thấy MOTHERDUCK_TOKEN, sử dụng danh sách mã dự phòng.")
+        return FALLBACK_SYMBOLS
+    try:
+        import duckdb
+        conn = duckdb.connect(f"md:?token={md_token.strip()}")
+        df_tickers = conn.execute("""
+            SELECT DISTINCT ticker 
+            FROM vn_stock_analytics.main.bronze_daily_prices 
+            ORDER BY ticker
+        """).fetchdf()
+        conn.close()
+        
+        if not df_tickers.empty:
+            active_tickers = [str(t).upper() for t in df_tickers['ticker'].tolist() if t]
+            print(f"Kết nối Cloud thành công! Tìm thấy toàn bộ {len(active_tickers)} mã trong kho dữ liệu thô để cập nhật.")
+            return active_tickers
+    except Exception as e:
+        print(f"Không thể lấy mã động từ Cloud ({e}). Chuyển sang danh sách dự phòng.")
+    return FALLBACK_SYMBOLS
+
+# Kích nổ luồng lấy danh sách mã tự động cập nhật
+SYMBOLS = dynamic_load_warehouse_tickers()
+
+# Quét dữ liệu, các tham số cấu hình giữ nguyên như cũ của ông
 START_DATE = '2015-01-01'
 END_DATE = '2026-12-31'
 COUNT_DATA = 20000
