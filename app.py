@@ -162,12 +162,11 @@ def load_real_market_news(ticker: str) -> pd.DataFrame:
 # =============================================================================
 DATA_PRICE_START = date(2015, 1, 5)
 DATA_NEWS_START = date(2025, 10, 22)
-DATA_MAX_DATE = date(2026, 6, 12)
 
 with st.sidebar:
     st.header("Bộ lọc dữ liệu")
     
-    # [NÂNG CẤP]: Tìm kiếm gợi ý (Autocomplete) từ 186 mã cổ phiếu, giao diện gọn gàng
+    # 1. Trích xuất selectbox lựa chọn mã cổ phiếu trước để lấy ngữ cảnh tải data
     selected_ticker = st.selectbox(
         "Mã cổ phiếu", 
         options=ALL_AVAILABLE_TICKERS, 
@@ -176,8 +175,25 @@ with st.sidebar:
     )
     st.session_state["current_ticker"] = selected_ticker
 
+# 2. GỌI TRƯỚC ĐỂ LẤY MỐC NGÀY LỚN NHẤT THỰC TẾ TRÊN MOTHERDUCK
+df_stock = load_real_stock_data(selected_ticker)
+df_news = load_real_market_news(selected_ticker)
+
+# 3. TỰ ĐỘNG LẤY NGÀY MAX
+if not df_stock.empty:
+    DATA_MAX_DATE = df_stock["date"].max().date()
+else:
+    DATA_MAX_DATE = date(2026, 6, 23)  # Ngày dự phòng an toàn
+
+if not df_news.empty:
+    DATA_MAX_NEWS_DATE = df_news["published_at"].max().date()
+else:
+    DATA_MAX_NEWS_DATE = date(2026, 6, 23)
+
+# 4. RENDER CÁC Ô NHẬP LIỆU SIDEBAR THEO BIẾN ĐỘNG THỰC TẾ
+with st.sidebar:
     default_start_date = DATA_NEWS_START
-    default_end_date = date(2026, 6, 8)
+    default_end_date = DATA_MAX_DATE  # Khi mở trang ra, tự động đồng bộ đến ngày mới nhất vừa cào
 
     start_text = st.text_input("Ngày bắt đầu giá", value=format_dd_mm_yyyy(default_start_date))
     end_text = st.text_input("Ngày kết thúc giá", value=format_dd_mm_yyyy(default_end_date))
@@ -196,7 +212,7 @@ with st.sidebar:
     st.subheader("Lưu ý")
     st.caption(
         f"• Toàn bộ dữ liệu giá: **05/01/2015** → **{format_dd_mm_yyyy(DATA_MAX_DATE)}**\n\n"
-        f"• Dữ liệu tâm lý & tin tức: **22/10/2025** → **08/06/2026**"
+        f"• Dữ liệu tâm lý & tin tức: **22/10/2025** → **{format_dd_mm_yyyy(DATA_MAX_NEWS_DATE)}**"
     )
 
 # =============================================================================
@@ -204,9 +220,6 @@ with st.sidebar:
 # =============================================================================
 st.title("VN Stock Intelligence")
 st.markdown("Hệ thống giám sát biến động giá thị trường tích hợp phân tích tâm lý theo thời gian thực.")
-
-df_stock = load_real_stock_data(selected_ticker)
-df_news = load_real_market_news(selected_ticker)
 
 if df_stock.empty:
     st.warning(f"Không tìm thấy dữ liệu giá của mã {selected_ticker} trên MotherDuck.")
@@ -337,6 +350,7 @@ if df_news.empty:
 else:
     # Vòng lặp hiển thị toàn bộ danh sách bài báo thu thập được
     for _, article in df_news.iterrows():
+        print()
         publish_time = article["published_at"].strftime("%d/%m/%Y %H:%M") if pd.notnull(article.get("published_at")) else "Không rõ ngày"
         
         badge_colors = {"Tích cực": "#2ecc71", "Tiêu cực": "#e74c3c", "Trung lập": "#3498db"}
@@ -346,7 +360,7 @@ else:
         # 1. XỬ LÝ SUMMARY AI VỚI MODEL ĐÃ CẬP NHẬT (LLAMA-3.1-8B-INSTANT)
         raw_summary = article.get('summary', '')
         if pd.isna(raw_summary) or str(raw_summary).strip() in ['', 'None', 'nan']:
-            groq_key = os.getenv("GROQ_API_KEY") or os.getenv("groq_api_key")
+            groq_key = os.getenv("GROQ_API_KEY")
             if groq_key:
                 try:
                     from groq import Groq
@@ -367,7 +381,7 @@ else:
             else:
                 ai_summary_html = "<i style='color: #8c98a5;'>Hệ thống AI đang chờ phân tích bổ sung (Thiếu GROQ_API_KEY)...</i>"
         else:
-            ai_summary_html = f"<b>Tóm tắt:</b> {raw_summary}"
+            ai_summary_html = f"<b>Tóm tắt lý do từ AI:</b> {raw_summary}"
             
         # 2. XỬ LÝ LINK URL CHUẨN XÁC VÀ VIẾT TRÊN 1 DÒNG ĐỂ TRANH LỖI MULTILINE MARKDOWN
         article_url = str(article.get('url', '')).strip()
