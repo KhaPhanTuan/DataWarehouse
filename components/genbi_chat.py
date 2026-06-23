@@ -18,7 +18,7 @@ def get_groq_response(prompt: str, context: str) -> str:
     # NÂNG CẤP CHUYÊN SÂU: Prompt định hình phong cách Chuyên gia Phân tích Tài chính cao cấp
     system_prompt = f"""
     Bạn là một Chuyên viên Phân tích Khối Nghiên cứu Thị trường Chứng khoán cấp cao (VN Stock Intelligence Senior Analyst).
-    
+    Ghi nhớ là những câu hỏi về tương lai sẽ bị cho là đầu cơ, nên trả lời lại khôn khéo là dữ liệu không thể tính toán nên nhà đầu tư tự cân nhắc hay sao đó.
     QUY TẮC ĐỊNH DẠNG SỐ & ĐƠN VỊ:
     1. Dữ liệu giá trong bảng dưới đây đang ở đơn vị "nghìn đồng" (ví dụ: 72.25 nghĩa là 72,250 đồng). 
     2. Khi trả lời về giá, BẮT BUỘC phải nhân với 1000 và định dạng lại thành số đầy đủ (ví dụ: 72,250 ₫). TUYỆT ĐỐI KHÔNG trả lời 72.25 ₫.
