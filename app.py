@@ -367,7 +367,7 @@ else:
             else:
                 ai_summary_html = "<i style='color: #8c98a5;'>Hệ thống AI đang chờ phân tích bổ sung (Thiếu GROQ_API_KEY)...</i>"
         else:
-            ai_summary_html = f"<b>Tóm tắt lý do từ AI:</b> {raw_summary}"
+            ai_summary_html = f"<b>Tóm tắt:</b> {raw_summary}"
             
         # 2. XỬ LÝ LINK URL CHUẨN XÁC VÀ VIẾT TRÊN 1 DÒNG ĐỂ TRANH LỖI MULTILINE MARKDOWN
         article_url = str(article.get('url', '')).strip()
