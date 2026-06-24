@@ -5,4 +5,4 @@ vn_stock_warehouse:
       path: md:vn_stock_analytics
       schema: main
       threads: 4
-  target: devQ
+  target: dev
