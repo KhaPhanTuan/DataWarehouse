@@ -27,14 +27,14 @@ jobs:
         pip install duckdb==1.5.3
         pip install dbt-duckdb
 
-    # tự động quét mã động từ Cloud và cào dữ liệu thô mới nhất
+    # GIAO ĐOẠN 1: Tự động quét mã động từ Cloud và cào dữ liệu thô mới nhất
     - name: Execute Data Ingestion (Bronze Layer)
       env:
         VNSTOCK_API_KEY: ${{ secrets.VNSTOCK_API_KEY }}
         MOTHERDUCK_TOKEN: ${{ secrets.MOTHERDUCK_TOKEN }}
       run: python ingest.py
 
-    #  dbt vòng 1 để làm sạch data
+    # GIAO ĐOẠN 2: Kích nổ dbt vòng 1 để làm sạch data, dập mô hình Fact/Dim Gold Layer
     - name: Execute dbt Transform (Round 1 - Full Refresh)
       env:
         MOTHERDUCK_TOKEN: ${{ secrets.MOTHERDUCK_TOKEN }}
@@ -42,14 +42,14 @@ jobs:
         dbt deps
         dbt run --full-refresh --profiles-dir .
 
-    # Bật quét tin tức mới và tự động chấm điểm
+    # GIAO ĐOẠN 3: Bật Python AI Worker quét Delta tin tức mới và tự động chấm điểm sắc thái
     - name: Execute AI Sentiment Inference (Intelligence Layer)
       env:
         MOTHERDUCK_TOKEN: ${{ secrets.MOTHERDUCK_TOKEN }}
         GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-      run: python models/sentiment/run_inference.py
+      run: python scripts/sentiment/run_inference.py
 
-    #Chạy dbt vòng cuối để map toàn bộ nhãn AI vào bảng phẳng
+    # GIAO ĐOẠN ĐÁNH GIÁ CUỐI: Chạy dbt vòng cuối để map toàn bộ nhãn sắc thái AI vào bảng phẳng hội tụ
     - name: Execute dbt Transform (Final Round)
       env:
         MOTHERDUCK_TOKEN: ${{ secrets.MOTHERDUCK_TOKEN }}
