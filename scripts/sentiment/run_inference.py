@@ -138,7 +138,7 @@ def execute_automation_inference():
         proba = pipeline['clf'].predict_proba(X_in)[0]
         
         pred_label = le.classes_[pred]
-        scores_dict = {c: float(p) for c in le.classes_, p in proba}
+        scores_dict = {c: float(p) for c, p in zip(le.classes_, proba)}
         
         # Khớp 100% cấu hình biểu đồ tròn của Dashboard app.py
         score_string = f"positive={scores_dict.get('positive', 0.0)*100:.2f}%; neutral={scores_dict.get('neutral', 0.0)*100:.2f}%; negative={scores_dict.get('negative', 0.0)*100:.2f}%"
