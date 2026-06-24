@@ -199,6 +199,14 @@ def load_to_motherduck_pipeline():
 
         conn.execute("CREATE DATABASE IF NOT EXISTS vn_stock_analytics;")
         conn.execute("USE vn_stock_analytics.main;")
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS bronze_news_sentiment (
+                article_id LONG PRIMARY KEY,
+                sentiment_label VARCHAR,
+                sentiment_score VARCHAR,
+                calculated_at TIMESTAMP
+            );
+        """)
 
         # 1. XỬ LÝ LŨY KẾ NỐI ĐUÔI: bronze_daily_prices
         if 'df_history' in globals() and df_history is not None and not df_history.empty:
