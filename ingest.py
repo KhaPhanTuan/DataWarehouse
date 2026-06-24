@@ -1,8 +1,10 @@
 import os
 from vnstock import register_user, Market, Reference, Fundamental
 import time
+import pandas as pd
+from datetime import datetime, timedelta
 
-# Hàm bọc thông minh hỗ trợ cả Colab và GitHub Actions
+# 1. Hàm bọc thông minh hỗ trợ cả Colab và GitHub Actions
 def get_secret_key(key_name):
     try:
         from google.colab import userdata
@@ -14,23 +16,20 @@ VNSTOCK_KEY = get_secret_key('VNSTOCK_API_KEY')
 if not VNSTOCK_KEY:
     raise ValueError("Thiếu cấu hình VNSTOCK_API_KEY!")
 
-# 2. Đăng ký tài khoản hệ thống Vnstock
+# Đăng ký tài khoản hệ thống Vnstock
 register_user(api_key=VNSTOCK_KEY)
 
-# 3. Khởi tạo các miền dữ liệu (Unified UI) để chuẩn bị gọi hàm
+# Khởi tạo các miền dữ liệu (Unified UI) để chuẩn bị gọi hàm
 market = Market()
 ref = Reference()
 fund = Fundamental()
 
-print(f"Xác thực thành công")
-
-import pandas as pd
-from datetime import datetime
+print(f"Xác thực thành công hệ thống Vnstock API.")
 
 # =========================================================================
-# 0. CẤU HÌNH TỰ ĐỘNG QUÉT MÃ TỪ CLOUD
+# 0. CẤU HÌNH TỰ ĐỘNG QUÉT MÃ TỪ CLOUD & TỐI ƯU HÓA NGÀY DELTA
 # =========================================================================
-# Danh sách 5 mã dự phòng tối thiểu nếu kho dữ liệu thô trống
+# Danh sách mã dự phòng tối thiểu nếu kho dữ liệu thô trống hoàn toàn
 FALLBACK_SYMBOLS = ['HPG', 'FPT', 'VCB', 'VNM', 'MWG']
 
 def dynamic_load_warehouse_tickers():
@@ -50,21 +49,22 @@ def dynamic_load_warehouse_tickers():
         
         if not df_tickers.empty:
             active_tickers = [str(t).upper() for t in df_tickers['ticker'].tolist() if t]
-            print(f"Kết nối Cloud thành công! Tìm thấy toàn bộ {len(active_tickers)} mã trong kho dữ liệu thô để cập nhật.")
+            print(f"Lấy mã từ Cloud thành công! Hệ thống tự động điều phối cập nhật cho {len(active_tickers)} mã.")
             return active_tickers
     except Exception as e:
         print(f"Không thể lấy mã động từ Cloud ({e}). Chuyển sang danh sách dự phòng.")
     return FALLBACK_SYMBOLS
 
-# Kích nổ luồng lấy danh sách mã tự động cập nhật
+# Kích nổ luồng lấy danh sách mã từ kho lưu trữ đám mây
 SYMBOLS = dynamic_load_warehouse_tickers()
 
-# Quét dữ liệu, các tham số cấu hình giữ nguyên như cũ của ông
-START_DATE = '2015-01-01'
-END_DATE = '2026-12-31'
-COUNT_DATA = 20000
+# TỐI ƯU HÓA CHÍ MẠNG: Tự động tính toán cửa sổ lùi 3 ngày gần nhất để chạy hằng ngày
+# Giúp triệt tiêu thời gian tải dữ liệu lớn 10 năm lặp lại vô nghĩa
+START_DATE = (datetime.now() - timedelta(days=3)).strftime('%Y-%m-%d')
+END_DATE = datetime.now().strftime('%Y-%m-%d')
+COUNT_DATA = 50 # Giảm số lượng dòng quét tối đa xuống mức tối thiểu (3 ngày chỉ có 3 nến giá)
 
-print(f"[TẦNG BRONZE] Khởi động Pipeline tải dữ liệu 10 năm cho nhóm mã: {SYMBOLS}")
+print(f"[TẦNG BRONZE] Khởi động Incremental Pipeline hằng ngày (Từ ngày {START_DATE} -> {END_DATE})")
 
 # Khởi tạo lists tạm thời để chứa dữ liệu của từng mã trước khi gộp
 history_lists = []
@@ -77,22 +77,22 @@ income_statement_lists = []
 cash_flow_lists = []
 ratios_lists = []
 
-# Lấy mốc thời gian chạy pipeline (Dùng chung cho cả nhóm này)
+# Lấy mốc thời gian chạy pipeline (Dùng chung cho cả phiên gộp)
 pipeline_run_time = datetime.now()
 
 try:
     # 1. TẢI DỮ LIỆU ĐỘC LẬP (THỊ TRƯỜNG CHUNG - CHỈ CHẠY 1 LẦN)
-    print("Đang tải dữ liệu lịch sử VNINDEX...")
+    print(f"Đang quét dữ liệu VNINDEX từ {START_DATE}...")
     df_vnindex = market.index('VNINDEX').ohlcv(start=START_DATE, end=END_DATE, count=COUNT_DATA)
     if df_vnindex is not None and not df_vnindex.empty:
         if 'date' in df_vnindex.columns:
             df_vnindex = df_vnindex.rename(columns={'date': 'time'})
         df_vnindex['ingested_at'] = pipeline_run_time
 
-    # 2. VÒNG LẶP CRAWL DỮ LIỆU THEO TỪNG MÃ CỔ PHIẾU
+    # 2. VÒNG LẶP CRAWL DỮ LIỆU TĂNG TRƯỞNG THEO TỪNG MÃ CỔ PHIẾU
     for SYMBOL in SYMBOLS:
         print(f"\n --------------------------------------------------")
-        print(f"Đang tiến hành crawl dữ liệu cho mã: [{SYMBOL}]...")
+        print(f"Đang tiến hành crawl dữ liệu Delta cho mã: [{SYMBOL}]...")
 
         # --- 2.1 Dữ liệu Giá lịch sử & Thời gian thực ---
         df_h = market.equity(SYMBOL).ohlcv(start=START_DATE, end=END_DATE, count=COUNT_DATA)
@@ -153,12 +153,12 @@ try:
             df_rat['ingested_at'] = pipeline_run_time
             ratios_lists.append(df_rat)
 
-        print(f"Đã hoàn thành mã [{SYMBOL}]. Tạm dừng 20 giây trước khi sang mã tiếp theo...")
+        print(f"Đã hoàn thành bốc dữ liệu phiên mới cho mã [{SYMBOL}]. Nghỉ 20 giây chống chặn hệ thống...")
         time.sleep(20)
 
     # 3. GỘP DỮ LIỆU THÀNH ĐA TẦNG BRONZE ĐỒNG NHẤT (CONCATENATION)
     print(f"\n--------------------------------------------------")
-    print("Đang gộp dữ liệu các mã cổ phiếu thành cấu trúc bảng tập trung...")
+    print("Đang tiến hành gom cụm dữ liệu phân tán...")
 
     df_history = pd.concat(history_lists, ignore_index=True) if history_lists else None
     df_realtime = pd.concat(realtime_lists, ignore_index=True) if realtime_lists else None
@@ -170,75 +170,55 @@ try:
     df_cash_flow = pd.concat(cash_flow_lists, ignore_index=True) if cash_flow_lists else None
     df_ratios = pd.concat(ratios_lists, ignore_index=True) if ratios_lists else None
 
-    print(f"\n Tải và chuẩn hóa tập trung dữ liệu thành công!")
-    print(f"Tổng số dòng dữ liệu lịch sử giá thu được: {len(df_history) if df_history is not None else 0} dòng.")
+    print(f"\n Tải dữ liệu tăng trưởng hằng ngày thành công!")
 
 except Exception as e:
-    print(f"Đã xảy ra lỗi trong quá trình: {e}")
+    print(f"Đã xảy ra lỗi trong quá trình crawl dữ liệu: {e}")
 
-import os
 import duckdb
 
 def load_to_motherduck_pipeline():
-    #Nhận diện môi trường là Colab hay Git Act
     md_token = None
-    
     try:
-        # Thử Colab trước
         from google.colab import userdata
         md_token = userdata.get('MOTHERDUCK_TOKEN')
     except ImportError:
-        # Nếu không có thì chuyển sang GitHub Actions
-        #Nạp Token vào biến môi trường thông qua file .yml
         md_token = os.environ.get('MOTHERDUCK_TOKEN')
     except Exception as secret_err:
         raise ValueError("Có lỗi khi truy cập hệ thống bảo mật!") from secret_err
 
-    # Kiểm tra xem có lấy được token từ bất kỳ nguồn nào không
     if not md_token:
-        raise ValueError(
-            " Không tìm thấy 'MOTHERDUCK_TOKEN'!\n"
-            "- Nếu chạy ở Colab: Kiểm tra lại mục Secrets (Chìa khóa) và gạt nút 'Notebook access'.\n"
-            "- Nếu chạy ở GitHub: Kiểm tra lại Settings > Secrets and variables > Actions."
-        )
+        raise ValueError("Không tìm thấy 'MOTHERDUCK_TOKEN'!")
 
     md_token = md_token.strip()
     
-    print("Đang thiết lập kết nối DuckDB cLoud")
+    print("Đang thiết lập kết nối DuckDB Cloud...")
     try:
         connection_string = f"md:?token={md_token}"
         conn = duckdb.connect(connection_string)
 
-        print("Kết nối thành công! Đang chuyển hướng vào `vn_stock_analytics.main`...")
         conn.execute("CREATE DATABASE IF NOT EXISTS vn_stock_analytics;")
         conn.execute("USE vn_stock_analytics.main;")
 
-        # 1. XỬ LÝ LŨY KẾ: bronze_daily_prices
-        # Thay bằng UNION + QUALIFY
+        # 1. XỬ LÝ LŨY KẾ NỐI ĐUÔI: bronze_daily_prices
         if 'df_history' in globals() and df_history is not None and not df_history.empty:
-            print("\n ⏳ Đang xử lý lũy kế bảng giá lịch sử: [bronze_daily_prices]...")
-
+            print("\n  Tiến hành cơ chế gộp lũy kế tăng trưởng: [bronze_daily_prices]...")
             conn.register("df_prices_view", df_history)
 
-            # KIỂM TRA BẢNG ĐÃ TỒN TẠI CHƯA
             table_exists = conn.execute("""
-                SELECT COUNT(*) 
-                FROM information_schema.tables 
-                WHERE table_catalog = current_database() 
-                  AND table_schema = 'main' 
-                  AND table_name = 'bronze_daily_prices'
+                SELECT COUNT(*) FROM information_schema.tables 
+                WHERE table_catalog = current_database() AND table_schema = 'main' AND table_name = 'bronze_daily_prices'
             """).fetchone()[0]
 
             if table_exists == 0:
-                # Nếu chưa có bảng, tiến hành khởi tạo mới từ view
                 conn.execute("""
                     CREATE TABLE bronze_daily_prices AS 
                     SELECT CAST(time AS TIMESTAMP) AS time, open, high, low, close, CAST(volume AS LONG) AS volume, ticker, CAST(ingested_at AS TIMESTAMP) AS ingested_at 
                     FROM df_prices_view;
                 """)
-                print("   + [TẠO MỚI] Đã khởi tạo thành công bảng: [bronze_daily_prices]")
+                print("   + [TẠO MỚI] Đã khởi tạo bảng: [bronze_daily_prices]")
             else:
-                # Nếu đã có bảng, gộp dữ liệu cũ với dữ liệu mới nạp và khử trùng bằng QUALIFY
+                # Gộp nối đuôi dữ liệu 3 ngày mới vào kho dữ liệu vĩnh viễn cũ
                 conn.execute("DROP TABLE IF EXISTS temp_union_prices;")
                 conn.execute("""
                     CREATE TABLE temp_union_prices AS
@@ -248,7 +228,7 @@ def load_to_motherduck_pipeline():
                     FROM df_prices_view;
                 """)
 
-                # Ép chỉ giữ lại 1 dòng mới nhất dựa trên thời gian ingested_at cho mỗi mã vào mỗi ngày
+                # QUALIFY ROW_NUMBER: Bảo vệ kho không bị trùng lặp, ép lấy bản ghi mới nhất của ngày đó nếu trùng mốc thời gian
                 conn.execute("""
                     CREATE OR REPLACE TABLE bronze_daily_prices AS 
                     SELECT * FROM temp_union_prices
@@ -258,12 +238,9 @@ def load_to_motherduck_pipeline():
                     ) = 1;
                 """)
                 conn.execute("DROP TABLE temp_union_prices;")
-                print("   + [HỢP NHẤT và KHỬ TRÙNG] Đã làm sạch trùng lặp thành công cho bảng: [bronze_daily_prices]")
-        else:
-            print("\n- Bảng [bronze_daily_prices] không có dữ liệu trong RAM.")
+                print("   + [HỢP NHẤT KHỬ TRÙNG] Cập nhật tăng trưởng thành công cho bảng: [bronze_daily_prices]")
 
-        # 2. XỬ LÝ LŨY KẾ: Các bảng thông tin doanh nghiệp, tài chính, chỉ số...
-        # Để lưu trữ lũy kế, các bảng này cũng cần một Khóa Chính (Primary Key) thích hợp
+        # 2. XỬ LÝ LŨY KẾ CHO CÁC BẢNG CÒN LẠI
         table_schemas = {
             "bronze_realtime_quotes": "PRIMARY KEY (ticker, time)",
             "bronze_company_profiles": "PRIMARY KEY (ticker)",
@@ -288,29 +265,19 @@ def load_to_motherduck_pipeline():
             "bronze_vnindex_prices": df_vnindex if 'df_vnindex' in globals() else None
         }
 
-        print("\n Đang tiến hành cập nhật lũy kế các bảng chỉ số và báo cáo tài chính...")
         for table_name, df_data in other_tables.items():
             if df_data is not None and not df_data.empty:
                 conn.register("df_temp_view", df_data)
-
-                # KIỂM TRA BẢNG ĐÃ TỒN TẠI CHƯA
                 table_exists = conn.execute(f"""
-                    SELECT COUNT(*) 
-                    FROM information_schema.tables 
-                    WHERE table_catalog = current_database() 
-                      AND table_schema = 'main' 
-                      AND table_name = '{table_name}'
-                    """).fetchone()[0]
+                    SELECT COUNT(*) FROM information_schema.tables 
+                    WHERE table_catalog = current_database() AND table_schema = 'main' AND table_name = '{table_name}'
+                """).fetchone()[0]
 
                 if table_exists == 0:
-                    # Nếu bảng chưa có, tạo mới
                     conn.execute(f"CREATE TABLE {table_name} AS SELECT * FROM df_temp_view")
-                    print(f"   + [TẠO MỚI] Đã khởi tạo thành công bảng: [{table_name}]")
+                    print(f"   + [TẠO MỚI] Khởi tạo thành công bảng: [{table_name}]")
                 else:
-                    # Nếu bảng ĐÃ CÓ SẴN dữ liệu cũ (như năm 2024-2025) -> nạp nối đuôi
                     conn.execute("DROP TABLE IF EXISTS temp_union_table;")
-
-                    # Dùng UNION/DISTINCT để làm sạch
                     conn.execute(f"""
                         CREATE TABLE temp_union_table AS
                         SELECT * FROM {table_name}
@@ -318,16 +285,9 @@ def load_to_motherduck_pipeline():
                         SELECT * FROM df_temp_view;
                     """)
 
-
                     pk_string = table_schemas.get(table_name, "")
-                    if "PRIMARY KEY" in pk_string:
-                        # Lấy các trường nằm trong dấu ngoặc đơn, ví dụ: "ticker, time" hoặc "time"
-                        partition_cols = pk_string.split("(")[1].split(")")[0]
-                    else:
-                        # Dự phòng nếu bảng không có khóa chính thì partition theo ticker và time
-                        partition_cols = "ticker, time" if "ticker" in df_data.columns else "time"
+                    partition_cols = pk_string.split("(")[1].split(")")[0] if "PRIMARY KEY" in pk_string else ("ticker, time" if "ticker" in df_data.columns else "time")
                         
-                    # QUALIFY: Loại bỏ sạch rác trùng lặp, chỉ lấy bản ghi mới nhất của ngày đó
                     conn.execute(f"""
                         CREATE OR REPLACE TABLE {table_name} AS 
                         SELECT * FROM temp_union_table
@@ -336,16 +296,14 @@ def load_to_motherduck_pipeline():
                             ORDER BY ingested_at DESC
                         ) = 1;
                     """)
-                    
                     conn.execute("DROP TABLE temp_union_table;")
-                    print(f"   + [HỢP NHẤT KHỬ TRÙNG] Đã làm sạch trùng lặp thành công cho bảng: [{table_name}]")
-            else:
-                print(f"   Bảng [{table_name}] không có dữ liệu để xử lý.")
+                    print(f"   + [HỢP NHẤT KHỬ TRÙNG] Đồng bộ tăng trưởng thành công cho bảng: [{table_name}]")
 
-        print("\n Pipeline tích lũy tầng Bronze hoàn thành!")
+        print("\n[THÀNH CÔNG] Pipeline tích lũy tầng Bronze hoàn thành xuất sắc!")
+        conn.close()
 
     except Exception as e:
-        print(f"\n Quá trình nạp dữ liệu thất bại. Chi tiết lỗi:\n{e}")
+        print(f"\n Quá trình nạp dữ liệu thất bại: {e}")
         raise e
 
 load_to_motherduck_pipeline()
