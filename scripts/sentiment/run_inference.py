@@ -7,7 +7,7 @@ import numpy as np
 from sklearn.preprocessing import normalize
 
 # 1. Khởi tạo cấu hình và đường dẫn
-SAVE_DIR = "./models/sentiment"
+SAVE_DIR = "./scripts/sentiment"
 PIPELINE_PATH = f"{SAVE_DIR}/pipeline.pkl"
 
 def get_secret_key(key_name):
